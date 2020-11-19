@@ -6,5 +6,5 @@ namespace Hackle;
 
 final class Version
 {
-    const CURRENT = "0.0.1";
+    const CURRENT = "0.0.3";
 }
