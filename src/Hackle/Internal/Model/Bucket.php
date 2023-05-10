@@ -4,26 +4,19 @@ namespace Hackle\Internal\Model;
 
 class Bucket
 {
-    protected $id;
-    protected $seed;
-    protected $slotSize;
+    private $_id;
+    private $_seed;
+    private $_slotSize;
 
     private $_slots;
 
-    /**
-     * @param $id
-     * @param $seed
-     * @param $slotSize
-     * @param $_slots
-     */
-    public function __construct($id, $seed, $slotSize, $_slots)
+    public function __construct(int $id, int $seed, int $slotSize, array $_slots)
     {
-        $this->id = $id;
-        $this->seed = $seed;
-        $this->slotSize = $slotSize;
+        $this->_id = $id;
+        $this->_seed = $seed;
+        $this->_slotSize = $slotSize;
         $this->_slots = $_slots;
     }
-
 
     public function getSlotOrNull(int $slotNumber): ?Slot
     {

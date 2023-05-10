@@ -1,6 +1,6 @@
 <?php
 
-namespace Internal\Model;
+namespace Hackle\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Hackle\Internal\Model\Bucket;
@@ -14,10 +14,10 @@ class BucketTest extends TestCase
         $s2 = new Slot(0, 200, 2);
         $bucket = new Bucket(1, 1, 10000, array($s1, $s2));
 
-        $this->assertEquals($bucket->getSlotOrNull(0), $s1);
-        $this->assertEquals($bucket->getSlotOrNull(99), $s1);
-        $this->assertEquals($bucket->getSlotOrNull(100), $s2);
-        $this->assertEquals($bucket->getSlotOrNull(199), $s2);
-        $this->assertEquals($bucket->getSlotOrNull(200), null);
+        $this->assertEquals($s1, $bucket->getSlotOrNull(0));
+        $this->assertEquals($s1, $bucket->getSlotOrNull(99));
+        $this->assertEquals($s2, $bucket->getSlotOrNull(100));
+        $this->assertEquals($s2, $bucket->getSlotOrNull(199));
+        $this->assertEquals(null, $bucket->getSlotOrNull(200));
     }
 }

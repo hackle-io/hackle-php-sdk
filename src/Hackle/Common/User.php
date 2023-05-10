@@ -4,29 +4,72 @@ namespace Hackle\Common;
 
 final class User
 {
-    public $id;
+    private $_id;
 
-    public $userId;
+    private $_userId;
 
-    public $deviceId;
+    private $_deviceId;
 
-    public $identifiers;
+    private $_identifiers;
 
-    public $properties;
+    private $properties;
+
+    public function __construct(?string $id, ?string $userId, ?string $deviceId, array $identifiers, array $properties)
+    {
+        $this->_id = $id;
+        $this->_userId = $userId;
+        $this->_deviceId = $deviceId;
+        $this->_identifiers = $identifiers;
+        $this->properties = $properties;
+    }
 
     /**
-     * @param $id
-     * @param $userId
-     * @param $deviceId
-     * @param $identifiers
-     * @param $properties
+     * @return string|null
      */
-    public function __construct($id, $userId, $deviceId, $identifiers, $properties)
+    public function getId(): ?string
     {
-        $this->id = $id;
-        $this->userId = $userId;
-        $this->deviceId = $deviceId;
-        $this->identifiers = $identifiers;
-        $this->properties = $properties;
+        return $this->_id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUserId(): ?string
+    {
+        return $this->_userId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDeviceId(): ?string
+    {
+        return $this->_deviceId;
+    }
+
+    /**
+     * @return array
+     */
+    public function getIdentifiers(): array
+    {
+        return $this->_identifiers;
+    }
+
+    /**
+     * @return array
+     */
+    public function getProperties(): array
+    {
+        return $this->properties;
+    }
+
+    public static function of(string $id): User
+    {
+        return self::builder()->id($id)->build();
+    }
+
+    public static function builder(): UserBuilder
+    {
+        return new UserBuilder();
     }
 }
