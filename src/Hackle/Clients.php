@@ -3,7 +3,6 @@
 
 namespace Hackle;
 
-
 use Hackle\Internal\Client\ProxyClient;
 use Hackle\Internal\HackleSdk;
 use Hackle\Internal\Http\Guzzle;
