@@ -2,7 +2,6 @@
 
 namespace Hackle\Internal\Model;
 
-class TargetAction
+abstract class Action
 {
-
 }

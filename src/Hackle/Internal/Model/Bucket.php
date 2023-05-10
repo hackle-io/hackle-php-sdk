@@ -8,6 +8,7 @@ class Bucket
     private $_seed;
     private $_slotSize;
 
+    /** @var Slot[] */
     private $_slots;
 
     public function __construct(int $id, int $seed, int $slotSize, array $_slots)

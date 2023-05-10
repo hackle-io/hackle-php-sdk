@@ -1,6 +1,6 @@
 <?php
 
-namespace Hackle\Tests;
+namespace Internal\Model;
 
 use PHPUnit\Framework\TestCase;
 use Hackle\Internal\Model\Bucket;

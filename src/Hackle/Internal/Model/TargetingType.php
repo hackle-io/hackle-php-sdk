@@ -2,7 +2,7 @@
 
 namespace Hackle\Internal\Model;
 
-class TargetingType
+abstract  class TargetingType
 {
 
 }

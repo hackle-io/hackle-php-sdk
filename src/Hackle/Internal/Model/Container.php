@@ -6,6 +6,8 @@ class Container
 {
     private $_id;
     private $_bucketId;
+
+    /** @var ContainerGroup[] */
     private $_groups;
 
     public function __construct(int $id, int $bucketId, array $groups)
@@ -24,5 +26,23 @@ class Container
             return null;
         }
         return array_values($containerGroups)[0];
+    }
+
+    public function getId(): int
+    {
+        return $this->_id;
+    }
+
+    public function getBucketId(): int
+    {
+        return $this->_bucketId;
+    }
+
+    /**
+     * @return array|ContainerGroup[]
+     */
+    public function getGroups(): array
+    {
+        return $this->_groups;
     }
 }

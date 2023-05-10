@@ -1,6 +1,6 @@
 <?php
 
-namespace Hackle\Tests;
+namespace Common;
 
 use Hackle\Common\User;
 use PHPUnit\Framework\TestCase;
