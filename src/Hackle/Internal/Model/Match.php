@@ -2,6 +2,10 @@
 
 namespace Hackle\Internal\Model;
 
+use Hackle\Internal\Model\Enums\MatchType;
+use Hackle\Internal\Model\Enums\Operator;
+use Hackle\Internal\Model\Enums\ValueType;
+
 class Match
 {
     /** @var MatchType */
@@ -16,12 +20,6 @@ class Match
     /** @var array */
     private $_values;
 
-    /**
-     * @param MatchType $_type
-     * @param Operator $_operator
-     * @param ValueType $_valueType
-     * @param array $_values
-     */
     public function __construct(MatchType $_type, Operator $_operator, ValueType $_valueType, array $_values)
     {
         $this->_type = $_type;

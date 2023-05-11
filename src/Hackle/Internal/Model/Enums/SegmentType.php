@@ -1,0 +1,12 @@
+<?php
+
+namespace Hackle\Internal\Model\Enums;
+
+use Hackle\Common\Enum;
+
+class SegmentType extends Enum
+{
+    const USER_ID = "USER_ID";
+
+    const USER_PROPERTY = "USER_PROPERTY";
+}

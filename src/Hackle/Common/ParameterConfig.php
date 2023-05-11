@@ -2,7 +2,6 @@
 
 namespace Hackle\Common;
 
-interface ParameterConfig
+interface ParameterConfig extends Config
 {
-
 }

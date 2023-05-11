@@ -2,6 +2,9 @@
 
 namespace Hackle\Internal\Model;
 
+use Hackle\Internal\Model\Enums\ExperimentStatus;
+use Hackle\Internal\Model\Enums\ExperimentType;
+
 class Experiment
 {
     private $_id;

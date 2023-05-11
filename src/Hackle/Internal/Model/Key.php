@@ -2,6 +2,8 @@
 
 namespace Hackle\Internal\Model;
 
+use Hackle\Internal\Model\Enums\KeyType;
+
 class Key
 {
 

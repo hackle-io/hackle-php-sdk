@@ -2,7 +2,6 @@
 
 namespace Hackle\Common;
 
-interface RemoteConfig
+interface RemoteConfig extends Config
 {
-
 }

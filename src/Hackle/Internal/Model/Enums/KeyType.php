@@ -1,6 +1,6 @@
 <?php
 
-namespace Hackle\Internal\Model;
+namespace Hackle\Internal\Model\Enums;
 
 use Hackle\Common\Enum;
 

@@ -11,10 +11,6 @@ class TargetRule
     /** @var Action */
     private $_action;
 
-    /**
-     * @param Target $_target
-     * @param Action $_action
-     */
     public function __construct(Target $_target, Action $_action)
     {
         $this->_target = $_target;
