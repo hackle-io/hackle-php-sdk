@@ -2,9 +2,6 @@
 
 namespace Hackle\Common;
 
-use phpDocumentor\Reflection\Types\Mixed_;
-use stdClass;
-
 class PropertiesBuilder
 {
     private $_properties = [];

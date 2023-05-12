@@ -2,7 +2,7 @@
 
 namespace Hackle\Common;
 
-class DecisionReason
+class DecisionReason extends Enum
 {
     /**
      * Indicates that the sdk is not ready to use. e.g. invalid SDK key.

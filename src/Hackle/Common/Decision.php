@@ -2,9 +2,10 @@
 
 namespace Hackle\Common;
 
-class FeatureFlagDecision implements ParameterConfig
+class Decision implements ParameterConfig
 {
-    private $_on;
+    /** @var Variation */
+    private $_variation;
 
     /** @var DecisionReason */
     private $_reason;
@@ -12,29 +13,16 @@ class FeatureFlagDecision implements ParameterConfig
     /** @var ParameterConfig */
     private $_config;
 
-    public function __construct(bool $_on, DecisionReason $_reason, ParameterConfig $_config)
+    public function __construct(Variation $_variation, DecisionReason $_reason, ParameterConfig $_config)
     {
-        $this->_on = $_on;
+        $this->_variation = $_variation;
         $this->_reason = $_reason;
         $this->_config = $_config;
     }
 
-    public static function on(DecisionReason $reason, ParameterConfig $config): FeatureFlagDecision
+    public static function of(Variation $variation, DecisionReason $reason, ParameterConfig $config): Decision
     {
-        return new FeatureFlagDecision(true, $reason, $config);
-    }
-
-    public static function off(DecisionReason $reason, ParameterConfig $config): FeatureFlagDecision
-    {
-        return new FeatureFlagDecision(false, $reason, $config);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isOn(): bool
-    {
-        return $this->_on;
+        return new Decision($variation, $reason, $config);
     }
 
     public function getString(string $key, string $defaultValue): string
@@ -55,5 +43,20 @@ class FeatureFlagDecision implements ParameterConfig
     public function getBool(string $key, bool $defaultValue): bool
     {
         return $this->_config->getBool($key, $defaultValue);
+    }
+
+    public function getVariation(): Variation
+    {
+        return $this->_variation;
+    }
+
+    public function getReason(): DecisionReason
+    {
+        return $this->_reason;
+    }
+
+    public function getConfig(): ParameterConfig
+    {
+        return $this->_config;
     }
 }

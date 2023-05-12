@@ -13,7 +13,7 @@ class EventType
         $this->_key = $_key;
     }
 
-    protected static function undefined(string $key): EventType
+    public static function undefined(string $key): EventType
     {
         return new EventType(0, $key);
     }

@@ -5,13 +5,9 @@ namespace Hackle\Common;
 final class User
 {
     private $_id;
-
     private $_userId;
-
     private $_deviceId;
-
     private $_identifiers;
-
     private $properties;
 
     public function __construct(?string $id, ?string $userId, ?string $deviceId, array $identifiers, array $properties)

@@ -1,8 +1,7 @@
 <?php
 
 namespace Hackle\Internal\Workspace;
-
-class Workspace
+class HackleSdk
 {
 
 }

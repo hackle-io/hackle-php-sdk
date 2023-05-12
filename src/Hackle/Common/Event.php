@@ -5,9 +5,7 @@ namespace Hackle\Common;
 class Event
 {
     private $_key;
-
     private $_value;
-
     private $_properties;
 
     public function __construct(string $key, ?float $value, array $properties)

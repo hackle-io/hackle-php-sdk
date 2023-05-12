@@ -15,8 +15,18 @@ class Variation extends Enum
     const I = "I";
     const J = "J";
 
+    public static function getControl(): Variation
+    {
+        return new Variation(Variation::A);
+    }
+
     public function isControl(): bool
     {
-        return $this->value == Variation::A;
+        return $this == self::getControl();
+    }
+
+    public function isExperimental(): bool
+    {
+        return !$this->isControl();
     }
 }
