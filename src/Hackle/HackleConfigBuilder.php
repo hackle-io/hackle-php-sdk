@@ -20,25 +20,25 @@ final class HackleConfigBuilder
     {
     }
 
-    public function sdkUri(string $sdkUri): HackleConfigBuilder
+    public function sdkUri(string $sdkUri): self
     {
         $this->_sdkUri = rtrim($sdkUri, '/');
         return $this;
     }
 
-    public function eventUri(string $eventUri): HackleConfigBuilder
+    public function eventUri(string $eventUri): self
     {
         $this->_eventUri = rtrim($eventUri, '/');
         return $this;
     }
 
-    public function monitoringUri(string $monitoringUri): HackleConfigBuilder
+    public function monitoringUri(string $monitoringUri): self
     {
         $this->_monitoringUri = rtrim($monitoringUri, '/');
         return $this;
     }
 
-    public function logger(LoggerInterface $logger): HackleConfigBuilder
+    public function logger(LoggerInterface $logger): self
     {
         $this->_logger = $logger;
         return $this;

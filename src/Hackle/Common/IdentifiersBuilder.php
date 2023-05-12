@@ -8,7 +8,7 @@ class IdentifiersBuilder
     private const  MAX_IDENTIFIER_VALUE_LENGTH = 512;
     private $identifiers = [];
 
-    public function addAll(array $identifiers, bool $overwrite = true): IdentifiersBuilder
+    public function addAll(array $identifiers, bool $overwrite = true): self
     {
         foreach ($identifiers as $type => $value) {
             $this->add($type, $value, $overwrite);
@@ -16,7 +16,7 @@ class IdentifiersBuilder
         return $this;
     }
 
-    public function add(string $type, ?string $value, bool $overwrite = true): IdentifiersBuilder
+    public function add(string $type, ?string $value, bool $overwrite = true): self
     {
         if (!$overwrite && array_key_exists($type, $this->identifiers)) {
             return $this;

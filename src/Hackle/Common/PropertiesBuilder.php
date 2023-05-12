@@ -9,7 +9,7 @@ class PropertiesBuilder
     private const MAX_PROPERTY_KEY_LENGTH = 128;
     private const MAX_PROPERTY_VALUE_LENGTH = 1024;
 
-    public function addAll(array $properties): PropertiesBuilder
+    public function addAll(array $properties): self
     {
         foreach ($properties as $key => $value) {
             $this->add($key, $value);
@@ -20,7 +20,7 @@ class PropertiesBuilder
     /**
      * @param mixed $value
      */
-    public function add(string $key, $value): PropertiesBuilder
+    public function add(string $key, $value): self
     {
         if (count($this->_properties) >= self::MAX_PROPERTIES_COUNT) {
             return $this;

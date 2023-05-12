@@ -14,19 +14,19 @@ class EventBuilder
         $this->_key = $_key;
     }
 
-    public function value(?float $value): EventBuilder
+    public function value(?float $value): self
     {
         $this->_value = $value;
         return $this;
     }
 
-    public function property(string $key, $value): EventBuilder
+    public function property(string $key, $value): self
     {
         $this->_properties->add($key, $value);
         return $this;
     }
 
-    public function properties(?array $properties): EventBuilder
+    public function properties(?array $properties): self
     {
         if (!empty($properties)) {
             $this->_properties->addAll($properties);

@@ -16,31 +16,31 @@ final class UserBuilder
         $this->_properties = new PropertiesBuilder();
     }
 
-    public function id(?string $id): UserBuilder
+    public function id(?string $id): self
     {
         $this->_id = $id;
         return $this;
     }
 
-    public function userId(?string $userId): UserBuilder
+    public function userId(?string $userId): self
     {
         $this->_userId = $userId;
         return $this;
     }
 
-    public function deviceId(?string $deviceId): UserBuilder
+    public function deviceId(?string $deviceId): self
     {
         $this->_deviceId = $deviceId;
         return $this;
     }
 
-    public function identifier(string $type, ?string $value): UserBuilder
+    public function identifier(string $type, ?string $value): self
     {
         $this->_identifiers->add($type, $value);
         return $this;
     }
 
-    public function identifiers(?array $identifiers): UserBuilder
+    public function identifiers(?array $identifiers): self
     {
         if (!empty($identifiers)) {
             $this->_identifiers->addAll($identifiers);
@@ -48,13 +48,13 @@ final class UserBuilder
         return $this;
     }
 
-    public function property(string $key, $value): UserBuilder
+    public function property(string $key, $value): self
     {
         $this->_properties->add($key, $value);
         return $this;
     }
 
-    public function properties(?array $properties): UserBuilder
+    public function properties(?array $properties): self
     {
         if (!empty($properties)) {
             $this->_properties->addAll($properties);

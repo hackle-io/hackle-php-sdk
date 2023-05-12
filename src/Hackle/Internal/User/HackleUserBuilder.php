@@ -23,27 +23,21 @@ class HackleUserBuilder
         $this->_hackleProperties = new PropertiesBuilder();
     }
 
-    public function identifiers(array $identifiers): HackleUserBuilder
+    public function identifiers(array $identifiers): self
     {
         $this->_identifiers->addAll($identifiers);
         return $this;
     }
 
-    public function identifier(string $type, string $value, bool $overwrite = true): HackleUserBuilder
+    public function identifier(string $type, string $value, bool $overwrite = true): self
     {
         $this->_identifiers->add($type, $value, $overwrite);
         return $this;
     }
 
-    public function properties(array $properties): HackleUserBuilder
+    public function properties(array $properties): self
     {
         $this->_properties->addAll($properties);
-        return $this;
-    }
-
-    public function hackleProperties(array $hackleProperties): HackleUserBuilder
-    {
-        $this->_hackleProperties->addAll($hackleProperties);
         return $this;
     }
 
