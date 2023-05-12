@@ -15,7 +15,7 @@ class Variation extends Enum
     const I = "I";
     const J = "J";
 
-    public static function getControl(): Variation
+    public static function getControl(): self
     {
         return new Variation(Variation::A);
     }

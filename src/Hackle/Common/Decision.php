@@ -20,7 +20,7 @@ class Decision implements ParameterConfig
         $this->_config = $_config;
     }
 
-    public static function of(Variation $variation, DecisionReason $reason, ParameterConfig $config): Decision
+    public static function of(Variation $variation, DecisionReason $reason, ParameterConfig $config): self
     {
         return new Decision($variation, $reason, $config);
     }

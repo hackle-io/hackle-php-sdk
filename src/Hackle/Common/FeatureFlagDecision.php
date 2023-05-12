@@ -19,12 +19,12 @@ class FeatureFlagDecision implements ParameterConfig
         $this->_config = $_config;
     }
 
-    public static function on(DecisionReason $reason, ParameterConfig $config): FeatureFlagDecision
+    public static function on(DecisionReason $reason, ParameterConfig $config): self
     {
         return new FeatureFlagDecision(true, $reason, $config);
     }
 
-    public static function off(DecisionReason $reason, ParameterConfig $config): FeatureFlagDecision
+    public static function off(DecisionReason $reason, ParameterConfig $config): self
     {
         return new FeatureFlagDecision(false, $reason, $config);
     }
