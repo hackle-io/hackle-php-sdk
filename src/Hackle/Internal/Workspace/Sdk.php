@@ -10,15 +10,25 @@ class Sdk
     private $_name;
     private $_version;
 
-    private function __construct(string $_key, string $_name, string $_version)
+    public function __construct(string $_sdkKey)
     {
-        $this->_key = $_key;
-        $this->_name = $_name;
-        $this->_version = $_version;
+        $this->_key = $_sdkKey;
+        $this->_name = self::SDK_NAME;
+        $this->_version = self::VERSION;
     }
 
-    public static function load(string $sdkKey): Sdk
+    public function getKey(): string
     {
-        return new Sdk($sdkKey, self::SDK_NAME, self::VERSION);
+        return $this->_key;
+    }
+
+    public function getName(): string
+    {
+        return $this->_name;
+    }
+
+    public function getVersion(): string
+    {
+        return $this->_version;
     }
 }

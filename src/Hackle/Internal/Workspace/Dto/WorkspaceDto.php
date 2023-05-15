@@ -4,32 +4,32 @@ namespace Hackle\Internal\Workspace\Dto;
 
 class WorkspaceDto
 {
-    /**@var array */
+    /**@var ExperimentDto[] */
     private $_experiments;
 
-    /**@var array */
+    /**@var ExperimentDto[] */
     private $_featureFlags;
 
-    /**@var array */
+    /**@var BucketDto[] */
     private $_buckets;
 
-    /**@var array */
+    /**@var EventTypeDto[] */
     private $_events;
 
-    /**@var array */
+    /**@var SegmentDto[] */
     private $_segments;
 
-    /**@var array */
+    /**@var ContainerDto[] */
     private $_containers;
 
-    /**@var array */
+    /**@var ParameterConfigurationDto[] */
     private $_parameterConfigurations;
 
-    /**@var array */
+    /**@var RemoteConfigParameterDto[] */
     private $_remoteConfigParameters;
 
     /**
-     * @return array
+     * @return ExperimentDto[]
      */
     public function getExperiments(): array
     {
@@ -37,7 +37,7 @@ class WorkspaceDto
     }
 
     /**
-     * @return array
+     * @return ExperimentDto[]
      */
     public function getFeatureFlags(): array
     {
@@ -45,7 +45,7 @@ class WorkspaceDto
     }
 
     /**
-     * @return array
+     * @return BucketDto[]
      */
     public function getBuckets(): array
     {
@@ -53,7 +53,7 @@ class WorkspaceDto
     }
 
     /**
-     * @return array
+     * @return EventTypeDto[]
      */
     public function getEvents(): array
     {
@@ -61,7 +61,7 @@ class WorkspaceDto
     }
 
     /**
-     * @return array
+     * @return SegmentDto[]
      */
     public function getSegments(): array
     {
@@ -69,7 +69,7 @@ class WorkspaceDto
     }
 
     /**
-     * @return array
+     * @return ContainerDto[]
      */
     public function getContainers(): array
     {
@@ -77,7 +77,7 @@ class WorkspaceDto
     }
 
     /**
-     * @return array
+     * @return ParameterConfigurationDto[]
      */
     public function getParameterConfigurations(): array
     {
@@ -85,7 +85,7 @@ class WorkspaceDto
     }
 
     /**
-     * @return array
+     * @return RemoteConfigParameterDto[]
      */
     public function getRemoteConfigParameters(): array
     {
