@@ -1,28 +1,29 @@
 <?php
 
 namespace Hackle\Internal\Workspace\Dto;
-class EventTypeDto
-{
-    /**@var int */
-    private $_id;
 
+class ParameterDto
+{
     /**@var string */
     private $_key;
 
+    /**@var mixed */
+    private $_value;
+
     /**
-     * @param int $_id
      * @param string $_key
+     * @param mixed $_value
      */
-    public function __construct(int $_id, string $_key)
+    public function __construct(string $_key, $_value)
     {
-        $this->_id = $_id;
         $this->_key = $_key;
+        $this->_value = $_value;
     }
 
     public static function getDecoder(): \Closure
     {
         return function (array $v) {
-            return new self($v["id"], $v["key"]);
+            return new self($v["key"], $v["value"]);
         };
     }
 
@@ -33,18 +34,18 @@ class EventTypeDto
     }
 
     /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->_id;
-    }
-
-    /**
      * @return string
      */
     public function getKey(): string
     {
         return $this->_key;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->_value;
     }
 }

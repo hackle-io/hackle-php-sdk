@@ -3,9 +3,7 @@
 namespace Hackle\Internal\Workspace;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\BadResponseException;
-use GuzzleHttp\Psr7\Request;
-use Hackle\Internal\User\Workspace\Workspace;
+use Hackle\Internal\Workspace\Dto\WorkspaceDto;
 use Psr\Log\LoggerInterface;
 
 class HttpWorkspaceFetcher
@@ -36,6 +34,8 @@ class HttpWorkspaceFetcher
     {
         $response = $this->_client->get($this->_baseUri . self::SDK_ENDPOINT_URI);
         $body = $response->getBody();
-        print($body);
+
+        $workspaceDto=WorkspaceDto::decode(json_decode($body->getContents(), true));
+        $experiments = $workspaceDto->getExperiments();
     }
 }

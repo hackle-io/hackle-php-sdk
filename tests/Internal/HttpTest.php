@@ -9,6 +9,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use Hackle\HackleClients;
 use Hackle\Internal\Http\SdkHeaderMiddleware;
+use Hackle\Internal\Utils\Arrays;
 use Hackle\Internal\Workspace\Sdk;
 use Kevinrob\GuzzleCache\CacheMiddleware;
 use Kevinrob\GuzzleCache\Storage\FlysystemStorage;
