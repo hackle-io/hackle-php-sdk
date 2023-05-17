@@ -7,7 +7,7 @@ use Psr\Log\LoggerInterface;
 
 final class HackleConfig
 {
-    const DEFAULT_SDK_URI = "https://sdk.hackle.io";
+    const DEFAULT_SDK_URI = "http://local.hackledev.com:10002";
     const DEFAULT_EVENT_URI = "https//event.hackle.io";
     const DEFAULT_MONITORING_URI = "https//monitoring.hackle.io";
     private $_sdkUri;
@@ -35,17 +35,17 @@ final class HackleConfig
         return new HackleConfigBuilder();
     }
 
-    public function getSdkUri()
+    public function getSdkUri(): string
     {
         return $this->_sdkUri;
     }
 
-    public function getEventUri()
+    public function getEventUri(): string
     {
         return $this->_eventUri;
     }
 
-    public function getMonitoringUri()
+    public function getMonitoringUri(): string
     {
         return $this->_monitoringUri;
     }
