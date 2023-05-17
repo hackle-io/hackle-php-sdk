@@ -2,14 +2,40 @@
 
 namespace Hackle\Internal\User\Workspace;
 
+use Hackle\Internal\Model\Action;
 use Hackle\Internal\Model\Bucket;
+use Hackle\Internal\Model\BucketAction;
+use Hackle\Internal\Model\Condition;
 use Hackle\Internal\Model\Container;
+use Hackle\Internal\Model\Enums\ExperimentStatus;
+use Hackle\Internal\Model\Enums\ExperimentType;
+use Hackle\Internal\Model\Enums\KeyType;
+use Hackle\Internal\Model\Enums\MatchType;
+use Hackle\Internal\Model\Enums\Operator;
+use Hackle\Internal\Model\Enums\ValueType;
 use Hackle\Internal\Model\EventType;
 use Hackle\Internal\Model\Experiment;
+use Hackle\Internal\Model\Key;
+use Hackle\Internal\Model\Match;
 use Hackle\Internal\Model\ParameterConfiguration;
 use Hackle\Internal\Model\RemoteConfigParameter;
 use Hackle\Internal\Model\Segment;
+use Hackle\Internal\Model\Target;
+use Hackle\Internal\Model\TargetingType;
+use Hackle\Internal\Model\TargetRule;
+use Hackle\Internal\Model\Variation;
+use Hackle\Internal\Model\VariationAction;
+use Hackle\Internal\Workspace\Dto\ConditionDto;
+use Hackle\Internal\Workspace\Dto\ExperimentDto;
+use Hackle\Internal\Workspace\Dto\KeyDto;
+use Hackle\Internal\Workspace\Dto\MatchDto;
+use Hackle\Internal\Workspace\Dto\TargetActionDto;
+use Hackle\Internal\Workspace\Dto\TargetDto;
+use Hackle\Internal\Workspace\Dto\TargetRuleDto;
+use Hackle\Internal\Workspace\Dto\UserOverrideDto;
+use Hackle\Internal\Workspace\Dto\VariationDto;
 use Hackle\Internal\Workspace\Dto\WorkspaceDto;
+use ReflectionException;
 
 class Workspace
 {
@@ -66,7 +92,7 @@ class Workspace
 
     public function getBucketOrNull(int $bucketId): ?Bucket
     {
-        return$this->_buckets[$bucketId];
+        return $this->_buckets[$bucketId];
     }
 
     public function getSegmentOrNull(string $segmentKey): ?Segment
@@ -104,7 +130,113 @@ class Workspace
 
     private static function toExperiments(array $experiments): array
     {
+
         return array();
+    }
+
+    //public function toExperimentOrNull(): \Closure
+    //{
+    //    return function (ExperimentDto $dto, ExperimentType $type): ?Experiment {
+    //        $experimentStatus = ExperimentStatus::fromExecutionStatusOrNull($dto->getExecution()->getStatus());
+    //        if ($experimentStatus == null) {
+    //            return null;
+    //        }
+    //        $defaultRule = $this->toActionOrNull($dto->getExecution()->getDefaultRule());
+    //        if ($defaultRule == null) {
+    //            return null;
+    //        }
+    //        return new Experiment($dto->getId(), $dto->getKey(), $type, $dto->getIdentifierType(), $experimentStatus, $dto->getVersion(), array_map(self::toVariation(), $dto->getVariations()), self::toUserOverrideArray($dto->getExecution()->getUserOverrides()),
+    //
+    //        );
+    //    };
+    //}
+
+    private function toActionOrNull(TargetActionDto $dto): ?Action
+    {
+        switch ($dto->getType()) {
+            case "VARIATION":
+                return new VariationAction($dto->getVariationId());
+            case "BUCKET":
+                return new BucketAction($dto->getBucketId());
+        }
+        return null;
+    }
+
+    private function toVariation(): \Closure
+    {
+        return function (VariationDto $dto) {
+            return new Variation($dto->getId(), $dto->getKey(), $dto->getStatus() == "DROPPED", $dto->getParameterConfigurationId());
+        };
+    }
+
+    private function toUserOverrideArray(array $userOverrides): array
+    {
+        $groupedUserOverrides = array();
+        $keys = array_map(function (UserOverrideDto $dto) {
+            return $dto->getUserId();
+        }, $userOverrides);
+        foreach ($keys as $key) {
+            $groupedUserOverrides[$key] = $userOverrides[$key];
+        }
+        return $groupedUserOverrides;
+    }
+
+    private function toTargetRuleOrNull(TargetingType $targetingType): \Closure
+    {
+        return function (TargetRuleDto $dto) use ($targetingType) {
+            return new TargetRule();
+        };
+    }
+
+    //private function toTargetOrNull(TargetingType $targetingType): \Closure
+    //{
+    //    return function (TargetDto $dto) use ($targetingType) {
+    //
+    //        return new Target()
+    //    }
+    //}
+    //
+    //private function toConditionOrNull(TargetingType $targetingType): \Closure
+    //{
+    //    return function (ConditionDto $dto) use ($targetingType): ?Condition {
+    //        $key = $this->toTargetKeyOrNull($dto->getKey());
+    //        if($key == null) {
+    //            return null;
+    //        }
+    //
+    //        if(TargetingType)
+    //
+    //    };
+    //}
+
+    private function toTargetKeyOrNull(KeyDto $dto): ?Key
+    {
+        try {
+            if (!KeyType::isValidKey($dto->getType())) {
+                return null;
+            }
+            return new Key(new KeyType($dto->getType()), $dto->getName());
+        } catch (ReflectionException $e) {
+            return null;
+        }
+    }
+
+    private function toMatchOrNull(MatchDto $dto): ?Match
+    {
+        try {
+            if (!MatchType::isValidKey($dto->getType())) {
+                return null;
+            }
+            if (!Operator::isValidKey($dto->getOperator())) {
+                return null;
+            }
+            if (!ValueType::isValidKey($dto->getValueType())) {
+                return null;
+            }
+            return new Match(new MatchType($dto->getType()), new Operator($dto->getOperator()), new ValueType($dto->getValueType()), $dto->getValues());
+        } catch (ReflectionException $e) {
+            return null;
+        }
     }
 
     private static function toFeatureFlags(array $featureFlags): array

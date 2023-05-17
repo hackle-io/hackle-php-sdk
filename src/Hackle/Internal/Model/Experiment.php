@@ -7,15 +7,22 @@ use Hackle\Internal\Model\Enums\ExperimentType;
 
 class Experiment
 {
+    /**@var int */
     private $_id;
+
+    /**@var int */
     private $_key;
 
     /** @var ExperimentType */
     private $_type;
+
+    /**@var string */
     private $_identifierType;
 
     /** @var ExperimentStatus */
     private $_status;
+
+    /**@var int */
     private $_version;
 
     /** @var Variation[] */
@@ -42,6 +49,22 @@ class Experiment
     /** @var int|null */
     private $_winnerVariationId;
 
+    /**
+     * @param int $_id
+     * @param int $_key
+     * @param ExperimentType $_type
+     * @param string $_identifierType
+     * @param ExperimentStatus $_status
+     * @param int $_version
+     * @param Variation[] $_variations
+     * @param int[] $_userOverrides
+     * @param TargetRule[] $_segmentOverrides
+     * @param Target[] $_targetAudiences
+     * @param TargetRule[] $_targetRules
+     * @param Action $_defaultRule
+     * @param int|null $_containerId
+     * @param int|null $_winnerVariationId
+     */
     public function __construct(int $_id, int $_key, ExperimentType $_type, string $_identifierType, ExperimentStatus $_status, int $_version, array $_variations, array $_userOverrides, array $_segmentOverrides, array $_targetAudiences, array $_targetRules, Action $_defaultRule, ?int $_containerId, ?int $_winnerVariationId)
     {
         $this->_id = $_id;
@@ -59,6 +82,7 @@ class Experiment
         $this->_containerId = $_containerId;
         $this->_winnerVariationId = $_winnerVariationId;
     }
+
 
     public function getVariationOrNullById(int $variationId): ?Variation
     {
@@ -90,11 +114,17 @@ class Experiment
         return null;
     }
 
+    /**
+     * @return int
+     */
     public function getId(): int
     {
         return $this->_id;
     }
 
+    /**
+     * @return int
+     */
     public function getKey(): int
     {
         return $this->_key;
@@ -108,6 +138,9 @@ class Experiment
         return $this->_type;
     }
 
+    /**
+     * @return string
+     */
     public function getIdentifierType(): string
     {
         return $this->_identifierType;
@@ -121,13 +154,16 @@ class Experiment
         return $this->_status;
     }
 
+    /**
+     * @return int
+     */
     public function getVersion(): int
     {
         return $this->_version;
     }
 
     /**
-     * @return array|Variation[]
+     * @return Variation[]
      */
     public function getVariations(): array
     {
@@ -135,7 +171,7 @@ class Experiment
     }
 
     /**
-     * @return array|int[]
+     * @return int[]
      */
     public function getUserOverrides(): array
     {
@@ -143,7 +179,7 @@ class Experiment
     }
 
     /**
-     * @return array|TargetRule[]
+     * @return TargetRule[]
      */
     public function getSegmentOverrides(): array
     {
@@ -151,7 +187,7 @@ class Experiment
     }
 
     /**
-     * @return array|Target[]
+     * @return Target[]
      */
     public function getTargetAudiences(): array
     {
@@ -159,7 +195,7 @@ class Experiment
     }
 
     /**
-     * @return array|TargetRule[]
+     * @return TargetRule[]
      */
     public function getTargetRules(): array
     {
