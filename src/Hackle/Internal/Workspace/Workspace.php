@@ -1,7 +1,8 @@
 <?php
 
-namespace Hackle\Internal\User\Workspace;
+namespace Hackle\Internal\Workspace;
 
+use Closure;
 use Hackle\Internal\Model\Action;
 use Hackle\Internal\Model\Bucket;
 use Hackle\Internal\Model\BucketAction;
@@ -12,6 +13,7 @@ use Hackle\Internal\Model\Enums\ExperimentType;
 use Hackle\Internal\Model\Enums\KeyType;
 use Hackle\Internal\Model\Enums\MatchType;
 use Hackle\Internal\Model\Enums\Operator;
+use Hackle\Internal\Model\Enums\SegmentType;
 use Hackle\Internal\Model\Enums\ValueType;
 use Hackle\Internal\Model\EventType;
 use Hackle\Internal\Model\Experiment;
@@ -25,10 +27,17 @@ use Hackle\Internal\Model\TargetingType;
 use Hackle\Internal\Model\TargetRule;
 use Hackle\Internal\Model\Variation;
 use Hackle\Internal\Model\VariationAction;
+use Hackle\Internal\Utils\Arrays;
+use Hackle\Internal\Utils\Enums;
+use Hackle\Internal\Workspace\Dto\BucketDto;
 use Hackle\Internal\Workspace\Dto\ConditionDto;
+use Hackle\Internal\Workspace\Dto\ContainerDto;
+use Hackle\Internal\Workspace\Dto\ContainerGroupDto;
+use Hackle\Internal\Workspace\Dto\EventTypeDto;
 use Hackle\Internal\Workspace\Dto\ExperimentDto;
 use Hackle\Internal\Workspace\Dto\KeyDto;
 use Hackle\Internal\Workspace\Dto\MatchDto;
+use Hackle\Internal\Workspace\Dto\SegmentDto;
 use Hackle\Internal\Workspace\Dto\TargetActionDto;
 use Hackle\Internal\Workspace\Dto\TargetDto;
 use Hackle\Internal\Workspace\Dto\TargetRuleDto;
@@ -117,8 +126,8 @@ class Workspace
 
     public static function from(WorkspaceDto $dto): self
     {
-        $experiments = self::toExperiments($dto->getExperiments());
-        $featureFlags = self::toFeatureFlags($dto->getFeatureFlags());
+        $experiments = Arrays::mapNotNull($dto->getExperiments(), self::toExperimentOrNull(ExperimentType::AB_TEST));
+        $featureFlags = Arrays::mapNotNull($dto->getExperiments(), self::toExperimentOrNull(ExperimentType::FEATURE_FLAG));
         $eventTypes = self::toEventTypes($dto->getEvents());
         $buckets = self::toBuckets($dto->getBuckets());
         $segments = self::toSegments($dto->getSegments());
@@ -128,30 +137,22 @@ class Workspace
         return new Workspace($experiments, $featureFlags, $eventTypes, $buckets, $segments, $containers, $parameterConfigurations, $remoteConfigurations);
     }
 
-    private static function toExperiments(array $experiments): array
+    public static function toExperimentOrNull(string $type): Closure
     {
-
-        return array();
+        return function (ExperimentDto $dto) use ($type): ?Experiment {
+            $experimentStatus = ExperimentStatus::fromExecutionStatusOrNull($dto->getExecution()->getStatus());
+            if ($experimentStatus == null) {
+                return null;
+            }
+            $defaultRule = self::toActionOrNull($dto->getExecution()->getDefaultRule());
+            if ($defaultRule == null) {
+                return null;
+            }
+            return new Experiment($dto->getId(), $dto->getKey(), $type, $dto->getIdentifierType(), $experimentStatus, $dto->getVersion(), array_map(self::toVariation(), $dto->getVariations()), self::toUserOverrideArray($dto->getExecution()->getUserOverrides()), array_map(self::toTargetRuleOrNull(TargetingType::IDENTIFIER), $dto->getExecution()->getSegmentOverrides()), array_map(self::toTargetOrNull(TargetingType::PROPERTY), $dto->getExecution()->getTargetAudiences()), array_map(self::toTargetRuleOrNull(TargetingType::PROPERTY), $dto->getExecution()->getTargetRules()), $defaultRule, $dto->getContainerId(), $dto->getWinnerVariationId());
+        };
     }
 
-    //public function toExperimentOrNull(): \Closure
-    //{
-    //    return function (ExperimentDto $dto, ExperimentType $type): ?Experiment {
-    //        $experimentStatus = ExperimentStatus::fromExecutionStatusOrNull($dto->getExecution()->getStatus());
-    //        if ($experimentStatus == null) {
-    //            return null;
-    //        }
-    //        $defaultRule = $this->toActionOrNull($dto->getExecution()->getDefaultRule());
-    //        if ($defaultRule == null) {
-    //            return null;
-    //        }
-    //        return new Experiment($dto->getId(), $dto->getKey(), $type, $dto->getIdentifierType(), $experimentStatus, $dto->getVersion(), array_map(self::toVariation(), $dto->getVariations()), self::toUserOverrideArray($dto->getExecution()->getUserOverrides()),
-    //
-    //        );
-    //    };
-    //}
-
-    private function toActionOrNull(TargetActionDto $dto): ?Action
+    private static function toActionOrNull(TargetActionDto $dto): ?Action
     {
         switch ($dto->getType()) {
             case "VARIATION":
@@ -162,54 +163,61 @@ class Workspace
         return null;
     }
 
-    private function toVariation(): \Closure
+    private static function toVariation(): Closure
     {
         return function (VariationDto $dto) {
             return new Variation($dto->getId(), $dto->getKey(), $dto->getStatus() == "DROPPED", $dto->getParameterConfigurationId());
         };
     }
 
-    private function toUserOverrideArray(array $userOverrides): array
+    private static function toUserOverrideArray(array $userOverrides): array
     {
-        $groupedUserOverrides = array();
-        $keys = array_map(function (UserOverrideDto $dto) {
+        $keyMapper = function (UserOverrideDto $dto): string {
             return $dto->getUserId();
-        }, $userOverrides);
-        foreach ($keys as $key) {
-            $groupedUserOverrides[$key] = $userOverrides[$key];
-        }
-        return $groupedUserOverrides;
+        };
+        $valueMapper = function (UserOverrideDto $dto): int {
+            return $dto->getVariationId();
+        };
+        return Arrays::associate($userOverrides, $keyMapper, $valueMapper);
     }
 
-    private function toTargetRuleOrNull(TargetingType $targetingType): \Closure
+    private static function toTargetRuleOrNull(string $targetingType): Closure
     {
-        return function (TargetRuleDto $dto) use ($targetingType) {
-            return new TargetRule();
+        return function (TargetRuleDto $dto) use ($targetingType): ?TargetRule {
+            return new TargetRule(call_user_func(self::toTargetOrNull($targetingType), $dto->getTarget()), self::toActionOrNull($dto->getAction()));
         };
     }
 
-    //private function toTargetOrNull(TargetingType $targetingType): \Closure
-    //{
-    //    return function (TargetDto $dto) use ($targetingType) {
-    //
-    //        return new Target()
-    //    }
-    //}
-    //
-    //private function toConditionOrNull(TargetingType $targetingType): \Closure
-    //{
-    //    return function (ConditionDto $dto) use ($targetingType): ?Condition {
-    //        $key = $this->toTargetKeyOrNull($dto->getKey());
-    //        if($key == null) {
-    //            return null;
-    //        }
-    //
-    //        if(TargetingType)
-    //
-    //    };
-    //}
+    private static function toTargetOrNull(string $targetingType): Closure
+    {
+        return function (TargetDto $dto) use ($targetingType) {
+            $conditions = array_map(self::toConditionOrNull($targetingType), $dto->getConditions());
+            if (empty($conditions)) {
+                return null;
+            }
+            return new Target($conditions);
+        };
+    }
 
-    private function toTargetKeyOrNull(KeyDto $dto): ?Key
+    private static function toConditionOrNull(string $targetingType): Closure
+    {
+        return function (ConditionDto $dto) use ($targetingType): ?Condition {
+            $key = self::toTargetKeyOrNull($dto->getKey());
+            if ($key == null) {
+                return null;
+            }
+            if (!TargetingType::supports($targetingType, $key->getType())) {
+                return null;
+            }
+            $match = self::toMatchOrNull($dto->getMatch());
+            if ($match == null) {
+                return null;
+            }
+            return new Condition($key, $match);
+        };
+    }
+
+    private static function toTargetKeyOrNull(KeyDto $dto): ?Key
     {
         try {
             if (!KeyType::isValidKey($dto->getType())) {
@@ -221,7 +229,7 @@ class Workspace
         }
     }
 
-    private function toMatchOrNull(MatchDto $dto): ?Match
+    private static function toMatchOrNull(MatchDto $dto): ?Match
     {
         try {
             if (!MatchType::isValidKey($dto->getType())) {
@@ -239,29 +247,76 @@ class Workspace
         }
     }
 
-    private static function toFeatureFlags(array $featureFlags): array
-    {
-        return array();
-    }
-
     private static function toEventTypes(array $eventTypes): array
     {
-        return array();
+        $keyMapper = function (EventTypeDto $dto): string {
+            return $dto->getKey();
+        };
+        return Arrays::associate($eventTypes, $keyMapper, self::toEventType());
+    }
+
+    private static function toEventType(): Closure
+    {
+        return function (EventTypeDto $dto): EventType {
+            return new EventType($dto->getId(), $dto->getKey());
+        };
     }
 
     private static function toBuckets(array $buckets): array
     {
-        return array();
+        $keyMapper = function (BucketDto $dto): int {
+            return $dto->getId();
+        };
+        return Arrays::associate($buckets, $keyMapper, self::toBucket());
+    }
+
+    private static function toBucket(): Closure
+    {
+        return function (BucketDto $dto): Bucket {
+            return new Bucket($dto->getId(), $dto->getSeed(), $dto->getSlotSize(), $dto->getSlots());
+        };
     }
 
     private static function toSegments(array $segments): array
     {
-        return array();
+        $keyMapper = function (SegmentDto $dto) {
+            return $dto->getKey();
+        };
+        return Arrays::associateBy(Arrays::mapNotNull($segments, self::toSegmentOrNull()), $keyMapper);
+    }
+
+    private static function toSegmentOrNull(): Closure
+    {
+
+        return function (SegmentDto $dto): ?Segment {
+            $segmentType = Enums::parseEnumOrNull(SegmentType::class, $dto->getType());
+            if ($segmentType == null) {
+                return null;
+            }
+            return new Segment($dto->getId(), $dto->getKey(), $segmentType, Arrays::mapNotNull($dto->getTargets(), self::toTargetOrNull(TargetingType::SEGMENT)));
+        };
     }
 
     private static function toContainers(array $containers): array
     {
-        return array();
+        $keyMapper = function (ContainerDto $dto) {
+            return $dto->getId();
+        };
+        return Arrays::associateBy(array_map(self::toContainer(), $containers), $keyMapper);
+    }
+
+    private static function toContainer(): Closure
+    {
+        return function (ContainerDto $dto): Container {
+            return new Container($dto->getId(), $dto->getBucketId(), array_map(self::toContainerGroup(), $dto->getGroups()));
+        };
+    }
+
+    private static function toContainerGroup(): Closure
+    {
+        return function (ContainerGroupDto $dto): ContainerGroupDto {
+            return new ContainerGroupDto($dto->getId(), $dto->getExperiments());
+        };
     }
 
     private static function toParameterConfigurations(array $parameterConfigurations): array

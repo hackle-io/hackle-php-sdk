@@ -13,7 +13,7 @@ class Experiment
     /**@var int */
     private $_key;
 
-    /** @var ExperimentType */
+    /** @var string */
     private $_type;
 
     /**@var string */
@@ -65,7 +65,7 @@ class Experiment
      * @param int|null $_containerId
      * @param int|null $_winnerVariationId
      */
-    public function __construct(int $_id, int $_key, ExperimentType $_type, string $_identifierType, ExperimentStatus $_status, int $_version, array $_variations, array $_userOverrides, array $_segmentOverrides, array $_targetAudiences, array $_targetRules, Action $_defaultRule, ?int $_containerId, ?int $_winnerVariationId)
+    public function __construct(int $_id, int $_key, string $_type, string $_identifierType, ExperimentStatus $_status, int $_version, array $_variations, array $_userOverrides, array $_segmentOverrides, array $_targetAudiences, array $_targetRules, Action $_defaultRule, ?int $_containerId, ?int $_winnerVariationId)
     {
         $this->_id = $_id;
         $this->_key = $_key;
@@ -131,9 +131,9 @@ class Experiment
     }
 
     /**
-     * @return ExperimentType
+     * @return string
      */
-    public function getType(): ExperimentType
+    public function getType(): string
     {
         return $this->_type;
     }
