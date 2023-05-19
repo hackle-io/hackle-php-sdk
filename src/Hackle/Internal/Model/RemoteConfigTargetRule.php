@@ -26,33 +26,43 @@ final class RemoteConfigTargetRule
         $this->_target = $_target;
         $this->_bucketId = $_bucketId;
         $this->_value = $_value;
-    }/**
- * @return string
- */
+    }
+
+    /**
+     * @return string
+     */
     public function getKey(): string
     {
         return $this->_key;
-    }/**
- * @return string
- */
+    }
+
+    /**
+     * @return string
+     */
     public function getName(): string
     {
         return $this->_name;
-    }/**
- * @return Target
- */
+    }
+
+    /**
+     * @return Target
+     */
     public function getTarget(): Target
     {
         return $this->_target;
-    }/**
- * @return int
- */
+    }
+
+    /**
+     * @return int
+     */
     public function getBucketId(): int
     {
         return $this->_bucketId;
-    }/**
- * @return RemoteConfigParameterValue
- */
+    }
+
+    /**
+     * @return RemoteConfigParameterValue
+     */
     public function getValue(): RemoteConfigParameterValue
     {
         return $this->_value;
