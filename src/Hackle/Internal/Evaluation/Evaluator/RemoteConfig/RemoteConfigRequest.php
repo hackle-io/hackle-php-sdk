@@ -8,8 +8,11 @@ use Hackle\Internal\Evaluation\Evaluator\EvaluatorType;
 use Hackle\Internal\Model\Enums\ValueType;
 use Hackle\Internal\Model\RemoteConfigParameter;
 use Hackle\Internal\User\HackleUser;
-use Hackle\Internal\User\Workspace\Workspace;
+use Hackle\Internal\Workspace\Workspace;
 
+/**
+ * @template T
+ */
 final class RemoteConfigRequest implements EvaluatorRequest
 {
     private $key;
@@ -19,6 +22,13 @@ final class RemoteConfigRequest implements EvaluatorRequest
     private $requiredType;
     private $defaultValue;
 
+    /**
+     * @param Workspace $workspace
+     * @param HackleUser $user
+     * @param RemoteConfigParameter $parameter
+     * @param ValueType $requiredType
+     * @param T $defaultValue
+     */
     public function __construct(
         Workspace $workspace,
         HackleUser $user,
@@ -26,7 +36,7 @@ final class RemoteConfigRequest implements EvaluatorRequest
         ValueType $requiredType,
         $defaultValue
     ) {
-        $this->key = new EvaluatorKey(EvaluatorType::REMOTE_CONFIG, $parameter->getId());
+        $this->key = new EvaluatorKey(EvaluatorType::REMOTE_CONFIG(), $parameter->getId());
         $this->workspace = $workspace;
         $this->user = $user;
         $this->parameter = $parameter;
@@ -75,7 +85,7 @@ final class RemoteConfigRequest implements EvaluatorRequest
     }
 
     /**
-     * @return mixed
+     * @return T
      */
     public function getDefaultValue()
     {

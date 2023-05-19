@@ -2,6 +2,16 @@
 
 namespace Hackle\Common;
 
+/**
+ * @method static IDENTIFIER_NOT_FOUND()
+ * @method static TYPE_MISMATCH()
+ * @method static TARGET_RULE_MATCH()
+ * @method static DEFAULT_RULE()
+ * @method static SDK_NOT_READY()
+ * @method static EXPERIMENT_NOT_FOUND()
+ * @method static FEATURE_FLAG_NOT_FOUND()
+ * @method static REMOTE_CONFIG_PARAMETER_NOT_FOUND()
+ */
 class DecisionReason extends Enum
 {
 

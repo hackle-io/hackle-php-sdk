@@ -2,13 +2,12 @@
 
 namespace Hackle\Internal\Evaluation\Evaluator\Experiment;
 
-use Hackle\Internal\Evaluation\Evaluator\AbstractEvaluatorRequest;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorKey;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorRequest;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorType;
 use Hackle\Internal\Model\Experiment;
 use Hackle\Internal\User\HackleUser;
-use Hackle\Internal\User\Workspace\Workspace;
+use Hackle\Internal\Workspace\Workspace;
 
 final class ExperimentRequest implements EvaluatorRequest
 {

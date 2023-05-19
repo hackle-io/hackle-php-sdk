@@ -5,9 +5,13 @@ namespace Hackle\Internal\Evaluation\Evaluator\RemoteConfig;
 use Hackle\Common\DecisionReason;
 use Hackle\Common\PropertiesBuilder;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorContext;
+use Hackle\Internal\Evaluation\Evaluator\EvaluatorEvaluation;
 use Hackle\Internal\Model\RemoteConfigParameter;
 
-final class RemoteConfigEvaluation
+/**
+ * @template T
+ */
+final class RemoteConfigEvaluation implements EvaluatorEvaluation
 {
     private $reason;
     private $targetEvaluations;
@@ -21,7 +25,7 @@ final class RemoteConfigEvaluation
      * @param array $targetEvaluations
      * @param RemoteConfigParameter $parameter
      * @param int|null $valueId
-     * @param object $value
+     * @param T $value
      * @param array<string, object> $properties
      */
     public function __construct(
@@ -40,6 +44,17 @@ final class RemoteConfigEvaluation
         $this->properties = $properties;
     }
 
+    /**
+     * @template T
+     *
+     * @param RemoteConfigRequest<T> $request
+     * @param EvaluatorContext $context
+     * @param int|null $valueId
+     * @param T $value
+     * @param DecisionReason $reason
+     * @param PropertiesBuilder $propertiesBuilder
+     * @return RemoteConfigEvaluation<T>
+     */
     public static function of(
         RemoteConfigRequest $request,
         EvaluatorContext $context,
@@ -48,6 +63,40 @@ final class RemoteConfigEvaluation
         DecisionReason $reason,
         PropertiesBuilder $propertiesBuilder
     ): RemoteConfigEvaluation {
+        $propertiesBuilder->add("returnValue", $value);
+        return new RemoteConfigEvaluation(
+            $reason,
+            $context->getTargetEvaluations(),
+            $request->getParameter(),
+            $valueId,
+            $value,
+            $propertiesBuilder->build()
+        );
+    }
+
+    /**
+     * @template T
+     *
+     * @param RemoteConfigRequest<T> $request
+     * @param EvaluatorContext $context
+     * @param DecisionReason $reason
+     * @param PropertiesBuilder $propertiesBuilder
+     * @return RemoteConfigEvaluation<T>
+     */
+    public static function ofDefault(
+        RemoteConfigRequest $request,
+        EvaluatorContext $context,
+        DecisionReason $reason,
+        PropertiesBuilder $propertiesBuilder
+    ): RemoteConfigEvaluation {
+        return RemoteConfigEvaluation::of(
+            $request,
+            $context,
+            null,
+            $request->getDefaultValue(),
+            $reason,
+            $propertiesBuilder
+        );
     }
 
     /**
@@ -83,7 +132,7 @@ final class RemoteConfigEvaluation
     }
 
     /**
-     * @return object
+     * @return T
      */
     public function getValue()
     {

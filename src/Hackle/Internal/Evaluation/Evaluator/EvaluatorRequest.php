@@ -3,7 +3,7 @@
 namespace Hackle\Internal\Evaluation\Evaluator;
 
 use Hackle\Internal\User\HackleUser;
-use Hackle\Internal\User\Workspace\Workspace;
+use Hackle\Internal\Workspace\Workspace;
 
 interface EvaluatorRequest
 {

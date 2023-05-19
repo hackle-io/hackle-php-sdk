@@ -2,7 +2,7 @@
 
 namespace Hackle;
 
-use Hackle\Common\Decision;
+use Hackle\Common\ExperimentDecision;
 use Hackle\Common\Event;
 use Hackle\Common\FeatureFlagDecision;
 use Hackle\Common\RemoteConfig;
@@ -28,9 +28,9 @@ interface HackleClient
      *
      * @param int $experimentKey the unique key of the experiment.
      * @param User $user the identifier of user to participate in the experiment. MUST NOT be null.
-     * @return Decision object
+     * @return ExperimentDecision object
      */
-    public function variationDetail(int $experimentKey, User $user): Decision;
+    public function variationDetail(int $experimentKey, User $user): ExperimentDecision;
 
     /**
      * Decide whether the feature is turned on to the user.

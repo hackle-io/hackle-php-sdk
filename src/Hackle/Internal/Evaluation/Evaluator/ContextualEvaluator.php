@@ -5,6 +5,8 @@ namespace Hackle\Internal\Evaluation\Evaluator;
 /**
  * @template REQUEST of EvaluatorRequest
  * @template EVALUATION of EvaluatorEvaluation
+ *
+ * @implements Evaluator<REQUEST, EVALUATION>
  */
 abstract class ContextualEvaluator implements Evaluator
 {
@@ -20,7 +22,7 @@ abstract class ContextualEvaluator implements Evaluator
 
     function evaluate($request, EvaluatorContext $context)
     {
-        if (!$context->contains($request)) {
+        if ($context->contains($request)) {
             throw new \InvalidArgumentException("Circular evaluation has occurred");
         }
         $context->push($request);

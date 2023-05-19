@@ -23,4 +23,9 @@ class EmptyParameterConfig implements ParameterConfig
     {
         return $defaultValue;
     }
+
+    public function __toString()
+    {
+        return "ParameterConfig({}";
+    }
 }

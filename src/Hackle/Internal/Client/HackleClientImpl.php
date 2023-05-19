@@ -3,7 +3,7 @@
 namespace Hackle\Internal\Client;
 
 use Exception;
-use Hackle\Common\Decision;
+use Hackle\Common\ExperimentDecision;
 use Hackle\Common\DecisionReason;
 use Hackle\Common\EmptyParameterConfig;
 use Hackle\Common\Event;
@@ -31,18 +31,18 @@ class HackleClientImpl implements HackleClient
         return $this->variationDetail($experimentKey, $user)->getVariation();
     }
 
-    public function variationDetail(int $experimentKey, User $user): Decision
+    public function variationDetail(int $experimentKey, User $user): ExperimentDecision
     {
         try {
             $hackleUser = $this->_userResolver->resolveOrNull($user);
             if ($hackleUser == null) {
-                return Decision::of(Variation::getControl(), new DecisionReason(DecisionReason::INVALID_INPUT), new EmptyParameterConfig());
+                return ExperimentDecision::of(Variation::getControl(), new DecisionReason(DecisionReason::INVALID_INPUT), new EmptyParameterConfig());
             } else {
                 return $this->_client->experiment($experimentKey, $hackleUser, Variation::getControl());
             }
         } catch (Exception $e) {
             $this->_logger->error("Unexpected exception while deciding variation for experiment[$experimentKey]. Returning default variation[" . Variation::getControl() . "]: " . $e->getMessage());
-            return Decision::of(Variation::getControl(), new DecisionReason(DecisionReason::EXCEPTION), new EmptyParameterConfig());
+            return ExperimentDecision::of(Variation::getControl(), new DecisionReason(DecisionReason::EXCEPTION), new EmptyParameterConfig());
         }
     }
 

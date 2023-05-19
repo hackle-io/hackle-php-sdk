@@ -6,16 +6,20 @@ use Hackle\Common\ParameterConfig;
 
 class ParameterConfiguration implements ParameterConfig
 {
-    /**@var int */
-    private $_id;
+    /**
+     * @var int
+     */
+    private $id;
 
-    /**@var array */
-    private $_parameters;
+    /**
+     * @var array<string, mixed>
+     */
+    private $parameters;
 
-    public function __construct(int $_id, array $_parameters)
+    public function __construct(int $id, array $parameters)
     {
-        $this->_id = $_id;
-        $this->_parameters = $_parameters;
+        $this->id = $id;
+        $this->parameters = $parameters;
     }
 
     public function getString(string $key, string $defaultValue): string
@@ -40,7 +44,7 @@ class ParameterConfiguration implements ParameterConfig
 
     private function getOrNull(string $key)
     {
-        return $this->_parameters[$key] ?? null;
+        return $this->parameters[$key] ?? null;
     }
 
     /**
@@ -48,6 +52,6 @@ class ParameterConfiguration implements ParameterConfig
      */
     public function getId(): int
     {
-        return $this->_id;
+        return $this->id;
     }
 }

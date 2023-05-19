@@ -11,7 +11,7 @@ class SystemClock implements Clock
 
     public function tick(): int
     {
-        $milliseconds = self::currentTimeMillis();
+        $milliseconds = $this->currentMillis();
         return $milliseconds * 1e6;
     }
 }

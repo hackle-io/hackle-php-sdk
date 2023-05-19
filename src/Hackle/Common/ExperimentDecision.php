@@ -2,27 +2,22 @@
 
 namespace Hackle\Common;
 
-class FeatureFlagDecision implements ParameterConfig
+class ExperimentDecision implements ParameterConfig
 {
-    private $on;
+    private $variation;
     private $reason;
     private $config;
 
-    public function __construct(bool $on, string $reason, ParameterConfig $config)
+    private function __construct(string $variation, string $reason, ParameterConfig $config)
     {
-        $this->on = $on;
+        $this->variation = $variation;
         $this->reason = $reason;
         $this->config = $config;
     }
 
-    public static function on(DecisionReason $reason, ?ParameterConfig $config = null): self
+    public static function of(string $variation, DecisionReason $reason, ParameterConfig $config = null): self
     {
-        return new FeatureFlagDecision(true, $reason->getValue(), $config ?? new EmptyParameterConfig());
-    }
-
-    public static function off(DecisionReason $reason, ?ParameterConfig $config = null): self
-    {
-        return new FeatureFlagDecision(false, $reason->getValue(), $config ?? new EmptyParameterConfig());
+        return new ExperimentDecision($variation, $reason->getValue(), $config ?? new EmptyParameterConfig());
     }
 
     public function getString(string $key, string $defaultValue): string
@@ -46,11 +41,11 @@ class FeatureFlagDecision implements ParameterConfig
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function isOn(): bool
+    public function getVariation(): string
     {
-        return $this->on;
+        return $this->variation;
     }
 
     /**
