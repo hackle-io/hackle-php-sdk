@@ -8,6 +8,7 @@ use Hackle\Internal\HackleSdk;
 use Hackle\Internal\Http\HackleMiddleware;
 use Hackle\Internal\Http\SdkCacheMiddleware;
 use Hackle\Internal\Http\SdkHeaderMiddleware;
+use Hackle\Internal\Time\SystemClock;
 use Hackle\Internal\Workspace\HttpWorkspaceFetcher;
 use Hackle\Internal\Workspace\Sdk;
 use Monolog\Logger;
@@ -29,7 +30,7 @@ final class HackleClients
     private static function createHttpClient(Sdk $sdk, LoggerInterface $logger): Client
     {
         $stack = HandlerStack::create();
-        $middlewares = array(new SdkCacheMiddleware("/tmp/hackle/", 30, $logger), new SdkHeaderMiddleware($sdk));
+        $middlewares = array(new SdkCacheMiddleware("/tmp/hackle/", 30, $logger), new SdkHeaderMiddleware($sdk, new SystemClock()));
         foreach ($middlewares as $middleware) {
             self::applyMiddleware($stack, $middleware);
         }

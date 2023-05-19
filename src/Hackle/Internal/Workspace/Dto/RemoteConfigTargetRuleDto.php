@@ -47,4 +47,44 @@ class RemoteConfigTargetRuleDto
         $decoder = self::getDecoder();
         return $decoder($v);
     }
+
+    /**
+     * @return string
+     */
+    public function getKey(): string
+    {
+        return $this->_key;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->_name;
+    }
+
+    /**
+     * @return TargetDto
+     */
+    public function getTarget(): TargetDto
+    {
+        return $this->_target;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBucketId(): int
+    {
+        return $this->_bucketId;
+    }
+
+    /**
+     * @return RemoteConfigParameterValueDto
+     */
+    public function getValue(): RemoteConfigParameterValueDto
+    {
+        return $this->_value;
+    }
 }
