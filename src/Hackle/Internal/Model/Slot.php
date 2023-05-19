@@ -2,23 +2,29 @@
 
 namespace Hackle\Internal\Model;
 
-class Slot
+final class Slot
 {
-    private $_startInclusive;
+    private $startInclusive;
+    private $endExclusive;
+    private $variationId;
 
-    private $_endExclusive;
-
-    private $_variationId;
-
-    public function __construct($_startInclusive, $_endExclusive, $variationId)
+    public function __construct(int $startInclusive, int $endExclusive, int $variationId)
     {
-        $this->_startInclusive = $_startInclusive;
-        $this->_endExclusive = $_endExclusive;
-        $this->_variationId = $variationId;
+        $this->startInclusive = $startInclusive;
+        $this->endExclusive = $endExclusive;
+        $this->variationId = $variationId;
     }
 
     public function contains(int $slotNumber): bool
     {
-        return $this->_startInclusive <= $slotNumber && $slotNumber < $this->_endExclusive;
+        return $this->startInclusive <= $slotNumber && $slotNumber < $this->endExclusive;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVariationId(): int
+    {
+        return $this->variationId;
     }
 }
