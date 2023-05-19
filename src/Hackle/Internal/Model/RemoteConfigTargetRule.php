@@ -2,26 +2,65 @@
 
 namespace Hackle\Internal\Model;
 
-class RemoteConfigTargetRule
+final class RemoteConfigTargetRule
 {
-    private $_key;
+    private $key;
+    private $name;
+    private $target;
+    private $bucketId;
+    private $value;
 
-    private $_name;
+    public function __construct(
+        string $key,
+        string $name,
+        Target $target,
+        int $bucketId,
+        RemoteConfigParameterValue $value
+    ) {
+        $this->key = $key;
+        $this->name = $name;
+        $this->target = $target;
+        $this->bucketId = $bucketId;
+        $this->value = $value;
+    }
 
-    /** @var Target */
-    private $_target;
-
-    private $_bucketId;
-
-    /** @var RemoteConfigParameterValue */
-    private $_value;
-
-    public function __construct($_key, $_name, Target $_target, $_bucketId, RemoteConfigParameterValue $_value)
+    /**
+     * @return string
+     */
+    public function getKey(): string
     {
-        $this->_key = $_key;
-        $this->_name = $_name;
-        $this->_target = $_target;
-        $this->_bucketId = $_bucketId;
-        $this->_value = $_value;
+        return $this->key;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return Target
+     */
+    public function getTarget(): Target
+    {
+        return $this->target;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBucketId(): int
+    {
+        return $this->bucketId;
+    }
+
+    /**
+     * @return RemoteConfigParameterValue
+     */
+    public function getValue(): RemoteConfigParameterValue
+    {
+        return $this->value;
     }
 }
