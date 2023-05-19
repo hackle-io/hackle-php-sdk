@@ -24,7 +24,7 @@ final class HackleClients
         $sdk = new Sdk($sdkKey);
         $client = self::createHttpClient($sdk, new Logger('HACKLE'));
         $workspaceFetcher = new HttpWorkspaceFetcher($config->getSdkUri(), $client, $config->getLogger());
-        $workspaceFetcher->fetch();
+
     }
 
     private static function createHttpClient(Sdk $sdk, LoggerInterface $logger): Client
