@@ -103,6 +103,10 @@ abstract class Enum implements \JsonSerializable
         return self::__callStatic($key, []);
     }
 
+    /**
+     * @param mixed $value
+     * @return static|null
+     */
     public static function fromOrNull($value): ?self
     {
         if (!static::isValid($value)) {
