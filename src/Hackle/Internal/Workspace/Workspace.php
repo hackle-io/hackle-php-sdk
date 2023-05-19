@@ -42,7 +42,6 @@ use Hackle\Internal\Workspace\Dto\MatchDto;
 use Hackle\Internal\Workspace\Dto\ParameterConfigurationDto;
 use Hackle\Internal\Workspace\Dto\ParameterDto;
 use Hackle\Internal\Workspace\Dto\RemoteConfigParameterDto;
-use Hackle\Internal\Workspace\Dto\RemoteConfigParameterValueDto;
 use Hackle\Internal\Workspace\Dto\RemoteConfigTargetRuleDto;
 use Hackle\Internal\Workspace\Dto\SegmentDto;
 use Hackle\Internal\Workspace\Dto\TargetActionDto;

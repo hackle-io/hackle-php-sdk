@@ -2,7 +2,7 @@
 
 namespace Hackle\Internal\User;
 
-use Hackle\Common\Enum;
+use Hackle\Internal\Lang\Enum;
 
 class IdentifierType extends Enum
 {

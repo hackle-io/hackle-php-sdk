@@ -2,7 +2,7 @@
 
 namespace Hackle\Internal\Model\Enums;
 
-use Hackle\Common\Enum;
+use Hackle\Internal\Lang\Enum;
 
 final class MatchType extends Enum
 {

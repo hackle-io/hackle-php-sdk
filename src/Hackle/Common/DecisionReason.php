@@ -2,6 +2,8 @@
 
 namespace Hackle\Common;
 
+use Hackle\Internal\Lang\Enum;
+
 /**
  * @method static IDENTIFIER_NOT_FOUND()
  * @method static TYPE_MISMATCH()

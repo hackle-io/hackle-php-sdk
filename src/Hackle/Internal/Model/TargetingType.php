@@ -2,7 +2,6 @@
 
 namespace Hackle\Internal\Model;
 
-use Hackle\Common\Enum;
 use Hackle\Internal\Model\Enums\KeyType;
 use ReflectionException;
 

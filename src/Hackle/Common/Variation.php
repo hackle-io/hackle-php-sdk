@@ -2,6 +2,8 @@
 
 namespace Hackle\Common;
 
+use Hackle\Internal\Lang\Enum;
+
 class Variation extends Enum
 {
     const A = "A";

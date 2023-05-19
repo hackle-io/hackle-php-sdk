@@ -2,7 +2,7 @@
 
 namespace Hackle\Internal\Evaluation\Evaluator;
 
-use Hackle\Common\Enum;
+use Hackle\Internal\Lang\Enum;
 
 class EvaluatorType extends Enum
 {
