@@ -6,7 +6,7 @@ use Hackle\Common\Enum;
 
 class ExperimentType extends Enum
 {
-    const AB_TEST = "AB_TEST";
+    public const AB_TEST = "AB_TEST";
 
-    const FEATURE_FLAG = "FEATURE_FLAG";
+    public const FEATURE_FLAG = "FEATURE_FLAG";
 }

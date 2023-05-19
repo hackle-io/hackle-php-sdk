@@ -6,13 +6,13 @@ use Hackle\Common\Enum;
 use Hackle\Internal\Model\Enums\KeyType;
 use ReflectionException;
 
-class TargetingType extends Enum
+class TargetingType
 {
-    const IDENTIFIER = "IDENTIFIER";
+    public const IDENTIFIER = "IDENTIFIER";
 
-    const PROPERTY = "PROPERTY";
+    public const PROPERTY = "PROPERTY";
 
-    const SEGMENT = "SEGMENT";
+    public const SEGMENT = "SEGMENT";
 
     private static $_identifierSupportKeyTypes = array(KeyType::SEGMENT);
 
@@ -20,10 +20,10 @@ class TargetingType extends Enum
 
     private static $_segmentSupportKeyTypes = array(KeyType::USER_ID, KeyType::USER_PROPERTY, KeyType::HACKLE_PROPERTY);
 
-    public function supports(TargetingType $targetingType, KeyType $keyType): bool
+    public static function supports(string $targetingType, KeyType $keyType): bool
     {
         try {
-            switch ($targetingType->getKey()) {
+            switch ($targetingType) {
                 case self::IDENTIFIER:
                     return in_array($keyType->getKey(), self::$_identifierSupportKeyTypes);
                 case self::PROPERTY:

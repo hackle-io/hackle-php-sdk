@@ -42,4 +42,36 @@ class BucketDto
         $decoder = self::getDecoder();
         return $decoder($v);
     }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->_id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSeed(): int
+    {
+        return $this->_seed;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSlotSize(): int
+    {
+        return $this->_slotSize;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getSlots(): array
+    {
+        return $this->_slots;
+    }
 }
