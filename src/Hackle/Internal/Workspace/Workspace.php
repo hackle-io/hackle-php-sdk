@@ -21,6 +21,8 @@ use Hackle\Internal\Model\Key;
 use Hackle\Internal\Model\Match;
 use Hackle\Internal\Model\ParameterConfiguration;
 use Hackle\Internal\Model\RemoteConfigParameter;
+use Hackle\Internal\Model\RemoteConfigParameterValue;
+use Hackle\Internal\Model\RemoteConfigTargetRule;
 use Hackle\Internal\Model\Segment;
 use Hackle\Internal\Model\Target;
 use Hackle\Internal\Model\TargetingType;
@@ -37,6 +39,11 @@ use Hackle\Internal\Workspace\Dto\EventTypeDto;
 use Hackle\Internal\Workspace\Dto\ExperimentDto;
 use Hackle\Internal\Workspace\Dto\KeyDto;
 use Hackle\Internal\Workspace\Dto\MatchDto;
+use Hackle\Internal\Workspace\Dto\ParameterConfigurationDto;
+use Hackle\Internal\Workspace\Dto\ParameterDto;
+use Hackle\Internal\Workspace\Dto\RemoteConfigParameterDto;
+use Hackle\Internal\Workspace\Dto\RemoteConfigParameterValueDto;
+use Hackle\Internal\Workspace\Dto\RemoteConfigTargetRuleDto;
 use Hackle\Internal\Workspace\Dto\SegmentDto;
 use Hackle\Internal\Workspace\Dto\TargetActionDto;
 use Hackle\Internal\Workspace\Dto\TargetDto;
@@ -148,7 +155,12 @@ class Workspace
             if ($defaultRule == null) {
                 return null;
             }
-            return new Experiment($dto->getId(), $dto->getKey(), $type, $dto->getIdentifierType(), $experimentStatus, $dto->getVersion(), array_map(self::toVariation(), $dto->getVariations()), self::toUserOverrideArray($dto->getExecution()->getUserOverrides()), array_map(self::toTargetRuleOrNull(TargetingType::IDENTIFIER), $dto->getExecution()->getSegmentOverrides()), array_map(self::toTargetOrNull(TargetingType::PROPERTY), $dto->getExecution()->getTargetAudiences()), array_map(self::toTargetRuleOrNull(TargetingType::PROPERTY), $dto->getExecution()->getTargetRules()), $defaultRule, $dto->getContainerId(), $dto->getWinnerVariationId());
+            $variations = array_map(self::toVariation(), $dto->getVariations());
+            $userOverrides = self::toUserOverrideArray($dto->getExecution()->getUserOverrides());
+            $segmentOverrides = array_map(self::toTargetRuleOrNull(TargetingType::IDENTIFIER), $dto->getExecution()->getSegmentOverrides());
+            $targetAudiences = array_map(self::toTargetOrNull(TargetingType::PROPERTY), $dto->getExecution()->getTargetAudiences());
+            $targetRules = array_map(self::toTargetRuleOrNull(TargetingType::PROPERTY), $dto->getExecution()->getTargetRules());
+            return new Experiment($dto->getId(), $dto->getKey(), $type, $dto->getIdentifierType(), $experimentStatus, $dto->getVersion(), $variations, $userOverrides, $segmentOverrides, $targetAudiences, $targetRules, $defaultRule, $dto->getContainerId(), $dto->getWinnerVariationId());
         };
     }
 
@@ -184,7 +196,9 @@ class Workspace
     private static function toTargetRuleOrNull(string $targetingType): Closure
     {
         return function (TargetRuleDto $dto) use ($targetingType): ?TargetRule {
-            return new TargetRule(call_user_func(self::toTargetOrNull($targetingType), $dto->getTarget()), self::toActionOrNull($dto->getAction()));
+            $target = call_user_func(self::toTargetOrNull($targetingType), $dto->getTarget());
+            $action = self::toActionOrNull($dto->getAction());
+            return new TargetRule($target, $action);
         };
     }
 
@@ -293,7 +307,8 @@ class Workspace
             if ($segmentType == null) {
                 return null;
             }
-            return new Segment($dto->getId(), $dto->getKey(), $segmentType, Arrays::mapNotNull($dto->getTargets(), self::toTargetOrNull(TargetingType::SEGMENT)));
+            $targets = Arrays::mapNotNull($dto->getTargets(), self::toTargetOrNull(TargetingType::SEGMENT));
+            return new Segment($dto->getId(), $dto->getKey(), $segmentType, $targets);
         };
     }
 
@@ -308,7 +323,8 @@ class Workspace
     private static function toContainer(): Closure
     {
         return function (ContainerDto $dto): Container {
-            return new Container($dto->getId(), $dto->getBucketId(), array_map(self::toContainerGroup(), $dto->getGroups()));
+            $groups = array_map(self::toContainerGroup(), $dto->getGroups());
+            return new Container($dto->getId(), $dto->getBucketId(), $groups);
         };
     }
 
@@ -321,11 +337,56 @@ class Workspace
 
     private static function toParameterConfigurations(array $parameterConfigurations): array
     {
-        return array();
+        $keyMapper = function (ParameterConfiguration $ParameterConfiguration): int {
+            return $ParameterConfiguration->getId();
+        };
+        return Arrays::associateBy(array_map(self::toParameterConfiguration(), $parameterConfigurations), $keyMapper);
+    }
+
+    private static function toParameterConfiguration(): Closure
+    {
+        return function (ParameterConfigurationDto $dto): ParameterConfiguration {
+            $keyMapper = function (ParameterDto $parameterDto) {
+                return $parameterDto->getKey();
+            };
+            $valueMapper = function (ParameterDto $parameterDto) {
+                return $parameterDto->getValue();
+            };
+            return new ParameterConfiguration($dto->getId(), Arrays::associate($dto->getParameters(), $keyMapper, $valueMapper));
+        };
     }
 
     private static function toRemoteConfigParameters(array $remoteConfigParameters): array
     {
-        return array();
+        $keyMapper = function (RemoteConfigParameter $remoteConfigParameter) {
+            return $remoteConfigParameter->getKey();
+        };
+        return Arrays::associateBy(Arrays::mapNotNull($remoteConfigParameters, self::toRemoteConfigParameterOrNull()), $keyMapper);
+    }
+
+    private static function toRemoteConfigParameterOrNull(): Closure
+    {
+        return function (RemoteConfigParameterDto $dto): ?RemoteConfigParameter {
+            $type = Enums::parseEnumOrNull(ValueType::class, $dto->getType());
+            if ($type == null) {
+                return null;
+            }
+            $defaultValue = $dto->getDefaultValue();
+            $targetRules = Arrays::mapNotNull($dto->getTargetRules(), self::toRemoteConfigTargetRule());
+            $defaultValue = new RemoteConfigParameterValue($defaultValue->getId(), $defaultValue->getValue());
+            return new RemoteConfigParameter($dto->getId(), $dto->getKey(), $type, $dto->getIdentifierType(), $targetRules, $defaultValue);
+        };
+    }
+
+    private static function toRemoteConfigTargetRule(): Closure
+    {
+        return function (RemoteConfigTargetRuleDto $dto): ?RemoteConfigTargetRule {
+            $target = call_user_func(self::toTargetOrNull(TargetingType::PROPERTY));
+            if ($target == null) {
+                return null;
+            }
+            $value = new RemoteConfigParameterValue($dto->getValue()->getId(), $dto->getValue()->getValue());
+            return new RemoteConfigTargetRule($dto->getKey(), $dto->getName(), $target, $dto->getBucketId(), $value);
+        };
     }
 }
