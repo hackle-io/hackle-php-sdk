@@ -2,9 +2,11 @@
 
 namespace Hackle\Internal\Workspace;
 
+use Exception;
 use GuzzleHttp\Client;
 use Hackle\Internal\Workspace\Dto\WorkspaceDto;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 class HttpWorkspaceFetcher
 {
@@ -25,17 +27,29 @@ class HttpWorkspaceFetcher
         $this->_logger = $_logger;
     }
 
-    public function fetch(): void
+    public function fetch(): ?Workspace
     {
-        $this->fetchInternal();
+        try {
+            return $this->fetchInternal();
+        } catch (Exception $e) {
+            $this->_logger->error("Failed fetch workspace : ". $e->getMessage());
+            return null;
+        }
     }
 
-    private function fetchInternal(): void
+    private function fetchInternal(): Workspace
     {
         $response = $this->_client->get($this->_baseUri . self::SDK_ENDPOINT_URI);
+        if (!$this->isSuccessful($response->getStatusCode())) {
+            throw new RuntimeException("Http status code: " . $response->getStatusCode());
+        }
         $body = $response->getBody();
+        $workspaceDto = WorkspaceDto::decode(json_decode($body->getContents(), true));
+        return Workspace::from($workspaceDto);
+    }
 
-        $workspaceDto=WorkspaceDto::decode(json_decode($body->getContents(), true));
-        $experiments = $workspaceDto->getExperiments();
+    public function isSuccessful($statusCode): bool
+    {
+        return $statusCode >= 200 && $statusCode < 300;
     }
 }
