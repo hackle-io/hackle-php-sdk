@@ -57,7 +57,7 @@ class Experiment
      * @param ExperimentStatus $_status
      * @param int $_version
      * @param Variation[] $_variations
-     * @param int[] $_userOverrides
+     * @param array<string, int> $_userOverrides
      * @param TargetRule[] $_segmentOverrides
      * @param Target[] $_targetAudiences
      * @param TargetRule[] $_targetRules
@@ -65,8 +65,22 @@ class Experiment
      * @param int|null $_containerId
      * @param int|null $_winnerVariationId
      */
-    public function __construct(int $_id, int $_key, string $_type, string $_identifierType, ExperimentStatus $_status, int $_version, array $_variations, array $_userOverrides, array $_segmentOverrides, array $_targetAudiences, array $_targetRules, Action $_defaultRule, ?int $_containerId, ?int $_winnerVariationId)
-    {
+    public function __construct(
+        int $_id,
+        int $_key,
+        string $_type,
+        string $_identifierType,
+        ExperimentStatus $_status,
+        int $_version,
+        array $_variations,
+        array $_userOverrides,
+        array $_segmentOverrides,
+        array $_targetAudiences,
+        array $_targetRules,
+        Action $_defaultRule,
+        ?int $_containerId,
+        ?int $_winnerVariationId
+    ) {
         $this->_id = $_id;
         $this->_key = $_key;
         $this->_type = $_type;
@@ -171,7 +185,7 @@ class Experiment
     }
 
     /**
-     * @return int[]
+     * @return array<string, int>
      */
     public function getUserOverrides(): array
     {

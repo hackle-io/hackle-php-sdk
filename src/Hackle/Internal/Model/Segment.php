@@ -6,23 +6,31 @@ use Hackle\Internal\Model\Enums\SegmentType;
 
 class Segment
 {
-    /**@var int */
+    /**
+     * @var int
+     */
     private $_id;
 
-    /**@var string */
+    /**
+     * @var string
+     */
     private $_key;
 
-    /** @var SegmentType */
+    /**
+     * @var SegmentType
+     */
     private $_type;
 
-    /**@var array */
+    /**
+     * @var Target[]
+     */
     private $_targets;
 
     /**
      * @param int $_id
      * @param string $_key
      * @param SegmentType $_type
-     * @param array $_targets
+     * @param Target[] $_targets
      */
     public function __construct(int $_id, string $_key, SegmentType $_type, array $_targets)
     {
@@ -57,7 +65,7 @@ class Segment
     }
 
     /**
-     * @return array
+     * @return Target[]
      */
     public function getTargets(): array
     {

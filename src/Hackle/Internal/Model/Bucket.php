@@ -4,29 +4,64 @@ namespace Hackle\Internal\Model;
 
 class Bucket
 {
-    private $_id;
-    private $_seed;
-    private $_slotSize;
+    private $id;
+    private $seed;
+    private $slotSize;
+    private $slots;
 
-    /** @var Slot[] */
-    private $_slots;
-
+    /**
+     * @param int $id
+     * @param int $seed
+     * @param int $slotSize
+     * @param Slot[] $_slots
+     */
     public function __construct(int $id, int $seed, int $slotSize, array $_slots)
     {
-        $this->_id = $id;
-        $this->_seed = $seed;
-        $this->_slotSize = $slotSize;
-        $this->_slots = $_slots;
+        $this->id = $id;
+        $this->seed = $seed;
+        $this->slotSize = $slotSize;
+        $this->slots = $_slots;
     }
 
     public function getSlotOrNull(int $slotNumber): ?Slot
     {
-        $slots = array_filter($this->_slots, function (Slot $slot) use ($slotNumber) {
-            return $slot->contains($slotNumber);
-        });
-        if (empty($slots)) {
-            return null;
+        foreach ($this->slots as $slot) {
+            if ($slot->contains($slotNumber)) {
+                return $slot;
+            }
         }
-        return array_values($slots)[0];
+        return null;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSeed(): int
+    {
+        return $this->seed;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSlotSize(): int
+    {
+        return $this->slotSize;
+    }
+
+    /**
+     * @return Slot[]
+     */
+    public function getSlots(): array
+    {
+        return $this->slots;
     }
 }

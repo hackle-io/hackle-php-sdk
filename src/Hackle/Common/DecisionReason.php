@@ -4,6 +4,7 @@ namespace Hackle\Common;
 
 class DecisionReason extends Enum
 {
+
     /**
      * Indicates that the sdk is not ready to use. e.g. invalid SDK key.
      */
@@ -68,6 +69,11 @@ class DecisionReason extends Enum
      * Indicates that the user has been allocated to the experiment.
      */
     const TRAFFIC_ALLOCATED = "TRAFFIC_ALLOCATED";
+
+    /**
+     * Indicates that traffic was allocated by targeting from another experiment.
+     */
+    const TRAFFIC_ALLOCATED_BY_TARGETING = "TRAFFIC_ALLOCATED_BY_TARGETING";
 
     /**
      * Indicates that the user is not the target of the experiment.

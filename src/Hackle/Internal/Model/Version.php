@@ -2,7 +2,12 @@
 
 namespace Hackle\Internal\Model;
 
-class Version
+use Hackle\Internal\Lang\Comparable;
+
+/**
+ * @implements Comparable<Version>
+ */
+class Version implements Comparable
 {
     private const PATTERN = '/^(?<major>0|[1-9]\d*)(\.(?<minor>0|[1-9]\d*))?(\.(?<patch>0|[1-9]\d*))?(\-(?<prerelease>[0-9A-Za-z\-\.]+))?(\+(?<build>[0-9A-Za-z\-\.]+))?$/';
 
@@ -22,7 +27,7 @@ class Version
         $this->_build = $_build;
     }
 
-    public function compareTo(Version $other)
+    public function compareTo(Comparable $other): int
     {
         $result = $this->_coreVersion->compareTo($other->_coreVersion);
         return $result != 0 ? $result : $this->_prerelease->compareTo($other->_prerelease);

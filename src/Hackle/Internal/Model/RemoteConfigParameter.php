@@ -2,45 +2,31 @@
 
 namespace Hackle\Internal\Model;
 
-use Hackle\Internal\Model\Enums\ValueType;
-use Hackle\Internal\User\IdentifierType;
-
 class RemoteConfigParameter
 {
-    /**@var int */
-    private $_id;
-
-    /**@var string */
-    private $_key;
-
-    /** @var ValueType */
-    private $_type;
-
-    /** @var string */
+    private $id;
+    private $key;
+    private $type;
     private $identifierType;
-
-    /** @var RemoteConfigTargetRule[] */
-    private $_targetRules;
-
-    /** @var RemoteConfigParameterValue */
-    private $_defaultValue;
+    private $targetRules;
+    private $defaultValue;
 
     /**
-     * @param int $_id
-     * @param string $_key
-     * @param ValueType $_type
+     * @param int $id
+     * @param string $key
+     * @param string $type
      * @param string $identifierType
-     * @param RemoteConfigTargetRule[] $_targetRules
-     * @param RemoteConfigParameterValue $_defaultValue
+     * @param array<RemoteConfigTargetRule> $targetRules
+     * @param RemoteConfigParameterValue $defaultValue
      */
-    public function __construct(int $_id, string $_key, ValueType $_type, string $identifierType, array $_targetRules, RemoteConfigParameterValue $_defaultValue)
+    public function __construct(int $id, string $key, string $type, string $identifierType, array $targetRules, RemoteConfigParameterValue $defaultValue)
     {
-        $this->_id = $_id;
-        $this->_key = $_key;
-        $this->_type = $_type;
+        $this->id = $id;
+        $this->key = $key;
+        $this->type = $type;
         $this->identifierType = $identifierType;
-        $this->_targetRules = $_targetRules;
-        $this->_defaultValue = $_defaultValue;
+        $this->targetRules = $targetRules;
+        $this->defaultValue = $defaultValue;
     }
 
     /**
@@ -48,7 +34,7 @@ class RemoteConfigParameter
      */
     public function getId(): int
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -56,15 +42,15 @@ class RemoteConfigParameter
      */
     public function getKey(): string
     {
-        return $this->_key;
+        return $this->key;
     }
 
     /**
-     * @return ValueType
+     * @return string
      */
-    public function getType(): ValueType
+    public function getType(): string
     {
-        return $this->_type;
+        return $this->type;
     }
 
     /**
@@ -80,7 +66,7 @@ class RemoteConfigParameter
      */
     public function getTargetRules(): array
     {
-        return $this->_targetRules;
+        return $this->targetRules;
     }
 
     /**
@@ -88,6 +74,9 @@ class RemoteConfigParameter
      */
     public function getDefaultValue(): RemoteConfigParameterValue
     {
-        return $this->_defaultValue;
+        return $this->defaultValue;
     }
+
+
+
 }
