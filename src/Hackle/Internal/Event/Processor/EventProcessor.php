@@ -33,24 +33,15 @@ class EventProcessor
 
     public function process(UserEvent $event)
     {
-        $isProcessed = $this->produce(new EventMessage($event));
-        if (!$isProcessed) {
-            $this->_logger->warning("Event not processed, Exceeded event queue capacity");
-        }
+        $this->enqueue($event);
     }
 
-    private function produce(EventMessage $message): bool
+    private function enqueue(UserEvent $message): void
     {
-        return $this->offer($message);
-    }
-
-    private function offer(EventMessage $message): bool
-    {
-        if (count($this->_queue) > $this->_capacity) {
-            return false;
+        $this->_queue[] = $message;
+        if (count($this->_queue) >= $this->_capacity) {
+            $this->flush();
         }
-        $this->_queue = $message;
-        return true;
     }
 
     public function flush(): void
@@ -58,7 +49,9 @@ class EventProcessor
         if (empty($this->_queue)) {
             return ;
         }
-        $this->_eventDispatcher->dispatch(array());
+        $events = $this->_queue;
+        $this->_queue = [];
+        $this->_eventDispatcher->dispatch($events);
     }
 
     public function __destruct()

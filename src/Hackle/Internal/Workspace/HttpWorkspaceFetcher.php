@@ -4,6 +4,7 @@ namespace Hackle\Internal\Workspace;
 
 use Exception;
 use GuzzleHttp\Client;
+use Hackle\Internal\Utils\Https;
 use Hackle\Internal\Workspace\Dto\WorkspaceDto;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -12,6 +13,7 @@ class HttpWorkspaceFetcher
 {
     private const SDK_ENDPOINT_URI = "/api/v2/workspaces";
 
+    /** @var string */
     private $_baseUri;
 
     /** @var Client */
@@ -20,7 +22,12 @@ class HttpWorkspaceFetcher
     /** @var LoggerInterface */
     private $_logger;
 
-    public function __construct($_baseUri, Client $_client, LoggerInterface $_logger)
+    /**
+     * @param string $_baseUri
+     * @param Client $_client
+     * @param LoggerInterface $_logger
+     */
+    public function __construct(string $_baseUri, Client $_client, LoggerInterface $_logger)
     {
         $this->_baseUri = $_baseUri;
         $this->_client = $_client;
@@ -40,16 +47,11 @@ class HttpWorkspaceFetcher
     private function fetchInternal(): Workspace
     {
         $response = $this->_client->get($this->_baseUri . self::SDK_ENDPOINT_URI);
-        if (!$this->isSuccessful($response->getStatusCode())) {
+        if (!Https::isSuccessful($response)) {
             throw new RuntimeException("Http status code: " . $response->getStatusCode());
         }
         $body = $response->getBody();
         $workspaceDto = WorkspaceDto::decode(json_decode($body->getContents(), true));
         return Workspace::from($workspaceDto);
-    }
-
-    public function isSuccessful($statusCode): bool
-    {
-        return $statusCode >= 200 && $statusCode < 300;
     }
 }

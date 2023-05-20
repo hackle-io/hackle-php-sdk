@@ -3,8 +3,10 @@
 namespace Hackle\Internal\Event;
 
 use Hackle\Common\DecisionReason;
+use Hackle\Internal\Event\Dispatcher\ExposureEventDto;
 use Hackle\Internal\Model\Experiment;
 use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\IdentifierType;
 
 final class ExposureEvent extends UserEvent
 {
@@ -41,6 +43,26 @@ final class ExposureEvent extends UserEvent
         $this->variationKey = $variationKey;
         $this->decisionReason = $decisionReason;
         $this->properties = $properties;
+    }
+
+    public function toDto() : ExposureEventDto
+    {
+        return new ExposureEventDto(
+            $this->getInsertId(),
+            $this->getTimestamp(),
+            $this->getUser()->getIdentifiers()[IdentifierType::ID],
+            $this->getUser()->getIdentifiers(),
+            $this->getUser()->getProperties(),
+            $this->getUser()->getHackleProperties(),
+            $this->getExperiment()->getId(),
+            $this->getExperiment()->getKey(),
+            $this->getExperiment()->getType(),
+            $this->getExperiment()->getVersion(),
+            $this->getVariationId(),
+            $this->getVariationKey(),
+            $this->decisionReason,
+            $this->properties
+        );
     }
 
     /**

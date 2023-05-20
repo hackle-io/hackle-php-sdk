@@ -3,8 +3,10 @@
 namespace Hackle\Internal\Event;
 
 use Hackle\Common\DecisionReason;
+use Hackle\Internal\Event\Dispatcher\RemoteConfigEventDto;
 use Hackle\Internal\Model\RemoteConfigParameter;
 use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\IdentifierType;
 
 final class RemoteConfigEvent extends UserEvent
 {
@@ -36,6 +38,24 @@ final class RemoteConfigEvent extends UserEvent
         $this->valueId = $valueId;
         $this->decisionReason = $decisionReason;
         $this->properties = $properties;
+    }
+
+    public function toDto() : RemoteConfigEventDto
+    {
+        return new RemoteConfigEventDto(
+            $this->getInsertId(),
+            $this->getTimestamp(),
+            $this->getUser()->getIdentifiers()[IdentifierType::ID],
+            $this->getUser()->getIdentifiers(),
+            $this->getUser()->getProperties(),
+            $this->getUser()->getHackleProperties(),
+            $this->getParameter()->getId(),
+            $this->getParameter()->getKey(),
+            $this->getParameter()->getType(),
+            $this->getValueId(),
+            $this->getDecisionReason()->getKey(),
+            $this->getProperties()
+        );
     }
 
     /**
