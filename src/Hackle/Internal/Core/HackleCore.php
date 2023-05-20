@@ -14,7 +14,7 @@ use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
 use Hackle\Internal\Evaluation\Evaluator\RemoteConfig\RemoteConfigEvaluator;
 use Hackle\Internal\Evaluation\Evaluator\RemoteConfig\RemoteConfigRequest;
 use Hackle\Internal\Evaluation\Flow\EvaluationFlowFactory;
-use Hackle\Internal\Event\EventProcessor;
+use Hackle\Internal\Event\Processor\EventProcessor;
 use Hackle\Internal\Event\UserEvent;
 use Hackle\Internal\Event\UserEventFactory;
 use Hackle\Internal\Model\Enums\ValueType;

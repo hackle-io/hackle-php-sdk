@@ -2,6 +2,7 @@
 
 namespace Hackle;
 
+use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
@@ -27,7 +28,11 @@ final class HackleConfig
 
     public static function getDefault(): HackleConfig
     {
-        return self::builder()->sdkUri(self::DEFAULT_SDK_URI)->eventUri(self::DEFAULT_EVENT_URI)->monitoringUri(self::DEFAULT_MONITORING_URI)->logger(new Logger("Hackle"))->build();
+        return self::builder()
+            ->sdkUri(self::DEFAULT_SDK_URI)
+            ->eventUri(self::DEFAULT_EVENT_URI)
+            ->monitoringUri(self::DEFAULT_MONITORING_URI)
+            ->logger(new Logger("Hackle", [new ErrorLogHandler()]))->build();
     }
 
     public static function builder(): HackleConfigBuilder

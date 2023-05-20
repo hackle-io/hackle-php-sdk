@@ -9,7 +9,7 @@ use Hackle\Internal\Workspace\Dto\WorkspaceDto;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 
-class HttpWorkspaceFetcher
+class HttpWorkspaceFetcher implements WorkspaceFetcher
 {
     private const SDK_ENDPOINT_URI = "/api/v2/workspaces";
 
