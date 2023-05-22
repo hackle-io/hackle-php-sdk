@@ -250,8 +250,8 @@ class Experiment
                 return TargetRule::fromOrNull($data, TargetingType::PROPERTY());
             }),
             $defaultRule,
-            $data["containerId"],
-            $data["winnerVariationId"]
+            $data["containerId"] ?? null,
+            $data["winnerVariationId"] ?? null
         );
     }
 }
