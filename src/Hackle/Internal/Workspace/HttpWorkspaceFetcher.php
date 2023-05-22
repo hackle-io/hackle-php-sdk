@@ -52,6 +52,6 @@ class HttpWorkspaceFetcher implements WorkspaceFetcher
         }
         $body = $response->getBody();
         $workspaceDto = WorkspaceDto::decode(json_decode($body->getContents(), true));
-        return DefaultWorkspace::from($workspaceDto);
+        return Workspace::from($workspaceDto);
     }
 }

@@ -52,7 +52,6 @@ use Hackle\Internal\Workspace\Dto\TargetDto;
 use Hackle\Internal\Workspace\Dto\TargetRuleDto;
 use Hackle\Internal\Workspace\Dto\UserOverrideDto;
 use Hackle\Internal\Workspace\Dto\VariationDto;
-use Hackle\Internal\Workspace\Dto\WorkspaceDto;
 use ReflectionException;
 
 class DefaultWorkspace implements Workspace
@@ -141,35 +140,14 @@ class DefaultWorkspace implements Workspace
         return $this->_remoteConfigParameters[$parameterKey];
     }
 
-    public static function from(WorkspaceDto $dto): self
+
+    /**
+     * @param array<string, mixed> $dto
+     * @return self
+     */
+    public static function from(array $dto): self
     {
-        $experiments = Arrays::mapNotNull($dto->getExperiments(), self::toExperimentOrNull(ExperimentType::AB_TEST()));
-        $featureFlags = Arrays::mapNotNull(
-            $dto->getFeatureFlags(),
-            self::toExperimentOrNull(ExperimentType::FEATURE_FLAG())
-        );
-        $eventTypes = self::toEventTypes($dto->getEvents());
-        $buckets = self::toBuckets($dto->getBuckets());
-        $segments = self::toSegments($dto->getSegments());
-        $containers = self::toContainers($dto->getContainers());
-        $parameterConfigurations = self::toParameterConfigurations($dto->getParameterConfigurations());
-        $remoteConfigurations = self::toRemoteConfigParameters($dto->getRemoteConfigParameters());
-
-
-        return new DefaultWorkspace(
-            Arrays::associateBy($experiments, function (Experiment $experiment) {
-                return $experiment->getKey();
-            }),
-            Arrays::associateBy($featureFlags, function (Experiment $featureFlag) {
-                return $featureFlag->getKey();
-            }),
-            $eventTypes,
-            $buckets,
-            $segments,
-            $containers,
-            $parameterConfigurations,
-            $remoteConfigurations
-        );
+        // TODO
     }
 
     public static function toExperimentOrNull(ExperimentType $type): Closure
