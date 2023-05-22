@@ -6,6 +6,10 @@ class IdentifiersBuilder
 {
     private const  MAX_IDENTIFIER_TYPE_LENGTH = 128;
     private const  MAX_IDENTIFIER_VALUE_LENGTH = 512;
+
+    /**
+     * @var array<string, string>
+     */
     private $identifiers = [];
 
     public function addAll(array $identifiers, bool $overwrite = true): self
@@ -29,6 +33,9 @@ class IdentifiersBuilder
         return $this;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function build(): array
     {
         return $this->identifiers;
@@ -44,7 +51,7 @@ class IdentifiersBuilder
             return false;
         }
 
-        if (empty(trim($value))) {
+        if (strlen(trim($value)) === 0) {
             return false;
         }
 

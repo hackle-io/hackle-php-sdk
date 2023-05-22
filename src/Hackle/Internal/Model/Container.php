@@ -4,36 +4,31 @@ namespace Hackle\Internal\Model;
 
 class Container
 {
-    /**@var int */
-    private $_id;
-
-    /**@var int */
-    private $_bucketId;
-
-    /** @var ContainerGroup[] */
-    private $_groups;
+    private $id;
+    private $bucketId;
+    private $groups;
 
     /**
-     * @param int $_id
-     * @param int $_bucketId
-     * @param ContainerGroup[] $_groups
+     * @param int $id
+     * @param int $bucketId
+     * @param ContainerGroup[] $groups
      */
-    public function __construct(int $_id, int $_bucketId, array $_groups)
+    public function __construct(int $id, int $bucketId, array $groups)
     {
-        $this->_id = $_id;
-        $this->_bucketId = $_bucketId;
-        $this->_groups = $_groups;
+        $this->id = $id;
+        $this->bucketId = $bucketId;
+        $this->groups = $groups;
     }
+
 
     public function getGroupOrNull(int $containerGroupId): ?ContainerGroup
     {
-        $containerGroups = array_filter($this->_groups, function (ContainerGroup $containerGroup) use ($containerGroupId) {
-            return $containerGroup->getId() == $containerGroupId;
-        });
-        if (empty($containerGroups)) {
-            return null;
+        foreach ($this->groups as $group) {
+            if ($group->getId() === $containerGroupId) {
+                return $group;
+            }
         }
-        return array_values($containerGroups)[0];
+        return null;
     }
 
     /**
@@ -41,7 +36,7 @@ class Container
      */
     public function getId(): int
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -49,15 +44,16 @@ class Container
      */
     public function getBucketId(): int
     {
-        return $this->_bucketId;
+        return $this->bucketId;
     }
 
-
     /**
-     * @return array|ContainerGroup[]
+     * @return ContainerGroup[]
      */
     public function getGroups(): array
     {
-        return $this->_groups;
+        return $this->groups;
     }
+
+
 }

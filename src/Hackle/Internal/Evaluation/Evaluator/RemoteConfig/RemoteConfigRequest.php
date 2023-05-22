@@ -91,4 +91,9 @@ final class RemoteConfigRequest implements EvaluatorRequest
     {
         return $this->defaultValue;
     }
+
+    public function __toString()
+    {
+        return "EvaluatorRequest(type=REMOTE_CONFIG, key={$this->parameter->getKey()})";
+    }
 }

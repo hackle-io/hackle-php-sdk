@@ -8,6 +8,7 @@ use Hackle\Internal\Model\Bucket;
 use Hackle\Internal\Model\BucketAction;
 use Hackle\Internal\Model\Condition;
 use Hackle\Internal\Model\Container;
+use Hackle\Internal\Model\ContainerGroup;
 use Hackle\Internal\Model\Enums\ExperimentStatus;
 use Hackle\Internal\Model\Enums\ExperimentType;
 use Hackle\Internal\Model\Enums\KeyType;
@@ -364,7 +365,7 @@ class DefaultWorkspace implements Workspace
 
     private static function toSegments(array $segments): array
     {
-        $keyMapper = function (SegmentDto $dto) {
+        $keyMapper = function (Segment $dto) {
             return $dto->getKey();
         };
         return Arrays::associateBy(Arrays::mapNotNull($segments, self::toSegmentOrNull()), $keyMapper);
@@ -373,7 +374,7 @@ class DefaultWorkspace implements Workspace
     private static function toSegmentOrNull(): Closure
     {
         return function (SegmentDto $dto): ?Segment {
-            $segmentType = Enums::parseEnumOrNull(SegmentType::class, $dto->getType());
+            $segmentType = SegmentType::fromOrNull($dto->getType());
             if ($segmentType === null) {
                 return null;
             }
@@ -384,7 +385,7 @@ class DefaultWorkspace implements Workspace
 
     private static function toContainers(array $containers): array
     {
-        $keyMapper = function (ContainerDto $dto) {
+        $keyMapper = function (Container $dto) {
             return $dto->getId();
         };
         return Arrays::associateBy(array_map(self::toContainer(), $containers), $keyMapper);
@@ -400,8 +401,8 @@ class DefaultWorkspace implements Workspace
 
     private static function toContainerGroup(): Closure
     {
-        return function (ContainerGroupDto $dto): ContainerGroupDto {
-            return new ContainerGroupDto($dto->getId(), $dto->getExperiments());
+        return function (ContainerGroupDto $dto): ContainerGroup {
+            return new ContainerGroup($dto->getId(), $dto->getExperiments());
         };
     }
 

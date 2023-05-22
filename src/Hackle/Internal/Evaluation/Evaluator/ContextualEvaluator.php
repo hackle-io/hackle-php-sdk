@@ -23,7 +23,9 @@ abstract class ContextualEvaluator implements Evaluator
     function evaluate($request, EvaluatorContext $context)
     {
         if ($context->contains($request)) {
-            throw new \InvalidArgumentException("Circular evaluation has occurred");
+            throw new \InvalidArgumentException(
+                "Circular evaluation has occurred [" . implode(" - ", $context->getStack()) . " - " . $request . "]"
+            );
         }
         $context->push($request);
         try {
