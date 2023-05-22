@@ -16,7 +16,6 @@ final class FeatureFlagConditionMatcher extends AbstractExperimentMatcher
         parent::__construct($evaluator, $valueOperatorMatcher);
     }
 
-
     protected function experiment(EvaluatorRequest $request, int $key): ?Experiment
     {
         return $request->getWorkspace()->getFeatureFlagOrNull($key);
@@ -29,7 +28,7 @@ final class FeatureFlagConditionMatcher extends AbstractExperimentMatcher
 
     protected function evaluationMatches(ExperimentEvaluation $evaluation, Condition $condition): bool
     {
-        $isOn = $evaluation->getVariationKey() === "A";
+        $isOn = $evaluation->getVariationKey() !== "A";
         return $this->valueOperatorMatcher->matches($isOn, $condition->getMatch());
     }
 }
