@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use Hackle\Internal\Utils\Https;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
+use Throwable;
 
 class HttpWorkspaceFetcher implements WorkspaceFetcher
 {
@@ -37,15 +38,18 @@ class HttpWorkspaceFetcher implements WorkspaceFetcher
     {
         try {
             return $this->fetchInternal();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->_logger->error("Failed fetch workspace : " . $e->getMessage());
             return null;
         }
     }
 
+    /**
+     * @throws Throwable
+     */
     private function fetchInternal(): Workspace
     {
-        $response = $this->_client->get($this->_baseUri . self::SDK_ENDPOINT_URI);
+        $response = $this->_client->request("GET", $this->_baseUri . self::SDK_ENDPOINT_URI);
         if (!Https::isSuccessful($response)) {
             throw new RuntimeException("Http status code: " . $response->getStatusCode());
         }
