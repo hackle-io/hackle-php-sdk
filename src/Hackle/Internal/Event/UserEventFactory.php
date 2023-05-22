@@ -26,7 +26,7 @@ final class UserEventFactory
     /**
      * @param EvaluatorRequest $request
      * @param EvaluatorEvaluation $evaluation
-     * @return array<UserEvent>
+     * @return UserEvent[]
      */
     public function create(EvaluatorRequest $request, EvaluatorEvaluation $evaluation): array
     {

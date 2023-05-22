@@ -16,7 +16,7 @@ class TargetMatch
      * @param MatchType $type
      * @param MatchOperator $operator
      * @param ValueType $valueType
-     * @param array<T> $values
+     * @param T[] $values
      */
     public function __construct(MatchType $type, MatchOperator $operator, ValueType $valueType, array $values)
     {

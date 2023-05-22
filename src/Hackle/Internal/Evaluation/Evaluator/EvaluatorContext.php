@@ -42,7 +42,7 @@ final class EvaluatorContext
     }
 
     /**
-     * @return array<EvaluatorRequest>
+     * @return EvaluatorRequest[]
      */
     public function getStack(): array
     {
@@ -50,7 +50,7 @@ final class EvaluatorContext
     }
 
     /**
-     * @return array<EvaluatorEvaluation>
+     * @return EvaluatorEvaluation[]
      */
     public function getTargetEvaluations(): array
     {
