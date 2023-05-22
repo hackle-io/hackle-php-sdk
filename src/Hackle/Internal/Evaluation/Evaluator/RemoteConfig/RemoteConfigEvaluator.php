@@ -8,8 +8,8 @@ use Hackle\Internal\Evaluation\Evaluator\ContextualEvaluator;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorContext;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorRequest;
 use Hackle\Internal\Evaluation\Target\RemoteConfigTargetRuleDeterminer;
-use Hackle\Internal\Model\Enums\ValueType;
 use Hackle\Internal\Model\RemoteConfigParameterValue;
+use Hackle\Internal\Model\ValueType;
 
 /**
  * @template T

@@ -82,7 +82,7 @@ class Objects
      * @param string $message
      * @return T
      */
-    public static function requireNotNull($value, string $message)
+    public static function requireNotNull($value, string $message = "Required value is null.")
     {
         if ($value === null) {
             throw new \InvalidArgumentException($message);

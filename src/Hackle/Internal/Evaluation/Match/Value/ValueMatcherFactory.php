@@ -2,7 +2,7 @@
 
 namespace Hackle\Internal\Evaluation\Match\Value;
 
-use Hackle\Internal\Model\Enums\ValueType;
+use Hackle\Internal\Model\ValueType;
 
 final class ValueMatcherFactory
 {

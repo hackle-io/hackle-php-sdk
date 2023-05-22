@@ -2,20 +2,20 @@
 
 namespace Hackle\Internal\Evaluation\Match\Condition\User;
 
-use Hackle\Internal\Model\Enums\KeyType;
-use Hackle\Internal\Model\Key;
+use Hackle\Internal\Model\TargetKey;
+use Hackle\Internal\Model\TargetKeyType;
 use Hackle\Internal\User\HackleUser;
 
 final class UserValueResolver
 {
-    public function resolveOrNull(HackleUser $user, Key $key)
+    public function resolveOrNull(HackleUser $user, TargetKey $key)
     {
         switch ($key->getType()) {
-            case KeyType::USER_ID:
+            case TargetKeyType::USER_ID:
                 return $user->getIdentifiers()[$key->getName()];
-            case KeyType::USER_PROPERTY:
+            case TargetKeyType::USER_PROPERTY:
                 return $user->getProperties()[$key->getName()];
-            case KeyType::HACKLE_PROPERTY:
+            case TargetKeyType::HACKLE_PROPERTY:
                 return $user->getHackleProperties()[$key->getName()];
             default:
                 throw new \InvalidArgumentException("Unsupported TargetKeyType [{$key->getType()}]");

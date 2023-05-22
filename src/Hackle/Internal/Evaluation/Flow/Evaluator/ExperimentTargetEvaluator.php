@@ -9,7 +9,7 @@ use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
 use Hackle\Internal\Evaluation\Flow\EvaluationFlow;
 use Hackle\Internal\Evaluation\Target\ExperimentTargetDeterminer;
 use Hackle\Internal\Lang\Objects;
-use Hackle\Internal\Model\Enums\ExperimentType;
+use Hackle\Internal\Model\ExperimentType;
 
 final class ExperimentTargetEvaluator implements FlowEvaluator
 {

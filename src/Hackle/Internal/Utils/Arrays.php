@@ -2,59 +2,70 @@
 
 namespace Hackle\Internal\Utils;
 
-use Psr\Log\InvalidArgumentException;
+use Hackle\Internal\Lang\Objects;
+use Hackle\Internal\Lang\Pair;
 
 class Arrays
 {
+    /**
+     * @template T
+     * @template R
+     *
+     * @param T[] $array
+     * @param callable(T): ?R $transform
+     * @return R[]
+     */
     public static function mapNotNull(array $array, callable $transform): array
     {
-        $result = [];
-        if ($array === null) {
-            throw new InvalidArgumentException("array is null");
-        }
-        if ($transform === null) {
-            throw new InvalidArgumentException("transform is null");
-        }
-        return array_map(
-            $transform,
-            array_filter($array, static function ($item) {
-                return !is_null($item);
-            })
-        );
-    }
+        Objects::requireNotNull($array, "array");
+        Objects::requireNotNull($transform, "transform");
 
-    public static function associate(array $array, callable $keyMapper, callable $valueMapper): array
-    {
-        if ($array === null) {
-            throw new InvalidArgumentException("array is null");
-        }
-        if ($keyMapper === null) {
-            throw new InvalidArgumentException("keyMapper is null");
-        }
-        if ($valueMapper === null) {
-            throw new InvalidArgumentException("valueMapper is null");
-        }
         $result = [];
         foreach ($array as $item) {
-            $key = $keyMapper($item);
-            $value = $valueMapper($item);
-            $result[$key] = $value;
+            $mappedItem = $transform($item);
+            if ($mappedItem != null) {
+                $result[] = $mappedItem;
+            }
         }
         return $result;
     }
 
-    public static function associateBy(array $array, callable $keyMapper): array
+    /**
+     * @template T
+     * @template K
+     * @template V
+     *
+     * @param T[] $array
+     * @param callable(T): Pair<K, V> $transform
+     * @return array<K, V>
+     */
+    public static function associate(array $array, callable $transform): array
     {
-        if ($array === null) {
-            throw new InvalidArgumentException("array is null");
-        }
-        if ($keyMapper === null) {
-            throw new InvalidArgumentException("keyMapper is null");
-        }
+        Objects::requireNotNull($array, "array");
+        Objects::requireNotNull($transform, "transform");
         $result = [];
         foreach ($array as $item) {
-            $key = $keyMapper($item);
-            $result[$key] = $item;
+            $entry = $transform($item);
+            $result[$entry->getFirst()] = $entry->getSecond();
+        }
+        return $result;
+    }
+
+    /**
+     * @template T
+     * @template K
+     *
+     * @param T[] $array
+     * @param callable(T): K $keySelector
+     * @return array<K, T>
+     */
+    public static function associateBy(array $array, callable $keySelector): array
+    {
+        Objects::requireNotNull($array, "array");
+        Objects::requireNotNull($keySelector, "keySelector");
+        $result = [];
+        foreach ($array as $item) {
+            $result[$keySelector($item)] = $item;
         }
         return $result;
     }

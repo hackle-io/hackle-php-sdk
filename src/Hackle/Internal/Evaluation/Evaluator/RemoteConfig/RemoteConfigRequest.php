@@ -5,8 +5,8 @@ namespace Hackle\Internal\Evaluation\Evaluator\RemoteConfig;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorKey;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorRequest;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorType;
-use Hackle\Internal\Model\Enums\ValueType;
 use Hackle\Internal\Model\RemoteConfigParameter;
+use Hackle\Internal\Model\ValueType;
 use Hackle\Internal\User\HackleUser;
 use Hackle\Internal\Workspace\Workspace;
 

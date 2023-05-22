@@ -2,7 +2,7 @@
 
 namespace Hackle\Internal\Evaluation\Match\Operator;
 
-use Hackle\Internal\Model\Enums\Operator;
+use Hackle\Internal\Model\MatchOperator;
 
 final class OperatorMatcherFactory
 {
@@ -27,24 +27,24 @@ final class OperatorMatcherFactory
         $this->_lessThanOrEqualToMatcher = new LessThanOrEqualMatcher();
     }
 
-    public function getMatcher(Operator $operator): OperatorMatcher
+    public function getMatcher(MatchOperator $operator): OperatorMatcher
     {
         switch ($operator) {
-            case Operator::IN:
+            case MatchOperator::IN:
                 return $this->_inMatcher;
-            case Operator::CONTAINS:
+            case MatchOperator::CONTAINS:
                 return $this->_containsMatcher;
-            case Operator::STARTS_WITH:
+            case MatchOperator::STARTS_WITH:
                 return $this->_startsWithMatcher;
-            case Operator::ENDS_WITH:
+            case MatchOperator::ENDS_WITH:
                 return $this->_endsWithMatcher;
-            case Operator::GT:
+            case MatchOperator::GT:
                 return $this->_greaterThanMatcher;
-            case Operator::GTE:
+            case MatchOperator::GTE:
                 return $this->_greaterThanOrEqualToMatcher;
-            case Operator::LT:
+            case MatchOperator::LT:
                 return $this->_lessThanMatcher;
-            case Operator::LTE:
+            case MatchOperator::LTE:
                 return $this->_lessThanOrEqualToMatcher;
             default:
                 throw new \InvalidArgumentException("Unsupported operator [$operator]");

@@ -4,17 +4,13 @@ namespace Hackle\Internal\Model;
 
 class TargetRule
 {
+    private $target;
+    private $action;
 
-    /** @var Target */
-    private $_target;
-
-    /** @var Action */
-    private $_action;
-
-    public function __construct(Target $_target, Action $_action)
+    public function __construct(Target $target, TargetAction $action)
     {
-        $this->_target = $_target;
-        $this->_action = $_action;
+        $this->target = $target;
+        $this->action = $action;
     }
 
     /**
@@ -22,14 +18,29 @@ class TargetRule
      */
     public function getTarget(): Target
     {
-        return $this->_target;
+        return $this->target;
     }
 
     /**
-     * @return Action
+     * @return TargetAction
      */
-    public function getAction(): Action
+    public function getAction(): TargetAction
     {
-        return $this->_action;
+        return $this->action;
+    }
+
+    public static function fromOrNull($date, TargetingType $targetingType): ?TargetRule
+    {
+        $target = Target::fromOrNull($date["target"], $targetingType);
+        if ($target === null) {
+            return null;
+        }
+
+        $action = TargetAction::fromOrNull($date["action"]);
+        if ($action === null) {
+            return null;
+        }
+
+        return new TargetRule($target, $action);
     }
 }

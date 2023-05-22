@@ -2,130 +2,100 @@
 
 namespace Hackle\Internal\Model;
 
-use Hackle\Internal\Model\Enums\ExperimentStatus;
-use Hackle\Internal\Model\Enums\ExperimentType;
+use Hackle\Internal\Lang\Pair;
+use Hackle\Internal\Utils\Arrays;
 
 class Experiment
 {
-    /**@var int */
-    private $_id;
-
-    /**@var int */
-    private $_key;
-
-    /** @var ExperimentType */
-    private $_type;
-
-    /**@var string */
-    private $_identifierType;
-
-    /** @var ExperimentStatus */
-    private $_status;
-
-    /**@var int */
-    private $_version;
-
-    /** @var Variation[] */
-    private $_variations;
-
-    /** @var int[] */
-    private $_userOverrides;
-
-    /** @var TargetRule[] */
-    private $_segmentOverrides;
-
-    /** @var Target[] */
-    private $_targetAudiences;
-
-    /** @var TargetRule[] */
-    private $_targetRules;
-
-    /** @var Action */
-    private $_defaultRule;
-
-    /** @var int|null */
-    private $_containerId;
-
-    /** @var int|null */
-    private $_winnerVariationId;
+    private $id;
+    private $key;
+    private $type;
+    private $identifierType;
+    private $status;
+    private $version;
+    private $variations;
+    private $userOverrides;
+    private $segmentOverrides;
+    private $targetAudiences;
+    private $targetRules;
+    private $defaultRule;
+    private $containerId;
+    private $winnerVariationId;
 
     /**
-     * @param int $_id
-     * @param int $_key
-     * @param ExperimentType $_type
-     * @param string $_identifierType
-     * @param ExperimentStatus $_status
-     * @param int $_version
-     * @param Variation[] $_variations
-     * @param array<string, int> $_userOverrides
-     * @param TargetRule[] $_segmentOverrides
-     * @param Target[] $_targetAudiences
-     * @param TargetRule[] $_targetRules
-     * @param Action $_defaultRule
-     * @param int|null $_containerId
-     * @param int|null $_winnerVariationId
+     * @param int $id
+     * @param int $key
+     * @param ExperimentType $type
+     * @param string $identifierType
+     * @param ExperimentStatus $status
+     * @param int $version
+     * @param Variation[] $variations
+     * @param array<string, int> $userOverrides
+     * @param TargetRule[] $segmentOverrides
+     * @param Target[] $targetAudiences
+     * @param TargetRule[] $targetRules
+     * @param TargetAction $defaultRule
+     * @param int|null $containerId
+     * @param int|null $winnerVariationId
      */
     public function __construct(
-        int $_id,
-        int $_key,
-        ExperimentType $_type,
-        string $_identifierType,
-        ExperimentStatus $_status,
-        int $_version,
-        array $_variations,
-        array $_userOverrides,
-        array $_segmentOverrides,
-        array $_targetAudiences,
-        array $_targetRules,
-        Action $_defaultRule,
-        ?int $_containerId,
-        ?int $_winnerVariationId
+        int $id,
+        int $key,
+        ExperimentType $type,
+        string $identifierType,
+        ExperimentStatus $status,
+        int $version,
+        array $variations,
+        array $userOverrides,
+        array $segmentOverrides,
+        array $targetAudiences,
+        array $targetRules,
+        TargetAction $defaultRule,
+        ?int $containerId,
+        ?int $winnerVariationId
     ) {
-        $this->_id = $_id;
-        $this->_key = $_key;
-        $this->_type = $_type;
-        $this->_identifierType = $_identifierType;
-        $this->_status = $_status;
-        $this->_version = $_version;
-        $this->_variations = $_variations;
-        $this->_userOverrides = $_userOverrides;
-        $this->_segmentOverrides = $_segmentOverrides;
-        $this->_targetAudiences = $_targetAudiences;
-        $this->_targetRules = $_targetRules;
-        $this->_defaultRule = $_defaultRule;
-        $this->_containerId = $_containerId;
-        $this->_winnerVariationId = $_winnerVariationId;
+        $this->id = $id;
+        $this->key = $key;
+        $this->type = $type;
+        $this->identifierType = $identifierType;
+        $this->status = $status;
+        $this->version = $version;
+        $this->variations = $variations;
+        $this->userOverrides = $userOverrides;
+        $this->segmentOverrides = $segmentOverrides;
+        $this->targetAudiences = $targetAudiences;
+        $this->targetRules = $targetRules;
+        $this->defaultRule = $defaultRule;
+        $this->containerId = $containerId;
+        $this->winnerVariationId = $winnerVariationId;
     }
-
 
     public function getVariationOrNullById(int $variationId): ?Variation
     {
-        $variations = array_filter($this->_variations, function (Variation $variation) use ($variationId) {
-            return $variation->getId() == $variationId;
-        });
-        if (empty($variations)) {
-            return null;
+        foreach ($this->variations as $variation) {
+            if ($variation->getId() === $variationId) {
+                return $variation;
+            }
         }
-        return array_values($variations)[0];
+        return null;
     }
 
     public function getVariationOrNullByKey(string $variationKey): ?Variation
     {
-        $variations = array_filter($this->_variations, function (Variation $variation) use ($variationKey) {
-            return $variation->getKey() == $variationKey;
-        });
-        if (empty($variations)) {
-            return null;
+        foreach ($this->variations as $variation) {
+            if ($variation->getKey() === $variationKey) {
+                return $variation;
+            }
         }
-        return array_values($variations)[0];
+        return null;
     }
 
     public function getWinnerVariation(): ?Variation
     {
-        if (!empty($this->_winnerVariationId)) {
-            return $this->getVariationOrNullById($this->_winnerVariationId);
+        if ($this->getWinnerVariationId() === null) {
+            return null;
         }
-        return null;
+        return $this->getVariationOrNullById($this->getWinnerVariationId());
     }
 
     /**
@@ -133,7 +103,7 @@ class Experiment
      */
     public function getId(): int
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -141,7 +111,7 @@ class Experiment
      */
     public function getKey(): int
     {
-        return $this->_key;
+        return $this->key;
     }
 
     /**
@@ -149,7 +119,7 @@ class Experiment
      */
     public function getType(): ExperimentType
     {
-        return $this->_type;
+        return $this->type;
     }
 
     /**
@@ -157,7 +127,7 @@ class Experiment
      */
     public function getIdentifierType(): string
     {
-        return $this->_identifierType;
+        return $this->identifierType;
     }
 
     /**
@@ -165,7 +135,7 @@ class Experiment
      */
     public function getStatus(): ExperimentStatus
     {
-        return $this->_status;
+        return $this->status;
     }
 
     /**
@@ -173,7 +143,7 @@ class Experiment
      */
     public function getVersion(): int
     {
-        return $this->_version;
+        return $this->version;
     }
 
     /**
@@ -181,15 +151,15 @@ class Experiment
      */
     public function getVariations(): array
     {
-        return $this->_variations;
+        return $this->variations;
     }
 
     /**
-     * @return array<string, int>
+     * @return int[]
      */
     public function getUserOverrides(): array
     {
-        return $this->_userOverrides;
+        return $this->userOverrides;
     }
 
     /**
@@ -197,7 +167,7 @@ class Experiment
      */
     public function getSegmentOverrides(): array
     {
-        return $this->_segmentOverrides;
+        return $this->segmentOverrides;
     }
 
     /**
@@ -205,7 +175,7 @@ class Experiment
      */
     public function getTargetAudiences(): array
     {
-        return $this->_targetAudiences;
+        return $this->targetAudiences;
     }
 
     /**
@@ -213,15 +183,15 @@ class Experiment
      */
     public function getTargetRules(): array
     {
-        return $this->_targetRules;
+        return $this->targetRules;
     }
 
     /**
-     * @return Action
+     * @return TargetAction
      */
-    public function getDefaultRule(): Action
+    public function getDefaultRule(): TargetAction
     {
-        return $this->_defaultRule;
+        return $this->defaultRule;
     }
 
     /**
@@ -229,7 +199,7 @@ class Experiment
      */
     public function getContainerId(): ?int
     {
-        return $this->_containerId;
+        return $this->containerId;
     }
 
     /**
@@ -237,6 +207,51 @@ class Experiment
      */
     public function getWinnerVariationId(): ?int
     {
-        return $this->_winnerVariationId;
+        return $this->winnerVariationId;
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     * @return ?Experiment
+     */
+    public static function fromOrNull(array $data, ExperimentType $experimentType): ?Experiment
+    {
+        $executionData = $data["execution"];
+        $experimentStatus = ExperimentStatus::fromOrNull($executionData["status"]);
+        if ($experimentStatus === null) {
+            return null;
+        }
+
+        $defaultRule = TargetAction::fromOrNull($executionData["defaultRule"]);
+        if ($defaultRule === null) {
+            return null;
+        }
+
+        return new Experiment(
+            $data["id"],
+            $data["key"],
+            $experimentType,
+            $data["identifierType"],
+            $experimentStatus,
+            $data["version"],
+            array_map(function ($data) {
+                return Variation::from($data);
+            }, $data["variations"]),
+            Arrays::associate($executionData["userOverrides"], function ($d) {
+                return new Pair($d["userId"], $d["variationId"]);
+            }),
+            Arrays::mapNotNull($executionData["segmentOverrides"], function ($data) {
+                return TargetRule::fromOrNull($data, TargetingType::IDENTIFIER());
+            }),
+            Arrays::mapNotNull($executionData["targetAudiences"], function ($data) {
+                return Target::fromOrNull($data, TargetingType::PROPERTY());
+            }),
+            Arrays::mapNotNull($executionData["targetRules"], function ($data) {
+                return TargetRule::fromOrNull($data, TargetingType::PROPERTY());
+            }),
+            $defaultRule,
+            $data["containerId"],
+            $data["winnerVariationId"]
+        );
     }
 }

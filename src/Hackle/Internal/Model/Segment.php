@@ -2,42 +2,27 @@
 
 namespace Hackle\Internal\Model;
 
-use Hackle\Internal\Model\Enums\SegmentType;
+use Hackle\Internal\Utils\Arrays;
 
 class Segment
 {
-    /**
-     * @var int
-     */
-    private $_id;
+    private $id;
+    private $key;
+    private $type;
+    private $targets;
 
     /**
-     * @var string
+     * @param int $id
+     * @param string $key
+     * @param SegmentType $type
+     * @param Target[] $targets
      */
-    private $_key;
-
-    /**
-     * @var SegmentType
-     */
-    private $_type;
-
-    /**
-     * @var Target[]
-     */
-    private $_targets;
-
-    /**
-     * @param int $_id
-     * @param string $_key
-     * @param SegmentType $_type
-     * @param Target[] $_targets
-     */
-    public function __construct(int $_id, string $_key, SegmentType $_type, array $_targets)
+    public function __construct(int $id, string $key, SegmentType $type, array $targets)
     {
-        $this->_id = $_id;
-        $this->_key = $_key;
-        $this->_type = $_type;
-        $this->_targets = $_targets;
+        $this->id = $id;
+        $this->key = $key;
+        $this->type = $type;
+        $this->targets = $targets;
     }
 
     /**
@@ -45,7 +30,7 @@ class Segment
      */
     public function getId(): int
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -53,7 +38,7 @@ class Segment
      */
     public function getKey(): string
     {
-        return $this->_key;
+        return $this->key;
     }
 
     /**
@@ -61,7 +46,7 @@ class Segment
      */
     public function getType(): SegmentType
     {
-        return $this->_type;
+        return $this->type;
     }
 
     /**
@@ -69,6 +54,23 @@ class Segment
      */
     public function getTargets(): array
     {
-        return $this->_targets;
+        return $this->targets;
+    }
+
+    public static function fromOrNull($data): ?Segment
+    {
+        $type = SegmentType::fromOrNull($data["type"]);
+        if ($type === null) {
+            return null;
+        }
+
+        return new Segment(
+            $data["id"],
+            $data["key"],
+            $type,
+            Arrays::mapNotNull($data["targets"], function ($data) {
+                return Target::fromOrNull($data, TargetingType::SEGMENT());
+            })
+        );
     }
 }

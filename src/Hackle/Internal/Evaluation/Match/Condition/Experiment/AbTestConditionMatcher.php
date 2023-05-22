@@ -8,8 +8,8 @@ use Hackle\Internal\Evaluation\Evaluator\EvaluatorRequest;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentEvaluation;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
 use Hackle\Internal\Evaluation\Match\Value\ValueOperatorMatcher;
-use Hackle\Internal\Model\Condition;
 use Hackle\Internal\Model\Experiment;
+use Hackle\Internal\Model\TargetCondition;
 
 final class AbTestConditionMatcher extends AbstractExperimentMatcher
 {
@@ -38,7 +38,7 @@ final class AbTestConditionMatcher extends AbstractExperimentMatcher
         return $evaluation;
     }
 
-    protected function evaluationMatches(ExperimentEvaluation $evaluation, Condition $condition): bool
+    protected function evaluationMatches(ExperimentEvaluation $evaluation, TargetCondition $condition): bool
     {
         if (!in_array($evaluation->getReason(), self::AB_TEST_MATCHED_REASONS)) {
             return false;

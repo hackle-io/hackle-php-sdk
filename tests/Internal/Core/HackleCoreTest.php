@@ -8,7 +8,7 @@ use Hackle\Common\RemoteConfigDecision;
 use Hackle\Internal\Core\HackleCore;
 use Hackle\Internal\Event\ExposureEvent;
 use Hackle\Internal\Event\RemoteConfigEvent;
-use Hackle\Internal\Model\Enums\ValueType;
+use Hackle\Internal\Model\ValueType;
 use Hackle\Internal\User\HackleUser;
 use Hackle\Internal\User\IdentifierType;
 use Internal\Workspace\ResourcesWorkspaceFetcher;

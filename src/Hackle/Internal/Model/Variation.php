@@ -4,30 +4,23 @@ namespace Hackle\Internal\Model;
 
 class Variation
 {
-    /**@var int */
-    private $_id;
-
-    /**@var string */
-    private $_key;
-
-    /**@var bool */
-    private $_isDropped;
-
-    /**@var int|null */
-    private $_parameterConfigurationId;
+    private $id;
+    private $key;
+    private $isDropped;
+    private $parameterConfigurationId;
 
     /**
-     * @param int $_id
-     * @param string $_key
-     * @param bool $_isDropped
-     * @param int|null $_parameterConfigurationId
+     * @param int $id
+     * @param string $key
+     * @param bool $isDropped
+     * @param int|null $parameterConfigurationId
      */
-    public function __construct(int $_id, string $_key, bool $_isDropped, ?int $_parameterConfigurationId)
+    public function __construct(int $id, string $key, bool $isDropped, ?int $parameterConfigurationId)
     {
-        $this->_id = $_id;
-        $this->_key = $_key;
-        $this->_isDropped = $_isDropped;
-        $this->_parameterConfigurationId = $_parameterConfigurationId;
+        $this->id = $id;
+        $this->key = $key;
+        $this->isDropped = $isDropped;
+        $this->parameterConfigurationId = $parameterConfigurationId;
     }
 
     /**
@@ -35,7 +28,7 @@ class Variation
      */
     public function getId(): int
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -43,15 +36,15 @@ class Variation
      */
     public function getKey(): string
     {
-        return $this->_key;
+        return $this->key;
     }
 
     /**
      * @return bool
      */
-    public function isIsDropped(): bool
+    public function isDropped(): bool
     {
-        return $this->_isDropped;
+        return $this->isDropped;
     }
 
     /**
@@ -59,6 +52,16 @@ class Variation
      */
     public function getParameterConfigurationId(): ?int
     {
-        return $this->_parameterConfigurationId;
+        return $this->parameterConfigurationId;
+    }
+
+    public static function from($data): Variation
+    {
+        return new Variation(
+            $data["id"],
+            $data["key"],
+            $data["status"] === "DROPPED",
+            $data["parameterConfigurationId"] ?? null
+        );
     }
 }

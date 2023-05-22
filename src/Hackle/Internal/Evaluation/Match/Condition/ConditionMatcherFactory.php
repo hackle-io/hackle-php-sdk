@@ -13,7 +13,7 @@ use Hackle\Internal\Evaluation\Match\Condition\User\UserValueResolver;
 use Hackle\Internal\Evaluation\Match\Operator\OperatorMatcherFactory;
 use Hackle\Internal\Evaluation\Match\Value\ValueMatcherFactory;
 use Hackle\Internal\Evaluation\Match\Value\ValueOperatorMatcher;
-use Hackle\Internal\Model\Enums\KeyType;
+use Hackle\Internal\Model\TargetKeyType;
 
 final class ConditionMatcherFactory
 {
@@ -32,17 +32,17 @@ final class ConditionMatcherFactory
         );
     }
 
-    function getMatcher(KeyType $type): ConditionMatcher
+    function getMatcher(TargetKeyType $type): ConditionMatcher
     {
         switch ($type) {
-            case KeyType::USER_ID:
-            case KeyType::USER_PROPERTY:
-            case KeyType::HACKLE_PROPERTY:
+            case TargetKeyType::USER_ID:
+            case TargetKeyType::USER_PROPERTY:
+            case TargetKeyType::HACKLE_PROPERTY:
                 return $this->userConditionMatcher;
-            case KeyType::SEGMENT:
+            case TargetKeyType::SEGMENT:
                 return $this->segmentConditionMatcher;
-            case KeyType::AB_TEST:
-            case KeyType::FEATURE_FLAG:
+            case TargetKeyType::AB_TEST:
+            case TargetKeyType::FEATURE_FLAG:
                 return $this->experimentConditionMatcher;
             default:
                 throw new \InvalidArgumentException("Unsupported TargetKeyType [$type]");

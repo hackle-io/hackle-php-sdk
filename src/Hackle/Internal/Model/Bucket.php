@@ -13,14 +13,14 @@ class Bucket
      * @param int $id
      * @param int $seed
      * @param int $slotSize
-     * @param Slot[] $_slots
+     * @param Slot[] $slots
      */
-    public function __construct(int $id, int $seed, int $slotSize, array $_slots)
+    public function __construct(int $id, int $seed, int $slotSize, array $slots)
     {
         $this->id = $id;
         $this->seed = $seed;
         $this->slotSize = $slotSize;
-        $this->slots = $_slots;
+        $this->slots = $slots;
     }
 
     public function getSlotOrNull(int $slotNumber): ?Slot
@@ -63,5 +63,17 @@ class Bucket
     public function getSlots(): array
     {
         return $this->slots;
+    }
+
+    public static function from($data): Bucket
+    {
+        return new Bucket(
+            $data["id"],
+            $data["seed"],
+            $data["slotSize"],
+            array_map(function ($data) {
+                return Slot::from($data);
+            }, $data["slots"])
+        );
     }
 }

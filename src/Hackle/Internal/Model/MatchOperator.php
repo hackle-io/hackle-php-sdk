@@ -1,10 +1,10 @@
 <?php
 
-namespace Hackle\Internal\Model\Enums;
+namespace Hackle\Internal\Model;
 
 use Hackle\Internal\Lang\Enum;
 
-class Operator extends Enum
+class MatchOperator extends Enum
 {
     const IN = "IN";
     const CONTAINS = "CONTAINS";

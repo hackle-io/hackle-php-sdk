@@ -6,8 +6,8 @@ use Hackle\Internal\Evaluation\Evaluator\EvaluatorContext;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorRequest;
 use Hackle\Internal\Evaluation\Match\Condition\ConditionMatcher;
 use Hackle\Internal\Lang\Objects;
-use Hackle\Internal\Model\Condition;
-use Hackle\Internal\Model\Enums\KeyType;
+use Hackle\Internal\Model\TargetCondition;
+use Hackle\Internal\Model\TargetKeyType;
 
 
 final class SegmentConditionMatcher implements ConditionMatcher
@@ -19,18 +19,21 @@ final class SegmentConditionMatcher implements ConditionMatcher
         $this->_segmentMatcher = $_segmentMatcher;
     }
 
-    function matches(EvaluatorRequest $request, EvaluatorContext $context, Condition $condition): bool
+    function matches(EvaluatorRequest $request, EvaluatorContext $context, TargetCondition $condition): bool
     {
         Objects::require(
-            $condition->getKey()->getType() == KeyType::SEGMENT,
+            $condition->getKey()->getType() == TargetKeyType::SEGMENT,
             "Unsupported TargetKeyType [{$condition->getKey()->getType()}]"
         );
         $isMatched = $this->conditionMatches($request, $context, $condition);
         return $condition->getMatch()->getType()->matches($isMatched);
     }
 
-    private function conditionMatches(EvaluatorRequest $request, EvaluatorContext $context, Condition $condition): bool
-    {
+    private function conditionMatches(
+        EvaluatorRequest $request,
+        EvaluatorContext $context,
+        TargetCondition $condition
+    ): bool {
         foreach ($condition->getMatch()->getValues() as $value) {
             if ($this->segmentMatches($request, $context, $value)) {
                 return true;

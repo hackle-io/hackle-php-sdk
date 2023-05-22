@@ -4,20 +4,22 @@ namespace Hackle\Internal\Evaluation\Match\Value;
 
 use Hackle\Internal\Evaluation\Match\Operator\OperatorMatcher;
 use Hackle\Internal\Evaluation\Match\Operator\OperatorMatcherFactory;
-use Hackle\Internal\Model\Match;
+use Hackle\Internal\Model\TargetMatch;
 
 final class ValueOperatorMatcher
 {
     private $_valueMatcherFactory;
     private $_operatorMatcherFactory;
 
-    public function __construct(ValueMatcherFactory $_valueMatcherFactory, OperatorMatcherFactory $_operatorMatcherFactory)
-    {
+    public function __construct(
+        ValueMatcherFactory $_valueMatcherFactory,
+        OperatorMatcherFactory $_operatorMatcherFactory
+    ) {
         $this->_valueMatcherFactory = $_valueMatcherFactory;
         $this->_operatorMatcherFactory = $_operatorMatcherFactory;
     }
 
-    public function matches($userValue, Match $match): bool
+    public function matches($userValue, TargetMatch $match): bool
     {
         $valueMatcher = $this->_valueMatcherFactory->getMatcher($match->getValueType());
         $operatorMatcher = $this->_operatorMatcherFactory->getMatcher($match->getOperator());
@@ -30,8 +32,12 @@ final class ValueOperatorMatcher
         return $match->getType()->matches($isMatched);
     }
 
-    private function singleMatches($userValue, Match $match, ValueMatcher $valueMatcher, OperatorMatcher $operatorMatcher): bool
-    {
+    private function singleMatches(
+        $userValue,
+        TargetMatch $match,
+        ValueMatcher $valueMatcher,
+        OperatorMatcher $operatorMatcher
+    ): bool {
         foreach ($match->getValues() as $matchValue) {
             if ($valueMatcher->matches($operatorMatcher, $userValue, $matchValue)) {
                 return true;
@@ -41,8 +47,12 @@ final class ValueOperatorMatcher
     }
 
 
-    private function arrayMatches(array $userValues, Match $match, ValueMatcher $valueMatcher, OperatorMatcher $operatorMatcher): bool
-    {
+    private function arrayMatches(
+        array $userValues,
+        TargetMatch $match,
+        ValueMatcher $valueMatcher,
+        OperatorMatcher $operatorMatcher
+    ): bool {
         foreach ($userValues as $userValue) {
             if ($this->singleMatches($userValue, $match, $valueMatcher, $operatorMatcher)) {
                 return true;

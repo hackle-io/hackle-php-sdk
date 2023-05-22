@@ -27,4 +27,9 @@ final class Slot
     {
         return $this->variationId;
     }
+
+    public static function from($data): Slot
+    {
+        return new Slot($data["startInclusive"], $data["endExclusive"], $data["variationId"]);
+    }
 }

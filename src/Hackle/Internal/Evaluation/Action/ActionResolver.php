@@ -5,10 +5,10 @@ namespace Hackle\Internal\Evaluation\Action;
 use Hackle\Internal\Evaluation\Bucket\Bucketer;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
 use Hackle\Internal\Lang\Objects;
-use Hackle\Internal\Model\Action;
-use Hackle\Internal\Model\BucketAction;
+use Hackle\Internal\Model\TargetAction;
+use Hackle\Internal\Model\TargetActionBucket;
+use Hackle\Internal\Model\TargetActionVariation;
 use Hackle\Internal\Model\Variation;
-use Hackle\Internal\Model\VariationAction;
 
 final class ActionResolver
 {
@@ -20,20 +20,20 @@ final class ActionResolver
         $this->bucketer = $bucketer;
     }
 
-    public function resolveOrNull(ExperimentRequest $request, Action $action): ?Variation
+    public function resolveOrNull(ExperimentRequest $request, TargetAction $action): ?Variation
     {
-        if ($action instanceof VariationAction) {
+        if ($action instanceof TargetActionVariation) {
             return $this->resolveVariation($request, $action);
         }
 
-        if ($action instanceof BucketAction) {
+        if ($action instanceof TargetActionBucket) {
             return $this->resolveBucket($request, $action);
         }
 
         return null;
     }
 
-    private function resolveVariation(ExperimentRequest $request, VariationAction $action): Variation
+    private function resolveVariation(ExperimentRequest $request, TargetActionVariation $action): Variation
     {
         return Objects::requireNotNull(
             $request->getExperiment()->getVariationOrNullById($action->getVariationId()),
@@ -41,7 +41,7 @@ final class ActionResolver
         );
     }
 
-    private function resolveBucket(ExperimentRequest $request, BucketAction $action): ?Variation
+    private function resolveBucket(ExperimentRequest $request, TargetActionBucket $action): ?Variation
     {
         $bucket = Objects::requireNotNull(
             $request->getWorkspace()->getBucketOrNull($action->getBucketId()),

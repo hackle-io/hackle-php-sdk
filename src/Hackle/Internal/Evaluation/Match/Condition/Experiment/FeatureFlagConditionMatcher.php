@@ -6,8 +6,8 @@ use Hackle\Internal\Evaluation\Evaluator\Evaluator;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorRequest;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentEvaluation;
 use Hackle\Internal\Evaluation\Match\Value\ValueOperatorMatcher;
-use Hackle\Internal\Model\Condition;
 use Hackle\Internal\Model\Experiment;
+use Hackle\Internal\Model\TargetCondition;
 
 final class FeatureFlagConditionMatcher extends AbstractExperimentMatcher
 {
@@ -26,7 +26,7 @@ final class FeatureFlagConditionMatcher extends AbstractExperimentMatcher
         return $evaluation;
     }
 
-    protected function evaluationMatches(ExperimentEvaluation $evaluation, Condition $condition): bool
+    protected function evaluationMatches(ExperimentEvaluation $evaluation, TargetCondition $condition): bool
     {
         $isOn = $evaluation->getVariationKey() !== "A";
         return $this->valueOperatorMatcher->matches($isOn, $condition->getMatch());

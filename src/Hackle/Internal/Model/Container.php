@@ -55,5 +55,14 @@ class Container
         return $this->groups;
     }
 
-
+    public static function from($data): Container
+    {
+        return new Container(
+            $data["id"],
+            $data["bucketId"],
+            array_map(function ($data) {
+                return ContainerGroup::from($data);
+            }, $data["groups"])
+        );
+    }
 }

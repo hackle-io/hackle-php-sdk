@@ -5,8 +5,8 @@ namespace Hackle\Internal\Evaluation\Match\Condition\Experiment;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorContext;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorRequest;
 use Hackle\Internal\Evaluation\Match\Condition\ConditionMatcher;
-use Hackle\Internal\Model\Condition;
-use Hackle\Internal\Model\Enums\KeyType;
+use Hackle\Internal\Model\TargetCondition;
+use Hackle\Internal\Model\TargetKeyType;
 
 final class ExperimentConditionMatcher implements ConditionMatcher
 {
@@ -19,12 +19,12 @@ final class ExperimentConditionMatcher implements ConditionMatcher
         $this->featureFlagMatcher = $featureFlagMatcher;
     }
 
-    function matches(EvaluatorRequest $request, EvaluatorContext $context, Condition $condition): bool
+    function matches(EvaluatorRequest $request, EvaluatorContext $context, TargetCondition $condition): bool
     {
         switch ($condition->getKey()->getType()) {
-            case KeyType::AB_TEST:
+            case TargetKeyType::AB_TEST:
                 return $this->abTestMatcher->matches($request, $context, $condition);
-            case KeyType::FEATURE_FLAG:
+            case TargetKeyType::FEATURE_FLAG:
                 return $this->featureFlagMatcher->matches($request, $context, $condition);
             default:
                 throw new \InvalidArgumentException("Unsupported TargetKetType [{$condition->getKey()->getType()}]");

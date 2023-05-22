@@ -6,7 +6,7 @@ use Hackle\Internal\Evaluation\Evaluator\EvaluatorContext;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorRequest;
 use Hackle\Internal\Evaluation\Match\Condition\ConditionMatcher;
 use Hackle\Internal\Evaluation\Match\Value\ValueOperatorMatcher;
-use Hackle\Internal\Model\Condition;
+use Hackle\Internal\Model\TargetCondition;
 
 final class UserConditionMatcher implements ConditionMatcher
 {
@@ -20,7 +20,7 @@ final class UserConditionMatcher implements ConditionMatcher
     }
 
 
-    function matches(EvaluatorRequest $request, EvaluatorContext $context, Condition $condition): bool
+    function matches(EvaluatorRequest $request, EvaluatorContext $context, TargetCondition $condition): bool
     {
         $userValue = $this->_userValueResolver->resolveOrNull($request->getUser(), $condition->getKey());
         if ($userValue === null) {

@@ -24,7 +24,7 @@ use Hackle\Internal\Evaluation\Target\ExperimentTargetRuleDeterminer;
 use Hackle\Internal\Evaluation\Target\OverrideResolver;
 use Hackle\Internal\Evaluation\Target\RemoteConfigTargetMatcher;
 use Hackle\Internal\Evaluation\Target\RemoteConfigTargetRuleDeterminer;
-use Hackle\Internal\Model\Enums\ExperimentType;
+use Hackle\Internal\Model\ExperimentType;
 
 final class EvaluationFlowFactory
 {

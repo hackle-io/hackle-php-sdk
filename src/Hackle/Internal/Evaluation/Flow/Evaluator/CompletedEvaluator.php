@@ -8,7 +8,7 @@ use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentEvaluation;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
 use Hackle\Internal\Evaluation\Flow\EvaluationFlow;
 use Hackle\Internal\Lang\Objects;
-use Hackle\Internal\Model\Enums\ExperimentStatus;
+use Hackle\Internal\Model\ExperimentStatus;
 
 final class CompletedEvaluator implements FlowEvaluator
 {

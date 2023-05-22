@@ -4,20 +4,21 @@ namespace Hackle\Internal\Model;
 
 class RemoteConfigParameterValue
 {
-    private $_id;
+    private $id;
+    private $rawValue;
 
-    /** @var mixed */
-    private $_rawValue;
-
-    public function __construct(int $_id, $_rawValue)
+    public function __construct(int $id, $rawValue)
     {
-        $this->_id = $_id;
-        $this->_rawValue = $_rawValue;
+        $this->id = $id;
+        $this->rawValue = $rawValue;
     }
 
+    /**
+     * @return int
+     */
     public function getId(): int
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -25,6 +26,6 @@ class RemoteConfigParameterValue
      */
     public function getRawValue()
     {
-        return $this->_rawValue;
+        return $this->rawValue;
     }
 }

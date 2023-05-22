@@ -10,8 +10,8 @@ use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentEvaluation;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
 use Hackle\Internal\Evaluation\Match\Value\ValueOperatorMatcher;
 use Hackle\Internal\Lang\Objects;
-use Hackle\Internal\Model\Condition;
 use Hackle\Internal\Model\Experiment;
+use Hackle\Internal\Model\TargetCondition;
 
 abstract class AbstractExperimentMatcher
 {
@@ -24,8 +24,11 @@ abstract class AbstractExperimentMatcher
         $this->valueOperatorMatcher = $valueOperatorMatcher;
     }
 
-    final public function matches(EvaluatorRequest $request, EvaluatorContext $context, Condition $condition): bool
-    {
+    final public function matches(
+        EvaluatorRequest $request,
+        EvaluatorContext $context,
+        TargetCondition $condition
+    ): bool {
         $key = Objects::requireNotNull(
             Objects::asIntOrNull($condition->getKey()->getName()),
             "Invalid key [{$condition->getKey()->getType()}, {$condition->getKey()->getName()}]"
@@ -62,5 +65,5 @@ abstract class AbstractExperimentMatcher
         ExperimentEvaluation $evaluation
     ): ExperimentEvaluation;
 
-    protected abstract function evaluationMatches(ExperimentEvaluation $evaluation, Condition $condition): bool;
+    protected abstract function evaluationMatches(ExperimentEvaluation $evaluation, TargetCondition $condition): bool;
 }

@@ -3,6 +3,8 @@
 namespace Hackle\Internal\Model;
 
 use Hackle\Common\ParameterConfig;
+use Hackle\Internal\Lang\Pair;
+use Hackle\Internal\Utils\Arrays;
 
 class ParameterConfiguration implements ParameterConfig
 {
@@ -53,5 +55,15 @@ class ParameterConfiguration implements ParameterConfig
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public static function from($data): ParameterConfiguration
+    {
+        return new ParameterConfiguration(
+            $data["id"],
+            Arrays::associate($data["parameters"], function ($data) {
+                return new Pair($data["key"], $data["value"]);
+            })
+        );
     }
 }

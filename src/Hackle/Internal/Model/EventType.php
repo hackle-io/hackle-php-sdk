@@ -4,13 +4,29 @@ namespace Hackle\Internal\Model;
 
 class EventType
 {
-    private $_id;
-    private $_key;
+    private $id;
+    private $key;
 
-    public function __construct($_id, $_key)
+    public function __construct(int $id, string $key)
     {
-        $this->_id = $_id;
-        $this->_key = $_key;
+        $this->id = $id;
+        $this->key = $key;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKey(): string
+    {
+        return $this->key;
     }
 
     public static function undefined(string $key): EventType
@@ -18,13 +34,8 @@ class EventType
         return new EventType(0, $key);
     }
 
-    public function getId(): int
+    public static function from($data): EventType
     {
-        return $this->_id;
-    }
-
-    public function getKey(): string
-    {
-        return $this->_key;
+        return new EventType($data["id"], $data["key"]);
     }
 }

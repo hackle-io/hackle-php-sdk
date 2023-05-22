@@ -8,7 +8,7 @@ use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentEvaluation;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
 use Hackle\Internal\Evaluation\Flow\EvaluationFlow;
 use Hackle\Internal\Evaluation\Target\OverrideResolver;
-use Hackle\Internal\Model\Enums\ExperimentType;
+use Hackle\Internal\Model\ExperimentType;
 
 final class OverrideEvaluator implements FlowEvaluator
 {

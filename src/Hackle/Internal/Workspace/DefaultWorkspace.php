@@ -2,453 +2,173 @@
 
 namespace Hackle\Internal\Workspace;
 
-use Closure;
-use Hackle\Internal\Model\Action;
+use Hackle\Internal\Lang\Pair;
 use Hackle\Internal\Model\Bucket;
-use Hackle\Internal\Model\BucketAction;
-use Hackle\Internal\Model\Condition;
 use Hackle\Internal\Model\Container;
-use Hackle\Internal\Model\ContainerGroup;
-use Hackle\Internal\Model\Enums\ExperimentStatus;
-use Hackle\Internal\Model\Enums\ExperimentType;
-use Hackle\Internal\Model\Enums\KeyType;
-use Hackle\Internal\Model\Enums\MatchType;
-use Hackle\Internal\Model\Enums\Operator;
-use Hackle\Internal\Model\Enums\SegmentType;
-use Hackle\Internal\Model\Enums\ValueType;
 use Hackle\Internal\Model\EventType;
 use Hackle\Internal\Model\Experiment;
-use Hackle\Internal\Model\Key;
-use Hackle\Internal\Model\Match;
+use Hackle\Internal\Model\ExperimentType;
 use Hackle\Internal\Model\ParameterConfiguration;
 use Hackle\Internal\Model\RemoteConfigParameter;
-use Hackle\Internal\Model\RemoteConfigParameterValue;
-use Hackle\Internal\Model\RemoteConfigTargetRule;
 use Hackle\Internal\Model\Segment;
-use Hackle\Internal\Model\Slot;
-use Hackle\Internal\Model\Target;
-use Hackle\Internal\Model\TargetingType;
-use Hackle\Internal\Model\TargetRule;
-use Hackle\Internal\Model\Variation;
-use Hackle\Internal\Model\VariationAction;
 use Hackle\Internal\Utils\Arrays;
-use Hackle\Internal\Utils\Enums;
-use Hackle\Internal\Workspace\Dto\BucketDto;
-use Hackle\Internal\Workspace\Dto\ConditionDto;
-use Hackle\Internal\Workspace\Dto\ContainerDto;
-use Hackle\Internal\Workspace\Dto\ContainerGroupDto;
-use Hackle\Internal\Workspace\Dto\EventTypeDto;
-use Hackle\Internal\Workspace\Dto\ExperimentDto;
-use Hackle\Internal\Workspace\Dto\KeyDto;
-use Hackle\Internal\Workspace\Dto\MatchDto;
-use Hackle\Internal\Workspace\Dto\ParameterConfigurationDto;
-use Hackle\Internal\Workspace\Dto\ParameterDto;
-use Hackle\Internal\Workspace\Dto\RemoteConfigParameterDto;
-use Hackle\Internal\Workspace\Dto\RemoteConfigTargetRuleDto;
-use Hackle\Internal\Workspace\Dto\SegmentDto;
-use Hackle\Internal\Workspace\Dto\SlotDto;
-use Hackle\Internal\Workspace\Dto\TargetActionDto;
-use Hackle\Internal\Workspace\Dto\TargetDto;
-use Hackle\Internal\Workspace\Dto\TargetRuleDto;
-use Hackle\Internal\Workspace\Dto\UserOverrideDto;
-use Hackle\Internal\Workspace\Dto\VariationDto;
-use ReflectionException;
 
 class DefaultWorkspace implements Workspace
 {
-    /**@var array */
-    private $_experiments;
+    private $experiments;
+    private $featureFlags;
+    private $eventTypes;
+    private $buckets;
+    private $segments;
+    private $containers;
+    private $parameterConfigurations;
+    private $remoteConfigParameters;
 
-    /**@var array */
-    private $_featureFlags;
-
-    /**@var array */
-    private $_eventTypes;
-
-    /**@var array */
-    private $_buckets;
-
-    /**@var array */
-    private $_segments;
-
-    /**@var array */
-    private $_containers;
-
-    /**@var array */
-    private $_parameterConfigurations;
-
-    /**@var array */
-    private $_remoteConfigParameters;
-
-    private function __construct(
-        array $_experiments,
-        array $_featureFlags,
-        array $_eventTypes,
-        array $_buckets,
-        array $_segments,
-        array $_containers,
-        array $_parameterConfigurations,
-        array $_remoteConfigParameters
+    /**
+     * @param $experiments
+     * @param $featureFlags
+     * @param $eventTypes
+     * @param $buckets
+     * @param $segments
+     * @param $containers
+     * @param $parameterConfigurations
+     * @param $remoteConfigParameters
+     */
+    public function __construct(
+        $experiments,
+        $featureFlags,
+        $eventTypes,
+        $buckets,
+        $segments,
+        $containers,
+        $parameterConfigurations,
+        $remoteConfigParameters
     ) {
-        $this->_experiments = $_experiments;
-        $this->_featureFlags = $_featureFlags;
-        $this->_eventTypes = $_eventTypes;
-        $this->_buckets = $_buckets;
-        $this->_segments = $_segments;
-        $this->_containers = $_containers;
-        $this->_parameterConfigurations = $_parameterConfigurations;
-        $this->_remoteConfigParameters = $_remoteConfigParameters;
+        $this->experiments = $experiments;
+        $this->featureFlags = $featureFlags;
+        $this->eventTypes = $eventTypes;
+        $this->buckets = $buckets;
+        $this->segments = $segments;
+        $this->containers = $containers;
+        $this->parameterConfigurations = $parameterConfigurations;
+        $this->remoteConfigParameters = $remoteConfigParameters;
     }
+
 
     public function getExperimentOrNull(int $experimentKey): ?Experiment
     {
-        return $this->_experiments[$experimentKey];
+        return $this->experiments[$experimentKey] ?? null;
     }
 
     public function getFeatureFlagOrNull(int $featureKey): ?Experiment
     {
-        return $this->_featureFlags[$featureKey];
+        return $this->featureFlags[$featureKey] ?? null;
     }
 
     public function getEventTypeOrNull(string $eventTypeKey): ?EventType
     {
-        return $this->_eventTypes[$eventTypeKey];
+        return $this->eventTypes[$eventTypeKey] ?? null;
     }
 
     public function getBucketOrNull(int $bucketId): ?Bucket
     {
-        return $this->_buckets[$bucketId];
+        return $this->buckets[$bucketId] ?? null;
     }
 
     public function getSegmentOrNull(string $segmentKey): ?Segment
     {
-        return $this->_segments[$segmentKey];
+        return $this->segments[$segmentKey] ?? null;
     }
 
     public function getContainerOrNull(int $containerId): ?Container
     {
-        return $this->_containers[$containerId];
+        return $this->containers[$containerId] ?? null;
     }
 
     public function getParameterConfigurationOrNull(int $parameterConfigurationId): ?ParameterConfiguration
     {
-        return $this->_parameterConfigurations[$parameterConfigurationId];
+        return $this->parameterConfigurations[$parameterConfigurationId] ?? null;
     }
 
     public function getRemoteConfigParameterOrNull(string $parameterKey): ?RemoteConfigParameter
     {
-        return $this->_remoteConfigParameters[$parameterKey];
+        return $this->remoteConfigParameters[$parameterKey] ?? null;
     }
 
 
-    /**
-     * @param array<string, mixed> $dto
-     * @return self
-     */
-    public static function from(array $dto): self
+    public static function from(array $data): ?self
     {
-        // TODO
-    }
-
-    public static function toExperimentOrNull(ExperimentType $type): Closure
-    {
-        return function (ExperimentDto $dto) use ($type): ?Experiment {
-            $experimentStatus = ExperimentStatus::fromExecutionStatusOrNull($dto->getExecution()->getStatus());
-            if ($experimentStatus === null) {
-                return null;
+        $experiments = Arrays::associateBy(
+            Arrays::mapNotNull($data["experiments"], function ($data) {
+                return Experiment::fromOrNull($data, ExperimentType::AB_TEST());
+            }),
+            function (Experiment $experiment) {
+                return $experiment->getKey();
             }
-            $defaultRule = self::toActionOrNull($dto->getExecution()->getDefaultRule());
-            if ($defaultRule === null) {
-                return null;
-            }
-            $variations = array_map(self::toVariation(), $dto->getVariations());
-            $userOverrides = self::toUserOverrideArray($dto->getExecution()->getUserOverrides());
-            $segmentOverrides = array_map(
-                self::toTargetRuleOrNull(TargetingType::IDENTIFIER),
-                $dto->getExecution()->getSegmentOverrides()
-            );
-            $targetAudiences = array_map(
-                self::toTargetOrNull(TargetingType::PROPERTY),
-                $dto->getExecution()->getTargetAudiences()
-            );
-            $targetRules = array_map(
-                self::toTargetRuleOrNull(TargetingType::PROPERTY),
-                $dto->getExecution()->getTargetRules()
-            );
-            return new Experiment(
-                $dto->getId(),
-                $dto->getKey(),
-                $type,
-                $dto->getIdentifierType(),
-                $experimentStatus,
-                $dto->getVersion(),
-                $variations,
-                $userOverrides,
-                $segmentOverrides,
-                $targetAudiences,
-                $targetRules,
-                $defaultRule,
-                $dto->getContainerId(),
-                $dto->getWinnerVariationId()
-            );
-        };
-    }
-
-    private static function toActionOrNull(TargetActionDto $dto): ?Action
-    {
-        switch ($dto->getType()) {
-            case "VARIATION":
-                return new VariationAction($dto->getVariationId());
-            case "BUCKET":
-                return new BucketAction($dto->getBucketId());
-        }
-        return null;
-    }
-
-    private static function toVariation(): Closure
-    {
-        return function (VariationDto $dto) {
-            return new Variation(
-                $dto->getId(),
-                $dto->getKey(),
-                $dto->getStatus() == "DROPPED",
-                $dto->getParameterConfigurationId()
-            );
-        };
-    }
-
-    private static function toUserOverrideArray(array $userOverrides): array
-    {
-        $keyMapper = function (UserOverrideDto $dto): string {
-            return $dto->getUserId();
-        };
-        $valueMapper = function (UserOverrideDto $dto): int {
-            return $dto->getVariationId();
-        };
-        return Arrays::associate($userOverrides, $keyMapper, $valueMapper);
-    }
-
-    private static function toTargetRuleOrNull(string $targetingType): Closure
-    {
-        return function (TargetRuleDto $dto) use ($targetingType): ?TargetRule {
-            $target = call_user_func(self::toTargetOrNull($targetingType), $dto->getTarget());
-            $action = self::toActionOrNull($dto->getAction());
-            return new TargetRule($target, $action);
-        };
-    }
-
-    private static function toTargetOrNull(string $targetingType): Closure
-    {
-        return function (TargetDto $dto) use ($targetingType) {
-            $conditions = array_map(self::toConditionOrNull($targetingType), $dto->getConditions());
-            if (empty($conditions)) {
-                return null;
-            }
-            return new Target($conditions);
-        };
-    }
-
-    private static function toConditionOrNull(string $targetingType): Closure
-    {
-        return function (ConditionDto $dto) use ($targetingType): ?Condition {
-            $key = self::toTargetKeyOrNull($dto->getKey());
-            if ($key === null) {
-                return null;
-            }
-            if (!TargetingType::supports($targetingType, $key->getType())) {
-                return null;
-            }
-            $match = self::toMatchOrNull($dto->getMatch());
-            if ($match === null) {
-                return null;
-            }
-            return new Condition($key, $match);
-        };
-    }
-
-    private static function toTargetKeyOrNull(KeyDto $dto): ?Key
-    {
-        try {
-            if (!KeyType::isValidKey($dto->getType())) {
-                return null;
-            }
-            return new Key(new KeyType($dto->getType()), $dto->getName());
-        } catch (ReflectionException $e) {
-            return null;
-        }
-    }
-
-    private static function toMatchOrNull(MatchDto $dto): ?Match
-    {
-        try {
-            if (!MatchType::isValidKey($dto->getType())) {
-                return null;
-            }
-            if (!Operator::isValidKey($dto->getOperator())) {
-                return null;
-            }
-            if (!ValueType::isValidKey($dto->getValueType())) {
-                return null;
-            }
-            return new Match(
-                new MatchType($dto->getType()),
-                new Operator($dto->getOperator()),
-                new ValueType($dto->getValueType()),
-                $dto->getValues()
-            );
-        } catch (ReflectionException $e) {
-            return null;
-        }
-    }
-
-    private static function toEventTypes(array $eventTypes): array
-    {
-        $keyMapper = function (EventTypeDto $dto): string {
-            return $dto->getKey();
-        };
-        return Arrays::associate($eventTypes, $keyMapper, self::toEventType());
-    }
-
-    private static function toEventType(): Closure
-    {
-        return function (EventTypeDto $dto): EventType {
-            return new EventType($dto->getId(), $dto->getKey());
-        };
-    }
-
-    private static function toBuckets(array $buckets): array
-    {
-        $keyMapper = function (BucketDto $dto): int {
-            return $dto->getId();
-        };
-        return Arrays::associate($buckets, $keyMapper, self::toBucket());
-    }
-
-    private static function toBucket(): Closure
-    {
-        return function (BucketDto $dto): Bucket {
-            return new Bucket(
-                $dto->getId(),
-                $dto->getSeed(),
-                $dto->getSlotSize(),
-                array_map("self::toSlot", $dto->getSlots())
-            );
-        };
-    }
-
-    private static function toSlot(SlotDto $dto): Slot
-    {
-        return new Slot($dto->getStartInclusive(), $dto->getEndExclusive(), $dto->getVariationId());
-    }
-
-    private static function toSegments(array $segments): array
-    {
-        $keyMapper = function (Segment $dto) {
-            return $dto->getKey();
-        };
-        return Arrays::associateBy(Arrays::mapNotNull($segments, self::toSegmentOrNull()), $keyMapper);
-    }
-
-    private static function toSegmentOrNull(): Closure
-    {
-        return function (SegmentDto $dto): ?Segment {
-            $segmentType = SegmentType::fromOrNull($dto->getType());
-            if ($segmentType === null) {
-                return null;
-            }
-            $targets = Arrays::mapNotNull($dto->getTargets(), self::toTargetOrNull(TargetingType::SEGMENT));
-            return new Segment($dto->getId(), $dto->getKey(), $segmentType, $targets);
-        };
-    }
-
-    private static function toContainers(array $containers): array
-    {
-        $keyMapper = function (Container $dto) {
-            return $dto->getId();
-        };
-        return Arrays::associateBy(array_map(self::toContainer(), $containers), $keyMapper);
-    }
-
-    private static function toContainer(): Closure
-    {
-        return function (ContainerDto $dto): Container {
-            $groups = array_map(self::toContainerGroup(), $dto->getGroups());
-            return new Container($dto->getId(), $dto->getBucketId(), $groups);
-        };
-    }
-
-    private static function toContainerGroup(): Closure
-    {
-        return function (ContainerGroupDto $dto): ContainerGroup {
-            return new ContainerGroup($dto->getId(), $dto->getExperiments());
-        };
-    }
-
-    private static function toParameterConfigurations(array $parameterConfigurations): array
-    {
-        $keyMapper = function (ParameterConfiguration $ParameterConfiguration): int {
-            return $ParameterConfiguration->getId();
-        };
-        return Arrays::associateBy(array_map(self::toParameterConfiguration(), $parameterConfigurations), $keyMapper);
-    }
-
-    private static function toParameterConfiguration(): Closure
-    {
-        return function (ParameterConfigurationDto $dto): ParameterConfiguration {
-            $keyMapper = function (ParameterDto $parameterDto) {
-                return $parameterDto->getKey();
-            };
-            $valueMapper = function (ParameterDto $parameterDto) {
-                return $parameterDto->getValue();
-            };
-            return new ParameterConfiguration(
-                $dto->getId(),
-                Arrays::associate($dto->getParameters(), $keyMapper, $valueMapper)
-            );
-        };
-    }
-
-    private static function toRemoteConfigParameters(array $remoteConfigParameters): array
-    {
-        $keyMapper = function (RemoteConfigParameter $remoteConfigParameter) {
-            return $remoteConfigParameter->getKey();
-        };
-        return Arrays::associateBy(
-            Arrays::mapNotNull($remoteConfigParameters, self::toRemoteConfigParameterOrNull()),
-            $keyMapper
         );
-    }
 
-    private static function toRemoteConfigParameterOrNull(): Closure
-    {
-        return function (RemoteConfigParameterDto $dto): ?RemoteConfigParameter {
-            $type = Enums::parseEnumOrNull(ValueType::class, $dto->getType());
-            if ($type === null) {
-                return null;
+        $featureFlags = Arrays::associateBy(
+            Arrays::mapNotNull($data["featureFlags"], function ($data) {
+                return Experiment::fromOrNull($data, ExperimentType::FEATURE_FLAG());
+            }),
+            function (Experiment $featureFlag) {
+                return $featureFlag->getKey();
             }
-            $defaultValue = $dto->getDefaultValue();
-            $targetRules = Arrays::mapNotNull($dto->getTargetRules(), self::toRemoteConfigTargetRule());
-            $defaultValue = new RemoteConfigParameterValue($defaultValue->getId(), $defaultValue->getValue());
-            return new RemoteConfigParameter(
-                $dto->getId(),
-                $dto->getKey(),
-                $type,
-                $dto->getIdentifierType(),
-                $targetRules,
-                $defaultValue
-            );
-        };
-    }
+        );
 
-    private static function toRemoteConfigTargetRule(): Closure
-    {
-        return function (RemoteConfigTargetRuleDto $dto): ?RemoteConfigTargetRule {
-            $target = call_user_func(self::toTargetOrNull(TargetingType::PROPERTY), $dto->getTarget());
-            if ($target === null) {
-                return null;
+        $eventTypes = Arrays::associate($data["events"], function ($data) {
+            return new Pair($data["key"], EventType::from($data));
+        });
+
+        $buckets = Arrays::associate($data["buckets"], function ($data) {
+            return new Pair($data["id"], Bucket::from($data));
+        });
+
+        $segments = Arrays::associateBy(
+            Arrays::mapNotNull($data["segments"], function ($data) {
+                return Segment::fromOrNull($data);
+            }),
+            function (Segment $segment) {
+                return $segment->getId();
             }
-            $value = new RemoteConfigParameterValue($dto->getValue()->getId(), $dto->getValue()->getValue());
-            return new RemoteConfigTargetRule($dto->getKey(), $dto->getName(), $target, $dto->getBucketId(), $value);
-        };
+        );
+
+        $containers = Arrays::associateBy(
+            array_map(function ($data) {
+                return Container::from($data);
+            }, $data["containers"]),
+            function (Container $container) {
+                return $container->getId();
+            }
+        );
+
+        $parameterConfigurations = Arrays::associateBy(
+            array_map(function ($data) {
+                return ParameterConfiguration::from($data);
+            }, $data["parameterConfigurations"]),
+            function (ParameterConfiguration $parameterConfiguration) {
+                return $parameterConfiguration->getId();
+            }
+        );
+
+        $remoteConfigParameters = Arrays::associateBy(
+            Arrays::mapNotNull($data["remoteConfigParameters"], function ($data) {
+                return RemoteConfigParameter::fromOrNull($data);
+            }),
+            function (RemoteConfigParameter $parameter) {
+                return $parameter->getKey();
+            }
+        );
+
+        return new DefaultWorkspace(
+            $experiments,
+            $featureFlags,
+            $eventTypes,
+            $buckets,
+            $segments,
+            $containers,
+            $parameterConfigurations,
+            $remoteConfigParameters
+        );
     }
 }

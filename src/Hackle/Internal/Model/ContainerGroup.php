@@ -4,27 +4,37 @@ namespace Hackle\Internal\Model;
 
 class ContainerGroup
 {
-    private $_id;
+    private $id;
+    private $experiments;
 
-    /** @var int[] */
-    private $_experiments;
-
+    /**
+     * @param int $id
+     * @param int[] $experiments
+     */
     public function __construct(int $id, array $experiments)
     {
-        $this->_id = $id;
-        $this->_experiments = $experiments;
-    }
-
-    public function getId(): int
-    {
-        return $this->_id;
+        $this->id = $id;
+        $this->experiments = $experiments;
     }
 
     /**
-     * @return array|int[]
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return int[]
      */
     public function getExperiments(): array
     {
-        return $this->_experiments;
+        return $this->experiments;
+    }
+
+    public static function from($data): ContainerGroup
+    {
+        return new ContainerGroup($data["id"], $data["experiments"]);
     }
 }

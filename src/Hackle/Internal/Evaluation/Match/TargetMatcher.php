@@ -5,8 +5,8 @@ namespace Hackle\Internal\Evaluation\Match;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorContext;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorRequest;
 use Hackle\Internal\Evaluation\Match\Condition\ConditionMatcherFactory;
-use Hackle\Internal\Model\Condition;
 use Hackle\Internal\Model\Target;
+use Hackle\Internal\Model\TargetCondition;
 
 final class TargetMatcher
 {
@@ -27,8 +27,11 @@ final class TargetMatcher
         return true;
     }
 
-    private function condition_matches(EvaluatorRequest $request, EvaluatorContext $context, Condition $condition): bool
-    {
+    private function condition_matches(
+        EvaluatorRequest $request,
+        EvaluatorContext $context,
+        TargetCondition $condition
+    ): bool {
         $conditionMatcher = $this->_conditionMatcherFactory->getMatcher($condition->getKey()->getType());
         return $conditionMatcher->matches($request, $context, $condition);
     }
