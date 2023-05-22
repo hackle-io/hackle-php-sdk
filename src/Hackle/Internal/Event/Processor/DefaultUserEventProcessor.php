@@ -7,7 +7,7 @@ use Hackle\Internal\Event\Dispatcher\EventDispatcher;
 use Hackle\Internal\Event\UserEvent;
 use Psr\Log\LoggerInterface;
 
-class EventProcessor
+class DefaultUserEventProcessor implements UserEventProcessor
 {
     /**@var EventDispatcher */
     private $eventDispatcher;

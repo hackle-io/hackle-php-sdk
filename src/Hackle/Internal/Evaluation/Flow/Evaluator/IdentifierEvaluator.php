@@ -19,7 +19,7 @@ final class IdentifierEvaluator implements FlowEvaluator
         if (array_key_exists($request->getExperiment()->getIdentifierType(), $request->getUser()->getIdentifiers())) {
             return $nextFlow->evaluate($request, $context);
         } else {
-            return ExperimentEvaluation::ofDefault($request, $context, DecisionReason::IDENTIFIER_NOT_FOUND);
+            return ExperimentEvaluation::ofDefault($request, $context, DecisionReason::IDENTIFIER_NOT_FOUND());
         }
     }
 }

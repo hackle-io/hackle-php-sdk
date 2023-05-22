@@ -4,12 +4,11 @@ namespace Hackle\Internal\Evaluation\Action;
 
 use Hackle\Internal\Evaluation\Bucket\Bucketer;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
+use Hackle\Internal\Lang\Objects;
 use Hackle\Internal\Model\Action;
 use Hackle\Internal\Model\BucketAction;
 use Hackle\Internal\Model\Variation;
 use Hackle\Internal\Model\VariationAction;
-
-use function Hackle\Internal\Lang\requireNotNull;
 
 final class ActionResolver
 {
@@ -36,7 +35,7 @@ final class ActionResolver
 
     private function resolveVariation(ExperimentRequest $request, VariationAction $action): Variation
     {
-        return requireNotNull(
+        return Objects::requireNotNull(
             $request->getExperiment()->getVariationOrNullById($action->getVariationId()),
             "Variation[{$action->getVariationId()}]"
         );
@@ -44,7 +43,7 @@ final class ActionResolver
 
     private function resolveBucket(ExperimentRequest $request, BucketAction $action): ?Variation
     {
-        $bucket = requireNotNull(
+        $bucket = Objects::requireNotNull(
             $request->getWorkspace()->getBucketOrNull($action->getBucketId()),
             "Bucket[{$action->getBucketId()}]"
         );

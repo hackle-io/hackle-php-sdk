@@ -13,9 +13,6 @@ use Hackle\Internal\Lang\Objects;
 use Hackle\Internal\Model\Condition;
 use Hackle\Internal\Model\Experiment;
 
-use function Hackle\Internal\Lang\required;
-use function Hackle\Internal\Lang\requireNotNull;
-
 abstract class AbstractExperimentMatcher
 {
     protected $evaluator;
@@ -29,13 +26,13 @@ abstract class AbstractExperimentMatcher
 
     final public function matches(EvaluatorRequest $request, EvaluatorContext $context, Condition $condition): bool
     {
-        $key = requireNotNull(
+        $key = Objects::requireNotNull(
             Objects::asIntOrNull($condition->getKey()->getName()),
             "Invalid key [{$condition->getKey()->getType()}, {$condition->getKey()->getName()}]"
         );
         $experiment = $this->experiment($request, $key);
         $evaluation = $context->get($experiment) ?? $this->evaluate($request, $context, $experiment);
-        required(
+        Objects::require(
             $evaluation instanceof ExperimentEvaluation,
             "Unexpected evaluation [expected=ExperimentEvaluation, actual=$evaluation]"
         );
@@ -49,7 +46,7 @@ abstract class AbstractExperimentMatcher
     ): EvaluatorEvaluation {
         $experimentRequest = ExperimentRequest::fromRequest($request, $experiment);
         $evaluation = $this->evaluator->evaluate($experimentRequest, $context);
-        required(
+        Objects::require(
             $evaluation instanceof ExperimentEvaluation,
             "Unexpected evaluation [expected=ExperimentEvaluation, actual=$evaluation]"
         );

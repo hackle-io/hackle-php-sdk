@@ -5,10 +5,10 @@ namespace Hackle\Internal\Event;
 use Hackle\Common\Event;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentEvaluation;
 use Hackle\Internal\Evaluation\Evaluator\RemoteConfig\RemoteConfigEvaluation;
+use Hackle\Internal\Lang\Uuid;
 use Hackle\Internal\Model\EventType;
 use Hackle\Internal\User\HackleUser;
 
-use function Hackle\Internal\Lang\guidv4;
 
 abstract class UserEvent
 {
@@ -30,7 +30,7 @@ abstract class UserEvent
         int $timestamp
     ): ExposureEvent {
         return new ExposureEvent(
-            guidv4(),
+            Uuid::guidv4(),
             $timestamp,
             $user,
             $evaluation->getExperiment(),
@@ -43,7 +43,7 @@ abstract class UserEvent
 
     public static function track(HackleUser $user, EventType $eventType, Event $event, int $timestamp): TrackEvent
     {
-        return new TrackEvent(guidv4(), $timestamp, $user, $eventType, $event);
+        return new TrackEvent(Uuid::guidv4(), $timestamp, $user, $eventType, $event);
     }
 
     public static function remoteConfig(
@@ -53,7 +53,7 @@ abstract class UserEvent
         int $timestamp
     ): RemoteConfigEvent {
         return new RemoteConfigEvent(
-            guidv4(),
+            Uuid::guidv4(),
             $timestamp,
             $user,
             $evaluation->getParameter(),

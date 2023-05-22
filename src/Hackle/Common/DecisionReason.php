@@ -13,6 +13,17 @@ use Hackle\Internal\Lang\Enum;
  * @method static EXPERIMENT_NOT_FOUND()
  * @method static FEATURE_FLAG_NOT_FOUND()
  * @method static REMOTE_CONFIG_PARAMETER_NOT_FOUND()
+ * @method static EXPERIMENT_COMPLETED()
+ * @method static NOT_IN_MUTUAL_EXCLUSION_EXPERIMENT()
+ * @method static NOT_IN_EXPERIMENT_TARGET()
+ * @method static TRAFFIC_NOT_ALLOCATED()
+ * @method static VARIATION_DROPPED()
+ * @method static TRAFFIC_ALLOCATED()
+ * @method static EXPERIMENT_DRAFT()
+ * @method static OVERRIDDEN()
+ * @method static INDIVIDUAL_TARGET_MATCH()
+ * @method static EXPERIMENT_PAUSED()
+ * @method static FEATURE_FLAG_INACTIVE()
  */
 class DecisionReason extends Enum
 {

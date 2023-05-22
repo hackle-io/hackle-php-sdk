@@ -37,14 +37,14 @@ final class OverrideEvaluator implements FlowEvaluator
                         $request,
                         $context,
                         $overriddenVariation,
-                        DecisionReason::OVERRIDDEN
+                        DecisionReason::OVERRIDDEN()
                     );
                 case ExperimentType::FEATURE_FLAG:
                     return ExperimentEvaluation::of(
                         $request,
                         $context,
                         $overriddenVariation,
-                        DecisionReason::INDIVIDUAL_TARGET_MATCH
+                        DecisionReason::INDIVIDUAL_TARGET_MATCH()
                     );
                 default:
                     throw new \InvalidArgumentException(

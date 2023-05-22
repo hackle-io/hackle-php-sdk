@@ -17,7 +17,7 @@ final class DraftEvaluator implements FlowEvaluator
         EvaluationFlow $nextFlow
     ): ExperimentEvaluation {
         if ($request->getExperiment()->getStatus() == ExperimentStatus::DRAFT) {
-            return ExperimentEvaluation::ofDefault($request, $context, DecisionReason::EXPERIMENT_DRAFT);
+            return ExperimentEvaluation::ofDefault($request, $context, DecisionReason::EXPERIMENT_DRAFT());
         } else {
             return $nextFlow->evaluate($request, $context);
         }

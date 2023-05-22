@@ -5,11 +5,10 @@ namespace Hackle\Internal\Evaluation\Evaluator\Experiment;
 use Hackle\Common\DecisionReason;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorContext;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorEvaluation;
+use Hackle\Internal\Lang\Objects;
 use Hackle\Internal\Model\Experiment;
 use Hackle\Internal\Model\ParameterConfiguration;
 use Hackle\Internal\Model\Variation;
-
-use function Hackle\Internal\Lang\requireNotNull;
 
 final class ExperimentEvaluation implements EvaluatorEvaluation
 {
@@ -54,7 +53,7 @@ final class ExperimentEvaluation implements EvaluatorEvaluation
         $configId = $variation->getParameterConfigurationId();
         $config = null;
         if ($configId !== null) {
-            $config = requireNotNull(
+            $config = Objects::requireNotNull(
                 $request->getWorkspace()->getParameterConfigurationOrNull($configId),
                 "ParameterConfiguration[$configId]"
             );

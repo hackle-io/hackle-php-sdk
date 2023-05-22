@@ -7,8 +7,8 @@ use Hackle\Internal\Model\Experiment;
 
 final class EvaluatorContext
 {
-    private $requests;
-    private $evaluations;
+    private $requests = [];
+    private $evaluations = [];
 
     public function contains(EvaluatorRequest $request): bool
     {
@@ -17,7 +17,7 @@ final class EvaluatorContext
 
     public function push(EvaluatorRequest $request)
     {
-        $this->requests[] = $this->requests;
+        $this->requests[] = $request;
     }
 
     public function pop()

@@ -9,8 +9,6 @@ use Hackle\Internal\Lang\Objects;
 use Hackle\Internal\Model\Condition;
 use Hackle\Internal\Model\Enums\KeyType;
 
-use function Hackle\Internal\Lang\required;
-use function Hackle\Internal\Lang\requireNotNull;
 
 final class SegmentConditionMatcher implements ConditionMatcher
 {
@@ -23,7 +21,7 @@ final class SegmentConditionMatcher implements ConditionMatcher
 
     function matches(EvaluatorRequest $request, EvaluatorContext $context, Condition $condition): bool
     {
-        required(
+        Objects::require(
             $condition->getKey()->getType() == KeyType::SEGMENT,
             "Unsupported TargetKeyType [{$condition->getKey()->getType()}]"
         );
@@ -43,8 +41,11 @@ final class SegmentConditionMatcher implements ConditionMatcher
 
     private function segmentMatches(EvaluatorRequest $request, EvaluatorContext $context, $value): bool
     {
-        $segmentKey = requireNotNull(Objects::asStringOrNull($value), "SegmentKey[$value]");
-        $segment = requireNotNull($request->getWorkspace()->getSegmentOrNull($segmentKey), "Segment[$segmentKey]");
+        $segmentKey = Objects::requireNotNull(Objects::asStringOrNull($value), "SegmentKey[$value]");
+        $segment = Objects::requireNotNull(
+            $request->getWorkspace()->getSegmentOrNull($segmentKey),
+            "Segment[$segmentKey]"
+        );
         return $this->_segmentMatcher->matches($request, $context, $segment);
     }
 

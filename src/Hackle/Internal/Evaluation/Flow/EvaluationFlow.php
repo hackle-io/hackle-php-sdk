@@ -31,7 +31,7 @@ final class EvaluationFlow
     public function evaluate(ExperimentRequest $request, EvaluatorContext $context): ExperimentEvaluation
     {
         return $this->isEnd()
-            ? ExperimentEvaluation::ofDefault($request, $context, DecisionReason::TRAFFIC_NOT_ALLOCATED)
+            ? ExperimentEvaluation::ofDefault($request, $context, DecisionReason::TRAFFIC_NOT_ALLOCATED())
             : $this->flowEvaluator->evaluate($request, $context, $this->nextFlow);
     }
 

@@ -14,7 +14,7 @@ use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
 use Hackle\Internal\Evaluation\Evaluator\RemoteConfig\RemoteConfigEvaluator;
 use Hackle\Internal\Evaluation\Evaluator\RemoteConfig\RemoteConfigRequest;
 use Hackle\Internal\Evaluation\Flow\EvaluationFlowFactory;
-use Hackle\Internal\Event\Processor\EventProcessor;
+use Hackle\Internal\Event\Processor\UserEventProcessor;
 use Hackle\Internal\Event\UserEvent;
 use Hackle\Internal\Event\UserEventFactory;
 use Hackle\Internal\Model\Enums\ValueType;
@@ -38,7 +38,7 @@ final class HackleCore
         RemoteConfigEvaluator $remoteConfigEvaluator,
         WorkspaceFetcher $workspaceFetcher,
         UserEventFactory $eventFactory,
-        EventProcessor $eventProcessor,
+        UserEventProcessor $eventProcessor,
         Clock $clock
     ) {
         $this->experimentEvaluator = $experimentEvaluator;
@@ -49,7 +49,7 @@ final class HackleCore
         $this->clock = $clock;
     }
 
-    public static function create(WorkspaceFetcher $workspaceFetcher, EventProcessor $eventProcessor): HackleCore
+    public static function create(WorkspaceFetcher $workspaceFetcher, UserEventProcessor $eventProcessor): HackleCore
     {
         $delegatingEvaluator = new DelegatingEvaluator();
         $evaluationFlowFactory = new EvaluationFlowFactory($delegatingEvaluator);
@@ -171,7 +171,7 @@ final class HackleCore
         }
 
         $request = new RemoteConfigRequest($workspace, $user, $parameter, $requiredType, $defaultValue);
-        $evaluation = $this->remoteConfigEvaluator->evaluate($requiredType, new EvaluatorContext());
+        $evaluation = $this->remoteConfigEvaluator->evaluate($request, new EvaluatorContext());
 
         $events = $this->eventFactory->create($request, $evaluation);
         foreach ($events as $event) {

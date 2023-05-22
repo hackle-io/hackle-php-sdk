@@ -86,7 +86,7 @@ final class RemoteConfigEvaluator extends ContextualEvaluator
         $isRequiredType = $this->isRequiredType($parameterValue->getRawValue(), $request->getRequiredType());
 
         if ($isRequiredType) {
-            RemoteConfigEvaluation::of(
+            return RemoteConfigEvaluation::of(
                 $request,
                 $context,
                 $parameterValue->getId(),

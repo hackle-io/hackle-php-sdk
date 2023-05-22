@@ -13,7 +13,7 @@ class BucketDto
     /**@var int */
     private $_slotSize;
 
-    /**@var int[] */
+    /**@var SlotDto[] */
     private $_slots;
 
     /**
@@ -33,7 +33,7 @@ class BucketDto
     public static function getDecoder(): \Closure
     {
         return function (array $v) {
-            return new self($v["id"], $v["seed"], $v["slotSize"], $v["slots"]);
+            return new self($v["id"], $v["seed"], $v["slotSize"], array_map(SlotDto::getDecoder(), $v["slots"]));
         };
     }
 
@@ -68,7 +68,7 @@ class BucketDto
     }
 
     /**
-     * @return int[]
+     * @return SlotDto[]
      */
     public function getSlots(): array
     {

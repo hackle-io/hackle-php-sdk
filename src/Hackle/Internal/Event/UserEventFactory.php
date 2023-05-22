@@ -54,7 +54,9 @@ final class UserEventFactory
         PropertiesBuilder $propertiesBuilder
     ): UserEvent {
         if ($evaluation instanceof ExperimentEvaluation) {
-            $propertiesBuilder->add(UserEventFactory::CONFIG_ID_PROPERTY_KEY, $evaluation->getConfig()->getId());
+            if ($evaluation->getConfig() !== null) {
+                $propertiesBuilder->add(UserEventFactory::CONFIG_ID_PROPERTY_KEY, $evaluation->getConfig()->getId());
+            }
             return UserEvent::exposure($request->getUser(), $evaluation, $propertiesBuilder->build(), $timestamp);
         }
 

@@ -4,22 +4,47 @@ namespace Hackle\Common;
 
 class RemoteConfigDecision
 {
-    private $_value;
+    private $value;
+    private $reason;
 
-    /**@var DecisionReason */
-    private $_reason;
-
-    private function __construct($_value, DecisionReason $_reason)
+    /**
+     * @param mixed $value
+     * @param string $reason
+     */
+    private function __construct($value, string $reason)
     {
-        $this->_value = $_value;
-        $this->_reason = $_reason;
+        $this->value = $value;
+        $this->reason = $reason;
     }
 
     /**
      * @param mixed $value
+     * @param DecisionReason $reason
+     * @return self
      */
     public static function of($value, DecisionReason $reason): self
     {
-        return new RemoteConfigDecision($value, $reason);
+        return new RemoteConfigDecision($value, $reason->getValue());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReason(): string
+    {
+        return $this->reason;
+    }
+
+    public function __toString()
+    {
+        return "RemoteConfigDecision(value={$this->getValue()}, reason={$this->getReason()})";
     }
 }

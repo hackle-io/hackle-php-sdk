@@ -3,10 +3,10 @@
 namespace Hackle\Internal\Client;
 
 use Exception;
-use Hackle\Common\ExperimentDecision;
 use Hackle\Common\DecisionReason;
 use Hackle\Common\EmptyParameterConfig;
 use Hackle\Common\Event;
+use Hackle\Common\ExperimentDecision;
 use Hackle\Common\FeatureFlagDecision;
 use Hackle\Common\RemoteConfig;
 use Hackle\Common\User;
@@ -47,7 +47,7 @@ class HackleClientImpl implements HackleClient
     {
         try {
             $hackleUser = $this->_userResolver->resolveOrNull($user);
-            if ($hackleUser == null) {
+            if ($hackleUser === null) {
                 return ExperimentDecision::of(Variation::getControl(), new DecisionReason(DecisionReason::INVALID_INPUT), new EmptyParameterConfig());
             } else {
                 return $this->core->experiment($experimentKey, $hackleUser, Variation::getControl());
@@ -67,7 +67,7 @@ class HackleClientImpl implements HackleClient
     {
         try {
             $hackleUser = $this->_userResolver->resolveOrNull($user);
-            if ($hackleUser == null) {
+            if ($hackleUser === null) {
                 return FeatureFlagDecision::off(new DecisionReason(DecisionReason::INVALID_INPUT), new EmptyParameterConfig());
             } else {
                 return $this->core->featureFlag($featureKey, $hackleUser);
@@ -82,7 +82,7 @@ class HackleClientImpl implements HackleClient
     {
         try {
             $hackleUser = $this->_userResolver->resolveOrNull($user);
-            if ($hackleUser == null) {
+            if ($hackleUser === null) {
                 return;
             } else {
                 $this->core->track($event, $hackleUser);

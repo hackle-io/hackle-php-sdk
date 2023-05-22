@@ -13,7 +13,7 @@ class Experiment
     /**@var int */
     private $_key;
 
-    /** @var string */
+    /** @var ExperimentType */
     private $_type;
 
     /**@var string */
@@ -68,7 +68,7 @@ class Experiment
     public function __construct(
         int $_id,
         int $_key,
-        string $_type,
+        ExperimentType $_type,
         string $_identifierType,
         ExperimentStatus $_status,
         int $_version,
@@ -145,9 +145,9 @@ class Experiment
     }
 
     /**
-     * @return string
+     * @return ExperimentType
      */
-    public function getType(): string
+    public function getType(): ExperimentType
     {
         return $this->_type;
     }

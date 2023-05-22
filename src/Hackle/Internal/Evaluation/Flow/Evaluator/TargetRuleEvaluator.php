@@ -9,11 +9,9 @@ use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentEvaluation;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
 use Hackle\Internal\Evaluation\Flow\EvaluationFlow;
 use Hackle\Internal\Evaluation\Target\ExperimentTargetRuleDeterminer;
+use Hackle\Internal\Lang\Objects;
 use Hackle\Internal\Model\Enums\ExperimentStatus;
 use Hackle\Internal\Model\Enums\ExperimentType;
-
-use function Hackle\Internal\Lang\required;
-use function Hackle\Internal\Lang\requireNotNull;
 
 final class TargetRuleEvaluator implements FlowEvaluator
 {
@@ -33,13 +31,13 @@ final class TargetRuleEvaluator implements FlowEvaluator
     ): ExperimentEvaluation {
         $experiment = $request->getExperiment();
 
-        required(
+        Objects::require(
             $experiment->getStatus() == ExperimentStatus::RUNNING,
-            "experiment status must be RUNNING [{$experiment->getId()}"
+            "experiment status must be RUNNING [{$experiment->getId()}]"
         );
-        required(
-            $experiment->getType() == ExperimentType::AB_TEST,
-            "experiment type must be FEATURE_FLAG [{$experiment->getId()}"
+        Objects::require(
+            $experiment->getType() == ExperimentType::FEATURE_FLAG,
+            "experiment type must be FEATURE_FLAG [{$experiment->getId()}]"
         );
 
         if (!array_key_exists($experiment->getIdentifierType(), $request->getUser()->getIdentifiers())) {
@@ -51,11 +49,11 @@ final class TargetRuleEvaluator implements FlowEvaluator
             return $nextFlow->evaluate($request, $context);
         }
 
-        $variation = requireNotNull(
+        $variation = Objects::requireNotNull(
             $this->actionResolver->resolveOrNull($request, $targetRule->getAction()),
             "FeatureFlag must decide the Variation [{$experiment->getId()}]"
         );
 
-        return ExperimentEvaluation::of($request, $context, $variation, DecisionReason::TARGET_RULE_MATCH);
+        return ExperimentEvaluation::of($request, $context, $variation, DecisionReason::TARGET_RULE_MATCH());
     }
 }

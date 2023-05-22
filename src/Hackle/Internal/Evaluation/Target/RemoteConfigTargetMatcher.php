@@ -6,9 +6,8 @@ use Hackle\Internal\Evaluation\Bucket\Bucketer;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorContext;
 use Hackle\Internal\Evaluation\Evaluator\RemoteConfig\RemoteConfigRequest;
 use Hackle\Internal\Evaluation\Match\TargetMatcher;
+use Hackle\Internal\Lang\Objects;
 use Hackle\Internal\Model\RemoteConfigTargetRule;
-
-use function Hackle\Internal\Lang\requireNotNull;
 
 final class RemoteConfigTargetMatcher
 {
@@ -35,7 +34,7 @@ final class RemoteConfigTargetMatcher
             return false;
         }
 
-        $bucket = requireNotNull(
+        $bucket = Objects::requireNotNull(
             $request->getWorkspace()->getBucketOrNull($targetRule->getBucketId()),
             "Bucket[{$targetRule->getBucketId()}]"
         );

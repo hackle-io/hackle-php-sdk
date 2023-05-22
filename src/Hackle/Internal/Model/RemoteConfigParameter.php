@@ -19,8 +19,14 @@ class RemoteConfigParameter
      * @param array<RemoteConfigTargetRule> $targetRules
      * @param RemoteConfigParameterValue $defaultValue
      */
-    public function __construct(int $id, string $key, string $type, string $identifierType, array $targetRules, RemoteConfigParameterValue $defaultValue)
-    {
+    public function __construct(
+        int $id,
+        string $key,
+        string $type,
+        string $identifierType,
+        array $targetRules,
+        RemoteConfigParameterValue $defaultValue
+    ) {
         $this->id = $id;
         $this->key = $key;
         $this->type = $type;
@@ -76,7 +82,4 @@ class RemoteConfigParameter
     {
         return $this->defaultValue;
     }
-
-
-
 }

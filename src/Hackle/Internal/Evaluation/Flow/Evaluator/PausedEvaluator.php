@@ -25,13 +25,13 @@ final class PausedEvaluator implements FlowEvaluator
                     return ExperimentEvaluation::ofDefault(
                         $request,
                         $context,
-                        DecisionReason::EXPERIMENT_PAUSED
+                        DecisionReason::EXPERIMENT_PAUSED()
                     );
                 case ExperimentType::FEATURE_FLAG:
                     return ExperimentEvaluation::ofDefault(
                         $request,
                         $context,
-                        DecisionReason::FEATURE_FLAG_INACTIVE
+                        DecisionReason::FEATURE_FLAG_INACTIVE()
                     );
                 default:
                     throw new \InvalidArgumentException(

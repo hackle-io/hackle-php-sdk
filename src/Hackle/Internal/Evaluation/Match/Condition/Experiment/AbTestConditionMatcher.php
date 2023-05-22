@@ -40,7 +40,7 @@ final class AbTestConditionMatcher extends AbstractExperimentMatcher
 
     protected function evaluationMatches(ExperimentEvaluation $evaluation, Condition $condition): bool
     {
-        if (in_array($evaluation->getReason(), self::AB_TEST_MATCHED_REASONS)) {
+        if (!in_array($evaluation->getReason(), self::AB_TEST_MATCHED_REASONS)) {
             return false;
         }
 

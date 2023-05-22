@@ -7,7 +7,7 @@ use GuzzleHttp\HandlerStack;
 use Hackle\Internal\Client\HackleClientImpl;
 use Hackle\Internal\Core\HackleCore;
 use Hackle\Internal\Event\Dispatcher\EventDispatcher;
-use Hackle\Internal\Event\Processor\EventProcessor;
+use Hackle\Internal\Event\Processor\DefaultUserEventProcessor;
 use Hackle\Internal\HackleSdk;
 use Hackle\Internal\Http\HackleMiddleware;
 use Hackle\Internal\Http\SdkCacheMiddleware;
@@ -16,14 +16,13 @@ use Hackle\Internal\Time\SystemClock;
 use Hackle\Internal\User\HackleUserResolver;
 use Hackle\Internal\Workspace\HttpWorkspaceFetcher;
 use Hackle\Internal\Workspace\Sdk;
-use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
 final class HackleClients
 {
     public static function create(string $sdkKey, ?HackleConfig $config): HackleClient
     {
-        if ($config == null) {
+        if ($config === null) {
             $config = HackleConfig::getDefault();
         }
         $sdk = new Sdk($sdkKey);
@@ -33,7 +32,7 @@ final class HackleClients
         $eventDispatcherHttpClient = self::createWorkspaceFetcherHttpClient($sdk, $config->getLogger());
         $eventDispatcher = new EventDispatcher($config->getEventUri(), $eventDispatcherHttpClient, $config->getLogger());
 
-        $eventProcessor = new EventProcessor($eventDispatcher, 100, $config->getLogger());
+        $eventProcessor = new DefaultUserEventProcessor($eventDispatcher, 100, $config->getLogger());
         $core = HackleCore::create($workspaceFetcher, $eventProcessor);
 
         return new HackleClientImpl(

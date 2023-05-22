@@ -8,8 +8,7 @@ use Hackle\Internal\Evaluation\Evaluator\EvaluatorContext;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentEvaluation;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
 use Hackle\Internal\Evaluation\Flow\EvaluationFlow;
-
-use function Hackle\Internal\Lang\requireNotNull;
+use Hackle\Internal\Lang\Objects;
 
 final class ContainerEvaluator implements FlowEvaluator
 {
@@ -30,7 +29,7 @@ final class ContainerEvaluator implements FlowEvaluator
         if ($containerId === null) {
             return $nextFlow->evaluate($request, $context);
         }
-        $container = requireNotNull(
+        $container = Objects::requireNotNull(
             $request->getWorkspace()->getContainerOrNull($containerId),
             "Container[{$containerId}]"
         );
@@ -40,7 +39,7 @@ final class ContainerEvaluator implements FlowEvaluator
             return ExperimentEvaluation::ofDefault(
                 $request,
                 $context,
-                DecisionReason::NOT_IN_MUTUAL_EXCLUSION_EXPERIMENT
+                DecisionReason::NOT_IN_MUTUAL_EXCLUSION_EXPERIMENT()
             );
         }
     }

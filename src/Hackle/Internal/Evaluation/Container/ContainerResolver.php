@@ -4,9 +4,8 @@ namespace Hackle\Internal\Evaluation\Container;
 
 use Hackle\Internal\Evaluation\Bucket\Bucketer;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
+use Hackle\Internal\Lang\Objects;
 use Hackle\Internal\Model\Container;
-
-use function Hackle\Internal\Lang\requireNotNull;
 
 final class ContainerResolver
 {
@@ -24,7 +23,7 @@ final class ContainerResolver
         if ($identifier === null) {
             return false;
         }
-        $bucket = requireNotNull(
+        $bucket = Objects::requireNotNull(
             $request->getWorkspace()->getBucketOrNull($container->getBucketId()),
             "Bucket[{$container->getBucketId()}]"
         );
@@ -32,7 +31,7 @@ final class ContainerResolver
         if ($slot === null) {
             return false;
         }
-        $containerGroup = requireNotNull(
+        $containerGroup = Objects::requireNotNull(
             $container->getGroupOrNull($slot->getVariationId()),
             "ContainerGroup[{$slot->getVariationId()}]"
         );
