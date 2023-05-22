@@ -5,7 +5,6 @@ namespace Hackle\Internal\Workspace;
 use Exception;
 use GuzzleHttp\Client;
 use Hackle\Internal\Utils\Https;
-use Hackle\Internal\Workspace\Dto\WorkspaceDto;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 
@@ -39,7 +38,7 @@ class HttpWorkspaceFetcher implements WorkspaceFetcher
         try {
             return $this->fetchInternal();
         } catch (Exception $e) {
-            $this->_logger->error("Failed fetch workspace : ". $e->getMessage());
+            $this->_logger->error("Failed fetch workspace : " . $e->getMessage());
             return null;
         }
     }
@@ -51,7 +50,6 @@ class HttpWorkspaceFetcher implements WorkspaceFetcher
             throw new RuntimeException("Http status code: " . $response->getStatusCode());
         }
         $body = $response->getBody();
-        $workspaceDto = WorkspaceDto::decode(json_decode($body->getContents(), true));
-        return Workspace::from($workspaceDto);
+        return DefaultWorkspace::from(json_decode($body->getContents(), true));
     }
 }
