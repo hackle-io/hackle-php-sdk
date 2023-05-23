@@ -1,6 +1,6 @@
 <?php
 
-namespace Internal\Workspace;
+namespace Hackle\Tests\Internal\Workspace;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;

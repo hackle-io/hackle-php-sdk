@@ -1,6 +1,7 @@
 <?php
 
-namespace Internal\Event;
+namespace Hackle\Tests\Internal\Event;
+
 class UserEventFactoryTest
 {
 

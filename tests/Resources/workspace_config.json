@@ -11,6 +11,7 @@
       "id": 4318,
       "key": 5,
       "status": "DRAFT",
+      "version": 1,
       "bucketId": 6094,
       "variations": [
         {
@@ -45,6 +46,7 @@
       "id": 4319,
       "key": 6,
       "status": "DRAFT",
+      "version": 1,
       "bucketId": 6097,
       "variations": [
         {
@@ -87,6 +89,7 @@
       "id": 4320,
       "key": 7,
       "status": "EXECUTED",
+      "version": 1,
       "bucketId": 6100,
       "variations": [
         {
@@ -195,6 +198,7 @@
       "id": 4321,
       "key": 8,
       "status": "EXECUTED",
+      "version": 1,
       "bucketId": 6103,
       "variations": [
         {
@@ -315,6 +319,7 @@
       "id": 4322,
       "key": 9,
       "status": "EXECUTED",
+      "version": 1,
       "bucketId": 6106,
       "variations": [
         {
@@ -353,6 +358,7 @@
       "id": 4323,
       "key": 10,
       "status": "EXECUTED",
+      "version": 1,
       "bucketId": 6109,
       "variations": [
         {
@@ -386,6 +392,7 @@
       "id": 4324,
       "key": 11,
       "status": "COMPLETED",
+      "version": 1,
       "bucketId": 6112,
       "variations": [
         {
@@ -431,6 +438,7 @@
       "id": 4325,
       "key": 1,
       "status": "EXECUTED",
+      "version": 1,
       "bucketId": 6115,
       "variations": [
         {
@@ -464,6 +472,7 @@
       "id": 4326,
       "key": 2,
       "status": "EXECUTED",
+      "version": 1,
       "bucketId": 6118,
       "variations": [
         {
@@ -497,6 +506,7 @@
       "id": 4327,
       "key": 3,
       "status": "EXECUTED",
+      "version": 1,
       "bucketId": 6121,
       "variations": [
         {
@@ -530,6 +540,7 @@
       "id": 4328,
       "key": 4,
       "status": "EXECUTED",
+      "version": 1,
       "bucketId": 6124,
       "variations": [
         {

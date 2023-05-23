@@ -1,6 +1,6 @@
 <?php
 
-namespace Internal\Event;
+namespace Hackle\Tests\Internal\Event;
 
 use Hackle\Common\DecisionReason;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentEvaluation;
@@ -9,10 +9,8 @@ use Hackle\Internal\Event\UserEvent;
 use Hackle\Internal\Model\ParameterConfiguration;
 use Hackle\Internal\User\HackleUser;
 use Hackle\Internal\User\IdentifierType;
-use Internal\Model\Models;
+use Hackle\Tests\Internal\Model\Models;
 use PHPUnit\Framework\TestCase;
-
-require __DIR__ . '/../Model/Models.php';
 
 class UserEventTest extends TestCase
 {

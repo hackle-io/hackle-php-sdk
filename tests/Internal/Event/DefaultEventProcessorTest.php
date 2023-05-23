@@ -1,6 +1,6 @@
 <?php
 
-namespace Internal\Event;
+namespace Hackle\Tests\Internal\Event;
 
 use Hackle\Internal\Event\Dispatcher\EventDispatcher;
 use Hackle\Internal\Event\Processor\DefaultUserEventProcessor;
