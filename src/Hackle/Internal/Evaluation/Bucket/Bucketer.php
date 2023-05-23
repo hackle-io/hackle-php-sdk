@@ -5,7 +5,7 @@ namespace Hackle\Internal\Evaluation\Bucket;
 use Hackle\Internal\Model\Bucket;
 use Hackle\Internal\Model\Slot;
 
-final class Bucketer
+class Bucketer
 {
     private $murmur3Hash;
 

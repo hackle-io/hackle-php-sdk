@@ -1,10 +1,10 @@
 <?php
 
-namespace Internal\Model;
+namespace Hackle\Tests\Internal\Model;
 
-use PHPUnit\Framework\TestCase;
 use Hackle\Internal\Model\Bucket;
 use Hackle\Internal\Model\Slot;
+use PHPUnit\Framework\TestCase;
 
 class BucketTest extends TestCase
 {

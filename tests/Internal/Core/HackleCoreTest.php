@@ -1,6 +1,6 @@
 <?php
 
-namespace Internal\Core;
+namespace Hackle\Tests\Internal\Core;
 
 use Hackle\Common\DecisionReason;
 use Hackle\Common\ExperimentDecision;
@@ -11,11 +11,8 @@ use Hackle\Internal\Event\RemoteConfigEvent;
 use Hackle\Internal\Model\ValueType;
 use Hackle\Internal\User\HackleUser;
 use Hackle\Internal\User\IdentifierType;
-use Internal\Workspace\ResourcesWorkspaceFetcher;
+use Hackle\Tests\Internal\Workspace\ResourcesWorkspaceFetcher;
 use PHPUnit\Framework\TestCase;
-
-require __DIR__ . "/InMemoryUserEventProcessor.php";
-require __DIR__ . "/../Workspace/ResourcesWorkspaceFetcher.php";
 
 class HackleCoreTest extends TestCase
 {
@@ -90,7 +87,8 @@ class HackleCoreTest extends TestCase
 
         $user = HackleUser::builder()->identifier(IdentifierType::ID, "user")->build();
 
-        $this->setExpectedException(\InvalidArgumentException::class, "Circular evaluation has occurred");
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Circular evaluation has occurred");
         $core->remoteConfig("rc", $user, ValueType::STRING(), "42");
     }
 

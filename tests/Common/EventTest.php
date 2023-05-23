@@ -1,6 +1,6 @@
 <?php
 
-namespace Common;
+namespace Hackle\Tests\Common;
 
 use Hackle\Common\Event;
 use PHPUnit\Framework\TestCase;

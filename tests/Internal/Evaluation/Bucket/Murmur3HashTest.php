@@ -1,10 +1,9 @@
 <?php
 
-namespace Internal\Evaluation\Bucket;
+namespace Hackle\Tests\Internal\Evaluation\Bucket;
 
 use Hackle\Internal\Evaluation\Bucket\Murmur3Hash;
 use PHPUnit\Framework\TestCase;
-
 
 class Murmur3HashTest extends TestCase
 {

@@ -12,11 +12,11 @@ final class UserValueResolver
     {
         switch ($key->getType()) {
             case TargetKeyType::USER_ID:
-                return $user->getIdentifiers()[$key->getName()];
+                return $user->getIdentifiers()[$key->getName()] ?? null;
             case TargetKeyType::USER_PROPERTY:
-                return $user->getProperties()[$key->getName()];
+                return $user->getProperties()[$key->getName()] ?? null;
             case TargetKeyType::HACKLE_PROPERTY:
-                return $user->getHackleProperties()[$key->getName()];
+                return $user->getHackleProperties()[$key->getName()] ?? null;
             default:
                 throw new \InvalidArgumentException("Unsupported TargetKeyType [{$key->getType()}]");
         }

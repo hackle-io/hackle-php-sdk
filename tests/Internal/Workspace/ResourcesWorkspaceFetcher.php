@@ -1,6 +1,6 @@
 <?php
 
-namespace Internal\Workspace;
+namespace Hackle\Tests\Internal\Workspace;
 
 use Hackle\Internal\Workspace\DefaultWorkspace;
 use Hackle\Internal\Workspace\Workspace;

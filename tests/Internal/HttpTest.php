@@ -1,6 +1,6 @@
 <?php
 
-namespace Internal;
+namespace Hackle\Tests\Internal;
 
 use Cache\Adapter\Filesystem\FilesystemCachePool;
 use GuzzleHttp\Client;

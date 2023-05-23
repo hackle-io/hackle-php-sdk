@@ -1,6 +1,6 @@
 <?php
 
-namespace Internal\Evaluation\Bucket;
+namespace Hackle\Tests\Internal\Evaluation\Bucket;
 
 use Hackle\Internal\Evaluation\Bucket\Bucketer;
 use Hackle\Internal\Evaluation\Bucket\Murmur3Hash;

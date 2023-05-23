@@ -99,7 +99,7 @@ class DefaultWorkspace implements Workspace
     public static function from(array $data): ?self
     {
         $experiments = Arrays::associateBy(
-            Arrays::mapNotNull($data["experiments"], function ($data) {
+            Arrays::mapNotNull($data["experiments"] ?? [], function ($data) {
                 return Experiment::fromOrNull($data, ExperimentType::AB_TEST());
             }),
             function (Experiment $experiment) {
@@ -108,7 +108,7 @@ class DefaultWorkspace implements Workspace
         );
 
         $featureFlags = Arrays::associateBy(
-            Arrays::mapNotNull($data["featureFlags"], function ($data) {
+            Arrays::mapNotNull($data["featureFlags"] ?? [], function ($data) {
                 return Experiment::fromOrNull($data, ExperimentType::FEATURE_FLAG());
             }),
             function (Experiment $featureFlag) {
@@ -116,16 +116,16 @@ class DefaultWorkspace implements Workspace
             }
         );
 
-        $eventTypes = Arrays::associate($data["events"], function ($data) {
+        $eventTypes = Arrays::associate($data["events"] ?? [], function ($data) {
             return new Pair($data["key"], EventType::from($data));
         });
 
-        $buckets = Arrays::associate($data["buckets"], function ($data) {
+        $buckets = Arrays::associate($data["buckets"] ?? [], function ($data) {
             return new Pair($data["id"], Bucket::from($data));
         });
 
         $segments = Arrays::associateBy(
-            Arrays::mapNotNull($data["segments"], function ($data) {
+            Arrays::mapNotNull($data["segments"] ?? [], function ($data) {
                 return Segment::fromOrNull($data);
             }),
             function (Segment $segment) {
@@ -136,7 +136,7 @@ class DefaultWorkspace implements Workspace
         $containers = Arrays::associateBy(
             array_map(function ($data) {
                 return Container::from($data);
-            }, $data["containers"]),
+            }, $data["containers"] ?? []),
             function (Container $container) {
                 return $container->getId();
             }
@@ -145,14 +145,14 @@ class DefaultWorkspace implements Workspace
         $parameterConfigurations = Arrays::associateBy(
             array_map(function ($data) {
                 return ParameterConfiguration::from($data);
-            }, $data["parameterConfigurations"]),
+            }, $data["parameterConfigurations"] ?? []),
             function (ParameterConfiguration $parameterConfiguration) {
                 return $parameterConfiguration->getId();
             }
         );
 
         $remoteConfigParameters = Arrays::associateBy(
-            Arrays::mapNotNull($data["remoteConfigParameters"], function ($data) {
+            Arrays::mapNotNull($data["remoteConfigParameters"] ?? [], function ($data) {
                 return RemoteConfigParameter::fromOrNull($data);
             }),
             function (RemoteConfigParameter $parameter) {

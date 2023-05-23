@@ -1,6 +1,6 @@
 <?php
 
-namespace Internal\Core;
+namespace Hackle\Tests\Internal\Core;
 
 use Hackle\Internal\Event\Processor\UserEventProcessor;
 use Hackle\Internal\Event\UserEvent;

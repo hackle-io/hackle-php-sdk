@@ -48,7 +48,7 @@ final class ActionResolver
             "Bucket[{$action->getBucketId()}]"
         );
 
-        $identifier = $request->getUser()->getIdentifiers()[$request->getExperiment()->getIdentifierType()];
+        $identifier = $request->getUser()->getIdentifiers()[$request->getExperiment()->getIdentifierType()] ?? null;
         if ($identifier === null) {
             return null;
         }
