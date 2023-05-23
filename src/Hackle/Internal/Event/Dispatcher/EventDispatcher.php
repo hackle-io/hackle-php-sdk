@@ -46,7 +46,7 @@ class EventDispatcher
     private function submit(string $payload): void
     {
         $options['body'] = $payload;
-        $response = $this->client->post($this->baseUri . self::SDK_ENDPOINT_URI, $options);
+        $response = $this->client->request("POST", $this->baseUri . self::SDK_ENDPOINT_URI, $options);
         if (!Https::isSuccessful($response)) {
             throw new RuntimeException("Http status code: " . $response->getStatusCode());
         }

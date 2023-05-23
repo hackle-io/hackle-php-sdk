@@ -35,9 +35,9 @@ class DefaultUserEventProcessor implements UserEventProcessor
         $this->enqueue($event);
     }
 
-    private function enqueue(UserEvent $message): void
+    private function enqueue(UserEvent $event): void
     {
-        $this->queue[] = $message;
+        $this->queue[] = $event;
         if (count($this->queue) >= $this->capacity) {
             $this->flush();
         }
@@ -60,5 +60,13 @@ class DefaultUserEventProcessor implements UserEventProcessor
     public function __destruct()
     {
         $this->flush();
+    }
+
+    /**
+     * @return array
+     */
+    public function getQueue(): array
+    {
+        return $this->queue;
     }
 }
