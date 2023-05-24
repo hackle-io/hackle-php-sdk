@@ -2,9 +2,7 @@
 
 namespace Hackle\Common;
 
-use Hackle\Internal\Lang\Enum;
-
-class Variation extends Enum
+class Variation
 {
     const A = "A";
     const B = "B";
@@ -17,18 +15,8 @@ class Variation extends Enum
     const I = "I";
     const J = "J";
 
-    public static function getControl(): self
+    public static function getControl(): string
     {
-        return new Variation(Variation::A);
-    }
-
-    public function isControl(): bool
-    {
-        return $this == self::getControl();
-    }
-
-    public function isExperimental(): bool
-    {
-        return !$this->isControl();
+        return Variation::A;
     }
 }

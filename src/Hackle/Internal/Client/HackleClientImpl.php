@@ -22,23 +22,23 @@ class HackleClientImpl implements HackleClient
     private $core;
 
     /** @var HackleUserResolver */
-    private $_userResolver;
+    private $userResolver;
 
     /** @var LoggerInterface */
-    private $_logger;
+    private $logger;
 
     /**
      * @param HackleCore $core
-     * @param HackleUserResolver $_userResolver
-     * @param LoggerInterface $_logger
+     * @param HackleUserResolver $userResolver
+     * @param LoggerInterface $logger
      */
-    public function __construct(HackleCore $core, HackleUserResolver $_userResolver, LoggerInterface $_logger)
+    public function __construct(HackleCore $core, HackleUserResolver $userResolver, LoggerInterface $logger)
     {
         $this->core = $core;
-        $this->_userResolver = $_userResolver;
-        $this->_logger = $_logger;
+        $this->userResolver = $userResolver;
+        $this->logger = $logger;
     }
-    public function variation(int $experimentKey, User $user): Variation
+    public function variation(int $experimentKey, User $user): string
     {
         return $this->variationDetail($experimentKey, $user)->getVariation();
     }
@@ -46,15 +46,15 @@ class HackleClientImpl implements HackleClient
     public function variationDetail(int $experimentKey, User $user): ExperimentDecision
     {
         try {
-            $hackleUser = $this->_userResolver->resolveOrNull($user);
+            $hackleUser = $this->userResolver->resolveOrNull($user);
             if ($hackleUser === null) {
-                return ExperimentDecision::of(Variation::getControl(), new DecisionReason(DecisionReason::INVALID_INPUT), new EmptyParameterConfig());
+                return ExperimentDecision::of(Variation::getControl(), DecisionReason::INVALID_INPUT(), new EmptyParameterConfig());
             } else {
                 return $this->core->experiment($experimentKey, $hackleUser, Variation::getControl());
             }
         } catch (Exception $e) {
-            $this->_logger->error("Unexpected exception while deciding variation for experiment[$experimentKey]. Returning default variation[" . Variation::getControl() . "]: " . $e->getMessage());
-            return ExperimentDecision::of(Variation::getControl(), new DecisionReason(DecisionReason::EXCEPTION), new EmptyParameterConfig());
+            $this->logger->error("Unexpected exception while deciding variation for experiment[$experimentKey]. Returning default variation[" . Variation::getControl() . "]: " . $e->getMessage());
+            return ExperimentDecision::of(Variation::getControl(), DecisionReason::EXCEPTION(), new EmptyParameterConfig());
         }
     }
 
@@ -66,14 +66,14 @@ class HackleClientImpl implements HackleClient
     public function featureFlagDetail(int $featureKey, User $user): FeatureFlagDecision
     {
         try {
-            $hackleUser = $this->_userResolver->resolveOrNull($user);
+            $hackleUser = $this->userResolver->resolveOrNull($user);
             if ($hackleUser === null) {
                 return FeatureFlagDecision::off(new DecisionReason(DecisionReason::INVALID_INPUT), new EmptyParameterConfig());
             } else {
                 return $this->core->featureFlag($featureKey, $hackleUser);
             }
         } catch (Exception $e) {
-            $this->_logger->error("Unexpected exception while deciding feature flag[$featureKey]. Returning default variation[Returning default flag[off]:" . $e->getMessage());
+            $this->logger->error("Unexpected exception while deciding feature flag[$featureKey]. Returning default variation[Returning default flag[off]:" . $e->getMessage());
             return FeatureFlagDecision::off(new DecisionReason(DecisionReason::EXCEPTION), new EmptyParameterConfig());
         }
     }
@@ -81,19 +81,19 @@ class HackleClientImpl implements HackleClient
     public function track(Event $event, User $user): void
     {
         try {
-            $hackleUser = $this->_userResolver->resolveOrNull($user);
+            $hackleUser = $this->userResolver->resolveOrNull($user);
             if ($hackleUser === null) {
                 return;
             } else {
                 $this->core->track($event, $hackleUser);
             }
         } catch (Exception $e) {
-            $this->_logger->error("Unexpected exception while tracking event[" . $event->getKey() . "]:" . $e->getMessage());
+            $this->logger->error("Unexpected exception while tracking event[" . $event->getKey() . "]:" . $e->getMessage());
         }
     }
 
     public function remoteConfig(User $user): RemoteConfig
     {
-        return new HackleRemoteConfigImpl();
+        return new HackleRemoteConfigImpl($user, $this->core, $this->logger);
     }
 }

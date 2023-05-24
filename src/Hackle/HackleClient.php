@@ -18,9 +18,9 @@ interface HackleClient
      *
      * @param int $experimentKey
      * @param User $user
-     * @return Variation decided variation for the user, or [Variation::getControl()]
+     * @return string decided variation for the user, or [Variation::getControl()]
      */
-    public function variation(int $experimentKey, User $user): Variation;
+    public function variation(int $experimentKey, User $user): string;
 
     /**
      * Decide the variation to expose to the user for experiment, and returns an object that

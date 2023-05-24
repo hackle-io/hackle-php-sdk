@@ -5,6 +5,8 @@ namespace Hackle\Common;
 use Hackle\Internal\Lang\Enum;
 
 /**
+ * @method static EXCEPTION()
+ * @method static INVALID_INPUT()
  * @method static IDENTIFIER_NOT_FOUND()
  * @method static TYPE_MISMATCH()
  * @method static TARGET_RULE_MATCH()
