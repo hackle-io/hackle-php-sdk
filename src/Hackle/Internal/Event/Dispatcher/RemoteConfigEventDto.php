@@ -2,7 +2,10 @@
 
 namespace Hackle\Internal\Event\Dispatcher;
 
-class RemoteConfigEventDto
+use JsonSerializable;
+use stdClass;
+
+class RemoteConfigEventDto implements JsonSerializable
 {
     /**@var string */
     private $insertId;
@@ -54,8 +57,20 @@ class RemoteConfigEventDto
      * @param int|null $valueId
      * @param array $properties
      */
-    public function construct(string $insertId, int $timestamp, ?string $userId, array $identifiers, array $userProperties, array $hackleProperties, int $parameterId, string $parameterKey, string $parameterType, string $decisionReason, ?int $valueId, array $properties)
-    {
+    public function __construct(
+        string $insertId,
+        int $timestamp,
+        ?string $userId,
+        array $identifiers,
+        array $userProperties,
+        array $hackleProperties,
+        int $parameterId,
+        string $parameterKey,
+        string $parameterType,
+        string $decisionReason,
+        ?int $valueId,
+        array $properties
+    ) {
         $this->insertId = $insertId;
         $this->timestamp = $timestamp;
         $this->userId = $userId;
@@ -164,5 +179,23 @@ class RemoteConfigEventDto
     public function getProperties(): array
     {
         return $this->properties;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            "insertId" => $this->insertId,
+            "timestamp" => $this->timestamp,
+            "userId" => $this->userId,
+            "identifiers" => empty($this->identifiers)? new stdClass() : $this->identifiers,
+            "userProperties" => empty($this->userProperties)? new stdClass() : $this->userProperties,
+            "hackleProperties" => empty($this->hackleProperties)? new stdClass() : $this->hackleProperties,
+            "parameterId" => $this->parameterId,
+            "parameterKey" => $this->parameterKey,
+            "parameterType" => $this->parameterType,
+            "decisionReason" => $this->decisionReason,
+            "valueId" => $this->valueId,
+            "properties" => empty($this->properties)? new stdClass() : $this->properties
+        ];
     }
 }

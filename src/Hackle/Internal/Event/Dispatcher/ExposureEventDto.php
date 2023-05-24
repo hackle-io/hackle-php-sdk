@@ -2,7 +2,10 @@
 
 namespace Hackle\Internal\Event\Dispatcher;
 
-class ExposureEventDto
+use JsonSerializable;
+use stdClass;
+
+class ExposureEventDto implements JsonSerializable
 {
     /**@var string */
     private $insertId;
@@ -62,8 +65,22 @@ class ExposureEventDto
      * @param string $decisionReason
      * @param array $properties
      */
-    public function construct(string $insertId, int $timestamp, string $userId, array $identifiers, array $userProperties, array $hackleProperties, int $experimentId, int $experimentKey, string $experimentType, int $experimentVersion, ?int $variationId, string $variationKey, string $decisionReason, array $properties)
-    {
+    public function __construct(
+        string $insertId,
+        int $timestamp,
+        string $userId,
+        array $identifiers,
+        array $userProperties,
+        array $hackleProperties,
+        int $experimentId,
+        int $experimentKey,
+        string $experimentType,
+        int $experimentVersion,
+        ?int $variationId,
+        string $variationKey,
+        string $decisionReason,
+        array $properties
+    ) {
         $this->insertId = $insertId;
         $this->timestamp = $timestamp;
         $this->userId = $userId;
@@ -190,5 +207,24 @@ class ExposureEventDto
     public function getProperties(): array
     {
         return $this->properties;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            "insertId" => $this->insertId,
+            "timestamp" => $this->timestamp,
+            "userId" => $this->userId,
+            "identifiers" => empty($this->identifiers)? new stdClass() : $this->identifiers,
+            "userProperties" => empty($this->userProperties)? new stdClass() : $this->userProperties,
+            "hackleProperties" => empty($this->hackleProperties)? new stdClass() : $this->hackleProperties,
+            "experimentId" => $this->experimentId,
+            "experimentKey" => $this->experimentKey,
+            "experimentType" => $this->experimentType,
+            "variationId" => $this->variationId,
+            "variationKey" => $this->variationKey,
+            "decisionReason" => $this->decisionReason,
+            "properties" => empty($this->properties)? new stdClass() : $this->properties
+        ];
     }
 }

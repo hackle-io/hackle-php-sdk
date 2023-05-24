@@ -2,7 +2,10 @@
 
 namespace Hackle\Internal\Event\Dispatcher;
 
-class TrackEventDto
+use JsonSerializable;
+use stdClass;
+
+class TrackEventDto implements JsonSerializable
 {
     /**@var string */
     private $insertId;
@@ -138,5 +141,21 @@ class TrackEventDto
     public function getProperties(): array
     {
         return $this->properties;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            "insertId" => $this->insertId,
+            "timestamp" => $this->timestamp,
+            "userId" => $this->userId,
+            "identifiers" => empty($this->identifiers)? new stdClass() : $this->identifiers,
+            "userProperties" => empty($this->userProperties)? new stdClass() : $this->userProperties,
+            "hackleProperties" => empty($this->hackleProperties)? new stdClass() : $this->hackleProperties,
+            "eventTypeId" => $this->eventTypeId,
+            "eventTypeKey" => $this->eventTypeKey,
+            "value" => $this->value,
+            "properties" => empty($this->properties)? new stdClass() : $this->properties
+        ];
     }
 }

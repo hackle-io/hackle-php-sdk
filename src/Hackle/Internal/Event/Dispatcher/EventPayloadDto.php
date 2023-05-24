@@ -5,8 +5,9 @@ namespace Hackle\Internal\Event\Dispatcher;
 use Hackle\Internal\Event\ExposureEvent;
 use Hackle\Internal\Event\RemoteConfigEvent;
 use Hackle\Internal\Event\TrackEvent;
+use JsonSerializable;
 
-class EventPayloadDto
+class EventPayloadDto implements JsonSerializable
 {
     /**@var ExposureEventDto[] */
     private $exposureEvents;
@@ -44,5 +45,14 @@ class EventPayloadDto
             }
         }
         return new EventPayloadDto($exposures, $tracks, $remoteConfigEvents);
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            "exposureEvents" => $this->exposureEvents,
+            "trackEvents" => $this->trackEvents,
+            "remoteConfigEvents" => $this->remoteConfigEvents
+        ];
     }
 }

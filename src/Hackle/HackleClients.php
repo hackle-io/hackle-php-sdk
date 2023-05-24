@@ -29,7 +29,7 @@ final class HackleClients
         $workspaceFetcherHttpClient = self::createWorkspaceFetcherHttpClient($sdk, $config->getLogger());
         $workspaceFetcher = new HttpWorkspaceFetcher($config->getSdkUri(), $workspaceFetcherHttpClient, $config->getLogger());
 
-        $eventDispatcherHttpClient = self::createWorkspaceFetcherHttpClient($sdk, $config->getLogger());
+        $eventDispatcherHttpClient = self::createEventDispatcherHttpClient($sdk, $config->getLogger());
         $eventDispatcher = new EventDispatcher($config->getEventUri(), $eventDispatcherHttpClient, $config->getLogger());
 
         $eventProcessor = new DefaultUserEventProcessor($eventDispatcher, 100, $config->getLogger());
