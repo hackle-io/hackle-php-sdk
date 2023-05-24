@@ -41,7 +41,7 @@ class IdentifiersBuilder
         return $this->identifiers;
     }
 
-    private function isValid(string $type, string $value): bool
+    private function isValid(string $type, ?string $value): bool
     {
         if (strlen($type) > self::MAX_IDENTIFIER_TYPE_LENGTH) {
             return false;
