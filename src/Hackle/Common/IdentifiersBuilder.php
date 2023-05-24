@@ -20,7 +20,7 @@ class IdentifiersBuilder
         return $this;
     }
 
-    public function add(string $type, ?string $value, bool $overwrite = true): self
+    public function add(string $type, string $value, bool $overwrite = true): self
     {
         if (!$overwrite && array_key_exists($type, $this->identifiers)) {
             return $this;
@@ -41,7 +41,7 @@ class IdentifiersBuilder
         return $this->identifiers;
     }
 
-    private function isValid(string $type, ?string $value): bool
+    private function isValid(string $type, string $value): bool
     {
         if (strlen($type) > self::MAX_IDENTIFIER_TYPE_LENGTH) {
             return false;
