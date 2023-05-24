@@ -29,9 +29,9 @@ class HackleUserBuilder
         return $this;
     }
 
-    public function identifier(string $type, string $value, bool $overwrite = true): self
+    public function identifier(IdentifierType $type, string $value, bool $overwrite = true): self
     {
-        $this->_identifiers->add($type, $value, $overwrite);
+        $this->_identifiers->add($type->getValue(), $value, $overwrite);
         return $this;
     }
 
