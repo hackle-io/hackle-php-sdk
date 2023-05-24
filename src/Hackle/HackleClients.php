@@ -45,7 +45,7 @@ final class HackleClients
     private static function createWorkspaceFetcherHttpClient(Sdk $sdk, LoggerInterface $logger): Client
     {
         $stack = HandlerStack::create();
-        $middlewares = array(new SdkCacheMiddleware("/tmp/hackle/", 30, $logger), new SdkHeaderMiddleware($sdk, new SystemClock()));
+        $middlewares = array(new SdkCacheMiddleware("/tmp/hackle/", 10, $logger), new SdkHeaderMiddleware($sdk, new SystemClock()));
         foreach ($middlewares as $middleware) {
             self::applyMiddleware($stack, $middleware);
         }
