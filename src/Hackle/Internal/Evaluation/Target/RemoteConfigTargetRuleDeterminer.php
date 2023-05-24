@@ -6,7 +6,7 @@ use Hackle\Internal\Evaluation\Evaluator\EvaluatorContext;
 use Hackle\Internal\Evaluation\Evaluator\RemoteConfig\RemoteConfigRequest;
 use Hackle\Internal\Model\RemoteConfigTargetRule;
 
-final class RemoteConfigTargetRuleDeterminer
+class RemoteConfigTargetRuleDeterminer
 {
 
     private $remoteConfigMatcher;

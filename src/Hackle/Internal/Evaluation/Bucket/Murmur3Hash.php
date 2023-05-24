@@ -13,7 +13,7 @@ namespace Hackle\Internal\Evaluation\Bucket;
  * @see http://sites.google.com/site/murmurhash/
  *
  */
-final class Murmur3Hash
+class Murmur3Hash
 {
 
     public function hash(string $key, int $seed): int

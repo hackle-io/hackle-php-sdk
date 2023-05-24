@@ -9,7 +9,7 @@ use Hackle\Internal\Model\Experiment;
 use Hackle\Internal\User\HackleUser;
 use Hackle\Internal\Workspace\Workspace;
 
-final class ExperimentRequest implements EvaluatorRequest
+class ExperimentRequest implements EvaluatorRequest
 {
     private $key;
     private $workspace;

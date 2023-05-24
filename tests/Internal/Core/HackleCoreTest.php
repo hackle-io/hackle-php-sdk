@@ -36,7 +36,7 @@ class HackleCoreTest extends TestCase
         $eventProcessor = new InMemoryUserEventProcessor();
         $core = HackleCore::create($workspaceFetcher, $eventProcessor);
 
-        $user = HackleUser::builder()->identifier(IdentifierType::ID, "user")->build();
+        $user = HackleUser::builder()->identifier(IdentifierType::ID(), "user")->build();
         $decision = $core->remoteConfig("rc", $user, ValueType::STRING(), "42");
 
         $this->assertEquals(RemoteConfigDecision::of("Targeting!!", DecisionReason::TARGET_RULE_MATCH()), $decision);
@@ -85,7 +85,7 @@ class HackleCoreTest extends TestCase
         $eventProcessor = new InMemoryUserEventProcessor();
         $core = HackleCore::create($workspaceFetcher, $eventProcessor);
 
-        $user = HackleUser::builder()->identifier(IdentifierType::ID, "user")->build();
+        $user = HackleUser::builder()->identifier(IdentifierType::ID(), "user")->build();
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Circular evaluation has occurred");
@@ -111,7 +111,7 @@ class HackleCoreTest extends TestCase
 
         $decisions = [];
         for ($i = 0; $i < 10000; $i++) {
-            $user = HackleUser::builder()->identifier(IdentifierType::ID, (string)$i)->build();
+            $user = HackleUser::builder()->identifier(IdentifierType::ID(), (string)$i)->build();
             $decision = $core->experiment(2, $user, "A");
             $decisions[] = $decision;
         }
@@ -140,12 +140,12 @@ class HackleCoreTest extends TestCase
         $eventProcessor = new InMemoryUserEventProcessor();
         $core = HackleCore::create($workspaceFetcher, $eventProcessor);
 
-        $user1 = HackleUser::builder()->identifier(IdentifierType::ID, "matched_id")->build();
+        $user1 = HackleUser::builder()->identifier(IdentifierType::ID(), "matched_id")->build();
         $decision1 = $core->experiment(1, $user1, "A");
         $this->assertEquals(ExperimentDecision::of("A", DecisionReason::OVERRIDDEN()), $decision1);
 
 
-        $user2 = HackleUser::builder()->identifier(IdentifierType::ID, "not_matched_id")->build();
+        $user2 = HackleUser::builder()->identifier(IdentifierType::ID(), "not_matched_id")->build();
         $decision2 = $core->experiment(1, $user2, "A");
         $this->assertEquals(ExperimentDecision::of("A", DecisionReason::TRAFFIC_ALLOCATED()), $decision2);
     }

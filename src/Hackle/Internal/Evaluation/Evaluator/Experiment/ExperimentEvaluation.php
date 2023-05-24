@@ -10,7 +10,7 @@ use Hackle\Internal\Model\Experiment;
 use Hackle\Internal\Model\ParameterConfiguration;
 use Hackle\Internal\Model\Variation;
 
-final class ExperimentEvaluation implements EvaluatorEvaluation
+class ExperimentEvaluation implements EvaluatorEvaluation
 {
 
     private $reason;

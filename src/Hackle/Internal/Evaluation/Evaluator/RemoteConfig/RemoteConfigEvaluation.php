@@ -11,7 +11,7 @@ use Hackle\Internal\Model\RemoteConfigParameter;
 /**
  * @template T
  */
-final class RemoteConfigEvaluation implements EvaluatorEvaluation
+class RemoteConfigEvaluation implements EvaluatorEvaluation
 {
     private $reason;
     private $targetEvaluations;
@@ -140,7 +140,7 @@ final class RemoteConfigEvaluation implements EvaluatorEvaluation
     }
 
     /**
-     * @return object[]
+     * @return array<string, object>
      */
     public function getProperties(): array
     {

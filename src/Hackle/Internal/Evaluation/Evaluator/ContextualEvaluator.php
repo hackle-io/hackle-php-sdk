@@ -11,16 +11,16 @@ namespace Hackle\Internal\Evaluation\Evaluator;
 abstract class ContextualEvaluator implements Evaluator
 {
 
-    abstract function supports(EvaluatorRequest $request): bool;
+    abstract public function supports(EvaluatorRequest $request): bool;
 
     /**
      * @param REQUEST $request
      * @param EvaluatorContext $context
      * @return EVALUATION
      */
-    protected abstract function evaluateInternal($request, EvaluatorContext $context);
+    abstract protected function evaluateInternal($request, EvaluatorContext $context);
 
-    function evaluate($request, EvaluatorContext $context)
+    public function evaluate($request, EvaluatorContext $context)
     {
         if ($context->contains($request)) {
             throw new \InvalidArgumentException(

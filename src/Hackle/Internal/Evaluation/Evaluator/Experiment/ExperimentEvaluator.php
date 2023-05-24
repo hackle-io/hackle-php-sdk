@@ -19,7 +19,7 @@ final class ExperimentEvaluator extends ContextualEvaluator
         $this->evaluationFlowFactory = $evaluationFlowFactory;
     }
 
-    function supports(EvaluatorRequest $request): bool
+    public function supports(EvaluatorRequest $request): bool
     {
         return $request instanceof ExperimentRequest;
     }

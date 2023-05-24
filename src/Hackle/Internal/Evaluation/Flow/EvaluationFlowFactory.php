@@ -26,7 +26,7 @@ use Hackle\Internal\Evaluation\Target\RemoteConfigTargetMatcher;
 use Hackle\Internal\Evaluation\Target\RemoteConfigTargetRuleDeterminer;
 use Hackle\Internal\Model\ExperimentType;
 
-final class EvaluationFlowFactory
+class EvaluationFlowFactory
 {
 
     private $abTestFlow;

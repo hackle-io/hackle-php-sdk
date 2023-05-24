@@ -5,6 +5,8 @@ namespace Hackle\Tests\Internal\Evaluation\Action;
 use Hackle\Internal\Evaluation\Action\ActionResolver;
 use Hackle\Internal\Evaluation\Bucket\Bucketer;
 use Hackle\Internal\Model\Bucket;
+use Hackle\Internal\Model\Slot;
+use Hackle\Internal\Model\TargetAction;
 use Hackle\Internal\Model\TargetActionBucket;
 use Hackle\Internal\Model\TargetActionVariation;
 use Hackle\Internal\Workspace\Workspace;
@@ -14,20 +16,14 @@ use PHPUnit\Framework\TestCase;
 
 class ActionResolverTest extends TestCase
 {
-    /**
-     * @var Bucketer
-     */
     private $bucketer;
     private $sut;
 
     protected function setUp()
     {
-        $this->buckter = $this->getMockBuilder(Bucketer::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->sut = new ActionResolver($this->buckter);
+        $this->bucketer = Mockery::mock(Bucketer::class);
+        $this->sut = new ActionResolver($this->bucketer);
     }
-
 
     public function test__Variation__resolved()
     {
@@ -37,6 +33,7 @@ class ActionResolverTest extends TestCase
         $variation = $experiment->getVariationOrNullById(2);
 
         $request = Models::experimentRequest($experiment);
+
 
         // when
         $actual = $this->sut->resolveOrNull($request, $action);
@@ -101,21 +98,50 @@ class ActionResolverTest extends TestCase
     {
         // given
         $action = new TargetActionBucket(42);
-//        $bucket = \Mockery::mock(Bucket::class);
 
         $bucket = Mockery::mock(Bucket::class);
         $experiment = Models::experiment();
 
-        $w = $this->createMock(Workspace::class);
-        $w->method("getBucketOrNull")->willReturn($bucket);
+        $workspace = Mockery::mock(Workspace::class);
+        $workspace->allows("getBucketOrNull")->andReturn($bucket);
 
-        $request = Models::experimentRequest($experiment, $w);
+        $request = Models::experimentRequest($experiment, $workspace);
 
+        $this->bucketer->allows(["bucketing" => null]);
 
         // when
         $actual = $this->sut->resolveOrNull($request, $action);
 
         // then
+        self::assertNull($actual);
+    }
+
+    public function test__Bucket__allocated()
+    {
+        $action = new TargetActionBucket(42);
+
+        $bucket = Mockery::mock(Bucket::class);
+        $experiment = Models::experiment();
+        $variation = $experiment->getVariationOrNullById(2);
+
+        $workspace = Mockery::mock(Workspace::class);
+        $workspace->allows("getBucketOrNull")->andReturn($bucket);
+
+        $request = Models::experimentRequest($experiment, $workspace);
+
+        $slot = new Slot(0, 100, 2);
+        $this->bucketer->allows(["bucketing" => $slot]);
+
+        // when
+        $actual = $this->sut->resolveOrNull($request, $action);
+
+        // then
+        self::assertEquals($variation, $actual);
+    }
+
+    public function test__unsupported_action()
+    {
+        $actual = $this->sut->resolveOrNull(Models::experimentRequest(), Mockery::mock(TargetAction::class));
         self::assertNull($actual);
     }
 }

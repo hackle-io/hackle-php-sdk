@@ -7,4 +7,8 @@ use PHPUnit\Framework\TestCase;
 class EventDispatcherTest extends TestCase
 {
 
+    public function test()
+    {
+        $this->assertTrue(true);
+    }
 }

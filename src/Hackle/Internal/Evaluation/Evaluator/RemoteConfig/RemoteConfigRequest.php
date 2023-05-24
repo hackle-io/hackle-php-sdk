@@ -13,7 +13,7 @@ use Hackle\Internal\Workspace\Workspace;
 /**
  * @template T
  */
-final class RemoteConfigRequest implements EvaluatorRequest
+class RemoteConfigRequest implements EvaluatorRequest
 {
     private $key;
     private $workspace;

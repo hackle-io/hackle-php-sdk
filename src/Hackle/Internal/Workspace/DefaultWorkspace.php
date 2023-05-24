@@ -2,7 +2,6 @@
 
 namespace Hackle\Internal\Workspace;
 
-use Hackle\Internal\Lang\Pair;
 use Hackle\Internal\Model\Bucket;
 use Hackle\Internal\Model\Container;
 use Hackle\Internal\Model\EventType;
@@ -15,43 +14,80 @@ use Hackle\Internal\Utils\Arrays;
 
 class DefaultWorkspace implements Workspace
 {
+    /** @var array<int, Experiment> */
     private $experiments;
+
+    /** @var array<int, Experiment> */
     private $featureFlags;
+
+    /** @var array<string, EventType> */
     private $eventTypes;
+
+    /** @var array<int, Bucket> */
     private $buckets;
+
+    /** @var array<string, Segment> */
     private $segments;
+
+    /** @var array<int, Container> */
     private $containers;
+
+    /** @var array<int, ParameterConfiguration> */
     private $parameterConfigurations;
+
+    /** @var array<string, RemoteConfigParameter> */
     private $remoteConfigParameters;
 
     /**
-     * @param $experiments
-     * @param $featureFlags
-     * @param $eventTypes
-     * @param $buckets
-     * @param $segments
-     * @param $containers
-     * @param $parameterConfigurations
-     * @param $remoteConfigParameters
+     * @param Experiment[] $experiments
+     * @param Experiment[] $featureFlags
+     * @param EventType[] $eventTypes
+     * @param Bucket[] $buckets
+     * @param Segment[] $segments
+     * @param Container[] $containers
+     * @param ParameterConfiguration[] $parameterConfigurations
+     * @param RemoteConfigParameter[] $remoteConfigParameters
      */
     public function __construct(
-        $experiments,
-        $featureFlags,
-        $eventTypes,
-        $buckets,
-        $segments,
-        $containers,
-        $parameterConfigurations,
-        $remoteConfigParameters
+        array $experiments,
+        array $featureFlags,
+        array $eventTypes,
+        array $buckets,
+        array $segments,
+        array $containers,
+        array $parameterConfigurations,
+        array $remoteConfigParameters
     ) {
-        $this->experiments = $experiments;
-        $this->featureFlags = $featureFlags;
-        $this->eventTypes = $eventTypes;
-        $this->buckets = $buckets;
-        $this->segments = $segments;
-        $this->containers = $containers;
-        $this->parameterConfigurations = $parameterConfigurations;
-        $this->remoteConfigParameters = $remoteConfigParameters;
+        $this->experiments = Arrays::associateBy($experiments, function (Experiment $experiment) {
+            return $experiment->getKey();
+        });
+        $this->featureFlags = Arrays::associateBy($featureFlags, function (Experiment $featureFlag) {
+            return $featureFlag->getKey();
+        });
+        $this->eventTypes = Arrays::associateBy($eventTypes, function (EventType $eventType) {
+            return $eventType->getKey();
+        });
+        $this->buckets = Arrays::associateBy($buckets, function (Bucket $bucket) {
+            return $bucket->getId();
+        });
+        $this->segments = Arrays::associateBy($segments, function (Segment $segment) {
+            return $segment->getKey();
+        });
+        $this->containers = Arrays::associateBy($containers, function (Container $container) {
+            return $container->getId();
+        });
+        $this->parameterConfigurations = Arrays::associateBy(
+            $parameterConfigurations,
+            function (ParameterConfiguration $parameterConfiguration) {
+                return $parameterConfiguration->getId();
+            }
+        );
+        $this->remoteConfigParameters = Arrays::associateBy(
+            $remoteConfigParameters,
+            function (RemoteConfigParameter $parameter) {
+                return $parameter->getKey();
+            }
+        );
     }
 
 
@@ -95,70 +131,39 @@ class DefaultWorkspace implements Workspace
         return $this->remoteConfigParameters[$parameterKey] ?? null;
     }
 
-
     public static function from(array $data): ?self
     {
-        $experiments = Arrays::associateBy(
-            Arrays::mapNotNull($data["experiments"] ?? [], function ($data) {
-                return Experiment::fromOrNull($data, ExperimentType::AB_TEST());
-            }),
-            function (Experiment $experiment) {
-                return $experiment->getKey();
-            }
-        );
-
-        $featureFlags = Arrays::associateBy(
-            Arrays::mapNotNull($data["featureFlags"] ?? [], function ($data) {
-                return Experiment::fromOrNull($data, ExperimentType::FEATURE_FLAG());
-            }),
-            function (Experiment $featureFlag) {
-                return $featureFlag->getKey();
-            }
-        );
-
-        $eventTypes = Arrays::associate($data["events"] ?? [], function ($data) {
-            return new Pair($data["key"], EventType::from($data));
+        $experiments = Arrays::mapNotNull($data["experiments"] ?? [], function ($data) {
+            return Experiment::fromOrNull($data, ExperimentType::AB_TEST());
         });
 
-        $buckets = Arrays::associate($data["buckets"] ?? [], function ($data) {
-            return new Pair($data["id"], Bucket::from($data));
+        $featureFlags = Arrays::mapNotNull($data["featureFlags"] ?? [], function ($data) {
+            return Experiment::fromOrNull($data, ExperimentType::FEATURE_FLAG());
         });
 
-        $segments = Arrays::associateBy(
-            Arrays::mapNotNull($data["segments"] ?? [], function ($data) {
-                return Segment::fromOrNull($data);
-            }),
-            function (Segment $segment) {
-                return $segment->getKey();
-            }
-        );
+        $eventTypes = Arrays::mapNotNull($data["events"] ?? [], function ($data) {
+            return EventType::from($data);
+        });
 
-        $containers = Arrays::associateBy(
-            array_map(function ($data) {
-                return Container::from($data);
-            }, $data["containers"] ?? []),
-            function (Container $container) {
-                return $container->getId();
-            }
-        );
+        $buckets = Arrays::mapNotNull($data["buckets"] ?? [], function ($data) {
+            return Bucket::from($data);
+        });
 
-        $parameterConfigurations = Arrays::associateBy(
-            array_map(function ($data) {
-                return ParameterConfiguration::from($data);
-            }, $data["parameterConfigurations"] ?? []),
-            function (ParameterConfiguration $parameterConfiguration) {
-                return $parameterConfiguration->getId();
-            }
-        );
+        $segments = Arrays::mapNotNull($data["segments"] ?? [], function ($data) {
+            return Segment::fromOrNull($data);
+        });
 
-        $remoteConfigParameters = Arrays::associateBy(
-            Arrays::mapNotNull($data["remoteConfigParameters"] ?? [], function ($data) {
-                return RemoteConfigParameter::fromOrNull($data);
-            }),
-            function (RemoteConfigParameter $parameter) {
-                return $parameter->getKey();
-            }
-        );
+        $containers = Arrays::mapNotNull($data["containers"] ?? [], function ($data) {
+            return Container::from($data);
+        });
+
+        $parameterConfigurations = Arrays::mapNotNull($data["parameterConfigurations"] ?? [], function ($data) {
+            return ParameterConfiguration::from($data);
+        });
+
+        $remoteConfigParameters = Arrays::mapNotNull($data["remoteConfigParameters"] ?? [], function ($data) {
+            return RemoteConfigParameter::fromOrNull($data);
+        });
 
         return new DefaultWorkspace(
             $experiments,

@@ -8,7 +8,7 @@ use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentEvaluation;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
 use Hackle\Internal\Evaluation\Flow\Evaluator\FlowEvaluator;
 
-final class EvaluationFlow
+class EvaluationFlow
 {
     private $flowEvaluator;
     private $nextFlow;

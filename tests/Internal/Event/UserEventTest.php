@@ -25,7 +25,7 @@ class UserEventTest extends TestCase
             "B",
             $parameterConfiguration
         );
-        $user = HackleUser::builder()->identifier(IdentifierType::ID, "test_id")->build();
+        $user = HackleUser::builder()->identifier(IdentifierType::ID(), "test_id")->build();
         $actual = UserEvent::exposure($user, $evaluation, array("a" => "1"), 320);
         self::assertInstanceOf(ExposureEvent::class, $actual);
         self::assertEquals(1, $actual->getProperties()["a"]);

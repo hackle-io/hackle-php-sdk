@@ -16,7 +16,7 @@ class RemoteConfigParameter
     /**
      * @param int $id
      * @param string $key
-     * @param string $type
+     * @param ValueType $type
      * @param string $identifierType
      * @param RemoteConfigTargetRule[] $targetRules
      * @param RemoteConfigParameterValue $defaultValue
@@ -24,7 +24,7 @@ class RemoteConfigParameter
     public function __construct(
         int $id,
         string $key,
-        string $type,
+        ValueType $type,
         string $identifierType,
         array $targetRules,
         RemoteConfigParameterValue $defaultValue
@@ -54,9 +54,9 @@ class RemoteConfigParameter
     }
 
     /**
-     * @return string
+     * @return ValueType
      */
-    public function getType(): string
+    public function getType(): ValueType
     {
         return $this->type;
     }

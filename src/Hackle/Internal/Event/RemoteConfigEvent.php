@@ -51,7 +51,7 @@ final class RemoteConfigEvent extends UserEvent
             $this->getUser()->getHackleProperties(),
             $this->getParameter()->getId(),
             $this->getParameter()->getKey(),
-            $this->getParameter()->getType(),
+            $this->getParameter()->getType()->getValue(),
             $this->getDecisionReason()->getKey(),
             $this->getValueId(),
             $this->getProperties()

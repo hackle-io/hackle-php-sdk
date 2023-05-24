@@ -3,11 +3,15 @@
 namespace Hackle\Tests\Internal\Model;
 
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
+use Hackle\Internal\Evaluation\Evaluator\RemoteConfig\RemoteConfigRequest;
 use Hackle\Internal\Model\Experiment;
 use Hackle\Internal\Model\ExperimentStatus;
 use Hackle\Internal\Model\ExperimentType;
+use Hackle\Internal\Model\RemoteConfigParameter;
+use Hackle\Internal\Model\RemoteConfigParameterValue;
 use Hackle\Internal\Model\TargetAction;
 use Hackle\Internal\Model\TargetActionBucket;
+use Hackle\Internal\Model\ValueType;
 use Hackle\Internal\Model\Variation;
 use Hackle\Internal\User\HackleUser;
 use Hackle\Internal\User\IdentifierType;
@@ -37,14 +41,28 @@ class Models
         int $containerId = null,
         int $winnerVariationId = null
     ): Experiment {
-
         if ($variations == null) {
             $variations = self::getDefaultVariations();
         }
         if ($defaultRule == null) {
             $defaultRule = new TargetActionBucket(1);
         }
-        return new Experiment($id, $key, new ExperimentType($type), $identifierType, ExperimentStatus::fromExecutionStatusOrNull($status), $version, $variations, $userOverrides, $segmentOverrides, $targetAudiences, $targetRules, $defaultRule, $containerId, $winnerVariationId);
+        return new Experiment(
+            $id,
+            $key,
+            new ExperimentType($type),
+            $identifierType,
+            ExperimentStatus::fromExecutionStatusOrNull($status),
+            $version,
+            $variations,
+            $userOverrides,
+            $segmentOverrides,
+            $targetAudiences,
+            $targetRules,
+            $defaultRule,
+            $containerId,
+            $winnerVariationId
+        );
     }
 
     public static function experiment(array $params = []): Experiment
@@ -72,6 +90,32 @@ class Models
         return new Variation($id, $key, $isDropped, $configId);
     }
 
+    public static function workspace(array $params = []): Workspace
+    {
+        return new DefaultWorkspace(
+            $params["experiments"] ?? [],
+            [],
+            [],
+            $params["buckets"] ?? [],
+            [],
+            [],
+            [],
+            []
+        );
+    }
+
+    public static function parameter(array $params = []): RemoteConfigParameter
+    {
+        return new RemoteConfigParameter(
+            $params["id"] ?? 1,
+            $params["key"] ?? "test_parameter_key",
+            $params["type"] ?? ValueType::STRING(),
+            $params["identifierType"] ?? IdentifierType::ID,
+            $params["targetRules"] ?? [],
+            $params["defaultValue"] ?? new RemoteConfigParameterValue(1, "parameter_default")
+        );
+    }
+
     public static function experimentRequest(
         ?Experiment $experiment = null,
         ?Workspace $workspace = null,
@@ -79,9 +123,23 @@ class Models
     ): ExperimentRequest {
         return ExperimentRequest::of(
             $workspace ?? DefaultWorkspace::from(array()),
-            $user ?? HackleUser::builder()->identifier(IdentifierType::ID, "user")->build(),
+            $user ?? HackleUser::builder()->identifier(IdentifierType::ID(), "user")->build(),
             $experiment ?? Models::experiment(),
             "A"
+        );
+    }
+
+    public static function remoteConfigRequest(
+        ?RemoteConfigParameter $parameter = null,
+        $defaultValue = null,
+        ?Workspace $workspace = null
+    ): RemoteConfigRequest {
+        return new RemoteConfigRequest(
+            $workspace ?? DefaultWorkspace::from(array()),
+            HackleUser::builder()->identifier(IdentifierType::ID(), "user")->build(),
+            $parameter ?? self::parameter(),
+            ValueType::STRING(),
+            $defaultValue ?? "default_value"
         );
     }
 }

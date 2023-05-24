@@ -25,7 +25,7 @@ final class RemoteConfigEvaluator extends ContextualEvaluator
         $this->targetRuleDeterminer = $targetRuleDeterminer;
     }
 
-    function supports(EvaluatorRequest $request): bool
+    public function supports(EvaluatorRequest $request): bool
     {
         return $request instanceof RemoteConfigRequest;
     }
