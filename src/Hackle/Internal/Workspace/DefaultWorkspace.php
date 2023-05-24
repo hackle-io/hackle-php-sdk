@@ -129,7 +129,7 @@ class DefaultWorkspace implements Workspace
                 return Segment::fromOrNull($data);
             }),
             function (Segment $segment) {
-                return $segment->getId();
+                return $segment->getKey();
             }
         );
 

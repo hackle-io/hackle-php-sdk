@@ -4,19 +4,19 @@ namespace Hackle\Internal\User;
 
 class HackleUser
 {
-    /** @var array */
+    /** @var array<string, string> */
     private $_identifiers;
 
-    /** @var array */
+    /** @var array<string, string> */
     private $_properties;
 
-    /** @var array */
+    /** @var array<string, string> */
     private $_hackleProperties;
 
     /**
-     * @param array $_identifiers
-     * @param array $_properties
-     * @param array $_hackleProperties
+     * @param string[] $_identifiers
+     * @param string[] $_properties
+     * @param string[] $_hackleProperties
      */
     public function __construct(array $_identifiers, array $_properties, array $_hackleProperties)
     {
