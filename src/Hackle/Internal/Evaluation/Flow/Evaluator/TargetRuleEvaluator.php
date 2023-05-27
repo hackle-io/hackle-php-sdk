@@ -51,7 +51,7 @@ final class TargetRuleEvaluator implements FlowEvaluator
 
         $variation = Objects::requireNotNull(
             $this->actionResolver->resolveOrNull($request, $targetRule->getAction()),
-            "FeatureFlag must decide the Variation [{$experiment->getId()}]"
+            "FeatureFlag must decide the variation [{$experiment->getId()}]"
         );
 
         return ExperimentEvaluation::of($request, $context, $variation, DecisionReason::TARGET_RULE_MATCH());

@@ -18,7 +18,7 @@ class RemoteConfigEvaluationTest extends TestCase
     {
         $parameter = Models::parameter(["id" => 1]);
 
-        $request = Models::remoteConfigRequest($parameter);
+        $request = Models::remoteConfigRequest(["parameter" => $parameter]);
         $context = new EvaluatorContext();
         $context->add(Mockery::mock(EvaluatorEvaluation::class));
 
@@ -41,7 +41,7 @@ class RemoteConfigEvaluationTest extends TestCase
     {
         $parameter = Models::parameter(["id" => 1]);
 
-        $request = Models::remoteConfigRequest($parameter, "42");
+        $request = Models::remoteConfigRequest(["parameter" => $parameter, "defaultValue" => 42]);
         $context = new EvaluatorContext();
         $context->add(Mockery::mock(EvaluatorEvaluation::class));
 

@@ -19,7 +19,6 @@ final class ContainerEvaluator implements FlowEvaluator
         $this->containerResolver = $containerResolver;
     }
 
-
     public function evaluate(
         ExperimentRequest $request,
         EvaluatorContext $context,

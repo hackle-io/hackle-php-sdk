@@ -129,17 +129,14 @@ class Models
         );
     }
 
-    public static function remoteConfigRequest(
-        ?RemoteConfigParameter $parameter = null,
-        $defaultValue = null,
-        ?Workspace $workspace = null
-    ): RemoteConfigRequest {
+    public static function remoteConfigRequest(array $params = []): RemoteConfigRequest
+    {
         return new RemoteConfigRequest(
-            $workspace ?? DefaultWorkspace::from(array()),
-            HackleUser::builder()->identifier(IdentifierType::ID(), "user")->build(),
-            $parameter ?? self::parameter(),
-            ValueType::STRING(),
-            $defaultValue ?? "default_value"
+            $params["workspace"] ?? DefaultWorkspace::from(array()),
+            $params["user"] ?? HackleUser::builder()->identifier(IdentifierType::ID(), "user")->build(),
+            $params["parameter"] ?? self::parameter(),
+            $params["requiredType"] ?? ValueType::STRING(),
+            $params["defaultValue"] ?? "default_value"
         );
     }
 }

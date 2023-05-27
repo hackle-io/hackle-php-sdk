@@ -30,11 +30,11 @@ final class TrafficAllocateEvaluator implements FlowEvaluator
 
         Objects::require(
             $experiment->getStatus() == ExperimentStatus::RUNNING,
-            "experiment status must be RUNNING [{$experiment->getId()}"
+            "experiment status must be RUNNING [{$experiment->getId()}]"
         );
         Objects::require(
             $experiment->getType() == ExperimentType::AB_TEST,
-            "experiment type must be AB_TEST [{$experiment->getId()}"
+            "experiment type must be AB_TEST [{$experiment->getId()}]"
         );
 
         $defaultRule = $experiment->getDefaultRule();

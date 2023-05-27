@@ -5,7 +5,7 @@ namespace Hackle\Internal\Evaluation\Evaluator;
 /**
  * @implements Evaluator<EvaluatorRequest, EvaluatorEvaluation>
  */
-final class DelegatingEvaluator implements Evaluator
+class DelegatingEvaluator implements Evaluator
 {
     /**
      * @var ContextualEvaluator[]
@@ -22,7 +22,7 @@ final class DelegatingEvaluator implements Evaluator
         $this->_evaluators[] = $evaluator;
     }
 
-    function evaluate($request, EvaluatorContext $context)
+    public function evaluate($request, EvaluatorContext $context)
     {
         foreach ($this->_evaluators as $evaluator) {
             if ($evaluator->supports($request)) {

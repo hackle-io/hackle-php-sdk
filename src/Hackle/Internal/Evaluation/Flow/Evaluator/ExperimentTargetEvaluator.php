@@ -20,7 +20,6 @@ final class ExperimentTargetEvaluator implements FlowEvaluator
         $this->experimentTargetDeterminer = $experimentTargetDeterminer;
     }
 
-
     public function evaluate(
         ExperimentRequest $request,
         EvaluatorContext $context,

@@ -7,7 +7,7 @@ use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
 use Hackle\Internal\Lang\Objects;
 use Hackle\Internal\Model\Container;
 
-final class ContainerResolver
+class ContainerResolver
 {
     private $buckter;
 

@@ -10,7 +10,7 @@ use Hackle\Internal\Evaluation\Flow\EvaluationFlow;
 use Hackle\Internal\Evaluation\Target\OverrideResolver;
 use Hackle\Internal\Model\ExperimentType;
 
-final class OverrideEvaluator implements FlowEvaluator
+class OverrideEvaluator implements FlowEvaluator
 {
 
     private $overrideResolver;
@@ -19,7 +19,6 @@ final class OverrideEvaluator implements FlowEvaluator
     {
         $this->overrideResolver = $overrideResolver;
     }
-
 
     public function evaluate(
         ExperimentRequest $request,

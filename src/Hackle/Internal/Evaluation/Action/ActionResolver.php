@@ -10,7 +10,7 @@ use Hackle\Internal\Model\TargetActionBucket;
 use Hackle\Internal\Model\TargetActionVariation;
 use Hackle\Internal\Model\Variation;
 
-final class ActionResolver
+class ActionResolver
 {
 
     private $bucketer;

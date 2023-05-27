@@ -7,10 +7,10 @@ use Hackle\Common\DecisionReason;
 interface EvaluatorEvaluation
 {
 
-    function getReason(): DecisionReason;
+    public function getReason(): DecisionReason;
 
     /**
      * @return EvaluatorEvaluation[]
      */
-    function getTargetEvaluations(): array;
+    public function getTargetEvaluations(): array;
 }

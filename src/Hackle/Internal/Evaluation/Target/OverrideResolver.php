@@ -8,7 +8,7 @@ use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
 use Hackle\Internal\Evaluation\Match\TargetMatcher;
 use Hackle\Internal\Model\Variation;
 
-final class OverrideResolver
+class OverrideResolver
 {
     private $targetMatcher;
     private $actionResolver;

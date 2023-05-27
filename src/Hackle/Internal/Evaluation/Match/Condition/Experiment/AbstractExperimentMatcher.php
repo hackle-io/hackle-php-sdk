@@ -58,12 +58,12 @@ abstract class AbstractExperimentMatcher
         return $resolvedEvaluation;
     }
 
-    protected abstract function experiment(EvaluatorRequest $request, int $key): ?Experiment;
+    abstract protected function experiment(EvaluatorRequest $request, int $key): ?Experiment;
 
-    protected abstract function resolve(
+    abstract protected function resolve(
         EvaluatorRequest $request,
         ExperimentEvaluation $evaluation
     ): ExperimentEvaluation;
 
-    protected abstract function evaluationMatches(ExperimentEvaluation $evaluation, TargetCondition $condition): bool;
+    abstract protected function evaluationMatches(ExperimentEvaluation $evaluation, TargetCondition $condition): bool;
 }

@@ -115,7 +115,7 @@ final class RemoteConfigEvaluator extends ContextualEvaluator
             case ValueType::STRING:
                 return is_string($value);
             case ValueType::NUMBER:
-                return is_numeric($value);
+                return !is_string($value) && is_numeric($value);
             case ValueType::BOOLEAN:
                 return is_bool($value);
             default:

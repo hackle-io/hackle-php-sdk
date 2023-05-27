@@ -30,11 +30,11 @@ final class DefaultRuleEvaluator implements FlowEvaluator
 
         Objects::require(
             $experiment->getStatus() == ExperimentStatus::RUNNING,
-            "experiment status must be RUNNING [{$experiment->getId()}"
+            "experiment status must be RUNNING [{$experiment->getId()}]"
         );
         Objects::require(
-            $experiment->getType() == ExperimentType::AB_TEST,
-            "experiment type must be FEATURE_FLAG [{$experiment->getId()}"
+            $experiment->getType() == ExperimentType::FEATURE_FLAG,
+            "experiment type must be FEATURE_FLAG [{$experiment->getId()}]"
         );
 
         if (!array_key_exists($experiment->getIdentifierType(), $request->getUser()->getIdentifiers())) {
@@ -43,7 +43,7 @@ final class DefaultRuleEvaluator implements FlowEvaluator
 
         $variation = Objects::requireNotNull(
             $this->actionResolver->resolveOrNull($request, $experiment->getDefaultRule()),
-            "FeatureFlag must decide the Variation [{$experiment->getId()}]"
+            "FeatureFlag must decide the variation [{$experiment->getId()}]"
         );
 
         return ExperimentEvaluation::of($request, $context, $variation, DecisionReason::DEFAULT_RULE());

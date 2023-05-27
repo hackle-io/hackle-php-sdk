@@ -10,7 +10,6 @@ use Hackle\Internal\Evaluation\Flow\EvaluationFlow;
 
 final class IdentifierEvaluator implements FlowEvaluator
 {
-
     public function evaluate(
         ExperimentRequest $request,
         EvaluatorContext $context,

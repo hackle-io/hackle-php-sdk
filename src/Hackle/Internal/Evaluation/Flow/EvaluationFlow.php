@@ -39,4 +39,20 @@ class EvaluationFlow
     {
         return $this->flowEvaluator === null || $this->nextFlow === null;
     }
+
+    /**
+     * @return FlowEvaluator|null
+     */
+    public function getFlowEvaluator(): ?FlowEvaluator
+    {
+        return $this->flowEvaluator;
+    }
+
+    /**
+     * @return EvaluationFlow|null
+     */
+    public function getNextFlow(): ?EvaluationFlow
+    {
+        return $this->nextFlow;
+    }
 }

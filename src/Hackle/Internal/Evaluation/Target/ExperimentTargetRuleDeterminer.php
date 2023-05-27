@@ -7,7 +7,7 @@ use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
 use Hackle\Internal\Evaluation\Match\TargetMatcher;
 use Hackle\Internal\Model\TargetRule;
 
-final class ExperimentTargetRuleDeterminer
+class ExperimentTargetRuleDeterminer
 {
     private $targetMatcher;
 

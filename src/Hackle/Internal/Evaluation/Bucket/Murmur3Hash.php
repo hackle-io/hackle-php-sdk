@@ -11,7 +11,6 @@ namespace Hackle\Internal\Evaluation\Bucket;
  * @see http://github.com/garycourt/murmurhash-js
  * @author Austin Appleby (aappleby@gmail.com)
  * @see http://sites.google.com/site/murmurhash/
- *
  */
 class Murmur3Hash
 {

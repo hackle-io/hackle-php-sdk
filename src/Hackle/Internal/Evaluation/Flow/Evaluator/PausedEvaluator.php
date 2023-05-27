@@ -17,9 +17,7 @@ final class PausedEvaluator implements FlowEvaluator
         EvaluatorContext $context,
         EvaluationFlow $nextFlow
     ): ExperimentEvaluation {
-        if ($request->getExperiment()->getStatus()
-            == ExperimentStatus::PAUSED
-        ) {
+        if ($request->getExperiment()->getStatus() == ExperimentStatus::PAUSED) {
             switch ($request->getExperiment()->getType()) {
                 case ExperimentType::AB_TEST:
                     return ExperimentEvaluation::ofDefault(

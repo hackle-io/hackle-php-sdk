@@ -56,7 +56,7 @@ class RemoteConfigEvaluatorTest extends TestCase
             "defaultValue" => new RemoteConfigParameterValue(42, "parameter_default")
         ]);
 
-        $request = Models::remoteConfigRequest($parameter, "sdk_default");
+        $request = Models::remoteConfigRequest(["parameter" => $parameter, "defaultValue" => "sdk_default"]);
 
         // when
         $actual = $this->sut->evaluate($request, new EvaluatorContext());
@@ -71,7 +71,7 @@ class RemoteConfigEvaluatorTest extends TestCase
         ], $actual->getProperties());
     }
 
-    public function test__Evaluate_target_rule_match()
+    public function test__evaluate_target_rule_match()
     {
         // given
         $targetRule = new RemoteConfigTargetRule(
@@ -88,7 +88,7 @@ class RemoteConfigEvaluatorTest extends TestCase
             "defaultValue" => new RemoteConfigParameterValue(43, "parameter_default")
         ]);
 
-        $request = Models::remoteConfigRequest($parameter, "sdk_default");
+        $request = Models::remoteConfigRequest(["parameter" => $parameter, "defaultValue" => "sdk_default"]);
 
         $this->targetRuleDeterminer->allows(["determineTargetRuleOrNull" => $targetRule]);
 
@@ -106,5 +106,97 @@ class RemoteConfigEvaluatorTest extends TestCase
             "targetRuleKey" => "target_rule_key",
             "targetRuleName" => "target_rule_name"
         ], $actual->getProperties());
+    }
+
+    public function test__evaluate__default_rule()
+    {
+        // given
+        $targetRule = new RemoteConfigTargetRule(
+            "target_rule_key",
+            "target_rule_name",
+            new Target([]),
+            42,
+            new RemoteConfigParameterValue(320, "target_rule_value")
+        );
+
+        $parameter = Models::parameter([
+            "type" => ValueType::STRING(),
+            "targetRules" => [$targetRule],
+            "defaultValue" => new RemoteConfigParameterValue(43, "parameter_default")
+        ]);
+
+        $request = Models::remoteConfigRequest(["parameter" => $parameter, "defaultValue" => "sdk_default"]);
+
+        $this->targetRuleDeterminer->allows(["determineTargetRuleOrNull" => null]);
+
+        // when
+        $actual = $this->sut->evaluate($request, new EvaluatorContext());
+
+        // then
+        self::assertEquals(DecisionReason::DEFAULT_RULE(), $actual->getReason());
+        self::assertEquals(43, $actual->getValueId());
+        self::assertEquals("parameter_default", $actual->getValue());
+        self::assertEquals([
+            "requestValueType" => "STRING",
+            "requestDefaultValue" => "sdk_default",
+            "returnValue" => "parameter_default",
+        ], $actual->getProperties());
+    }
+
+    public function test__evaluate__type_match()
+    {
+        $this->assertTypeMatch(ValueType::STRING(), "match_string", "default_string", true);
+        $this->assertTypeMatch(ValueType::STRING(), "", "default_string", true);
+        $this->assertTypeMatch(ValueType::STRING(), 0, "default_string", false);
+        $this->assertTypeMatch(ValueType::STRING(), 1, "default_string", false);
+        $this->assertTypeMatch(ValueType::STRING(), false, "default_string", false);
+        $this->assertTypeMatch(ValueType::STRING(), true, "default_string", false);
+
+        $this->assertTypeMatch(ValueType::NUMBER(), 0, 999, true);
+        $this->assertTypeMatch(ValueType::NUMBER(), 1, 999, true);
+        $this->assertTypeMatch(ValueType::NUMBER(), -1, 999, true);
+        $this->assertTypeMatch(ValueType::NUMBER(), 0.0, 999, true);
+        $this->assertTypeMatch(ValueType::NUMBER(), 1.0, 999, true);
+        $this->assertTypeMatch(ValueType::NUMBER(), -1.0, 999, true);
+        $this->assertTypeMatch(ValueType::NUMBER(), 1.1, 999, true);
+        $this->assertTypeMatch(ValueType::NUMBER(), "1", 999, false);
+        $this->assertTypeMatch(ValueType::NUMBER(), "0", 999, false);
+        $this->assertTypeMatch(ValueType::NUMBER(), true, 999, false);
+        $this->assertTypeMatch(ValueType::NUMBER(), false, 999, false);
+
+        $this->assertTypeMatch(ValueType::BOOLEAN(), true, false, true);
+        $this->assertTypeMatch(ValueType::BOOLEAN(), false, true, true);
+        $this->assertTypeMatch(ValueType::BOOLEAN(), 0, true, false);
+        $this->assertTypeMatch(ValueType::BOOLEAN(), 1, false, false);
+
+        $this->assertTypeMatch(ValueType::VERSION(), "1.0.0", "default", false);
+        $this->assertTypeMatch(ValueType::JSON(), "{}", "default", false);
+    }
+
+    private function assertTypeMatch(ValueType $requiredType, $matchValue, $defaultValue, bool $isMatch)
+    {
+        $parameter = Models::parameter([
+            "type" => ValueType::STRING(),
+            "defaultValue" => new RemoteConfigParameterValue(43, $matchValue)
+        ]);
+        $request = Models::remoteConfigRequest([
+            "parameter" => $parameter,
+            "requiredType" => $requiredType,
+            "defaultValue" => $defaultValue
+        ]);
+
+        $this->targetRuleDeterminer->allows(["determineTargetRuleOrNull" => null]);
+
+        $actual = $this->sut->evaluate($request, new EvaluatorContext());
+
+        if ($isMatch) {
+            self::assertEquals(43, $actual->getValueId());
+            self::assertEquals($matchValue, $actual->getValue());
+            self::assertEquals(DecisionReason::DEFAULT_RULE(), $actual->getReason());
+        } else {
+            self::assertEquals(null, $actual->getValueId());
+            self::assertEquals($defaultValue, $actual->getValue());
+            self::assertEquals(DecisionReason::TYPE_MISMATCH(), $actual->getReason());
+        }
     }
 }
