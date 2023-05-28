@@ -8,24 +8,23 @@ use Hackle\Internal\Evaluation\Match\Condition\ConditionMatcher;
 use Hackle\Internal\Evaluation\Match\Value\ValueOperatorMatcher;
 use Hackle\Internal\Model\TargetCondition;
 
-final class UserConditionMatcher implements ConditionMatcher
+class UserConditionMatcher implements ConditionMatcher
 {
-    private $_userValueResolver;
-    private $_valueOperatorMatcher;
+    private $userValueResolver;
+    private $valueOperatorMatcher;
 
-    public function __construct(UserValueResolver $_userValueResolver, ValueOperatorMatcher $_valueOperatorMatcher)
+    public function __construct(UserValueResolver $userValueResolver, ValueOperatorMatcher $valueOperatorMatcher)
     {
-        $this->_userValueResolver = $_userValueResolver;
-        $this->_valueOperatorMatcher = $_valueOperatorMatcher;
+        $this->userValueResolver = $userValueResolver;
+        $this->valueOperatorMatcher = $valueOperatorMatcher;
     }
 
-
-    function matches(EvaluatorRequest $request, EvaluatorContext $context, TargetCondition $condition): bool
+    public function matches(EvaluatorRequest $request, EvaluatorContext $context, TargetCondition $condition): bool
     {
-        $userValue = $this->_userValueResolver->resolveOrNull($request->getUser(), $condition->getKey());
+        $userValue = $this->userValueResolver->resolveOrNull($request->getUser(), $condition->getKey());
         if ($userValue === null) {
             return false;
         }
-        return $this->_valueOperatorMatcher->matches($userValue, $condition->getMatch());
+        return $this->valueOperatorMatcher->matches($userValue, $condition->getMatch());
     }
 }

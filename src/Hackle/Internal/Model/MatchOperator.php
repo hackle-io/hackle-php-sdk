@@ -4,6 +4,16 @@ namespace Hackle\Internal\Model;
 
 use Hackle\Internal\Lang\Enum;
 
+/**
+ * @method static IN()
+ * @method static CONTAINS()
+ * @method static STARTS_WITH()
+ * @method static ENDS_WITH()
+ * @method static GT()
+ * @method static GTE()
+ * @method static LT()
+ * @method static LTE()
+ */
 class MatchOperator extends Enum
 {
     const IN = "IN";

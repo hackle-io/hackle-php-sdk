@@ -8,7 +8,7 @@ use Hackle\Internal\Evaluation\Match\Condition\ConditionMatcher;
 use Hackle\Internal\Model\TargetCondition;
 use Hackle\Internal\Model\TargetKeyType;
 
-final class ExperimentConditionMatcher implements ConditionMatcher
+class ExperimentConditionMatcher implements ConditionMatcher
 {
     private $abTestMatcher;
     private $featureFlagMatcher;
@@ -19,7 +19,7 @@ final class ExperimentConditionMatcher implements ConditionMatcher
         $this->featureFlagMatcher = $featureFlagMatcher;
     }
 
-    function matches(EvaluatorRequest $request, EvaluatorContext $context, TargetCondition $condition): bool
+    public function matches(EvaluatorRequest $request, EvaluatorContext $context, TargetCondition $condition): bool
     {
         switch ($condition->getKey()->getType()) {
             case TargetKeyType::AB_TEST:
@@ -27,7 +27,7 @@ final class ExperimentConditionMatcher implements ConditionMatcher
             case TargetKeyType::FEATURE_FLAG:
                 return $this->featureFlagMatcher->matches($request, $context, $condition);
             default:
-                throw new \InvalidArgumentException("Unsupported TargetKetType [{$condition->getKey()->getType()}]");
+                throw new \InvalidArgumentException("Unsupported TargetKeyType [{$condition->getKey()->getType()}]");
         }
     }
 }

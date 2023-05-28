@@ -7,9 +7,9 @@ use Hackle\Internal\Workspace\Workspace;
 
 interface EvaluatorRequest
 {
-    function getKey(): EvaluatorKey;
+    public function getKey(): EvaluatorKey;
 
-    function getWorkspace(): Workspace;
+    public function getWorkspace(): Workspace;
 
-    function getUser(): HackleUser;
+    public function getUser(): HackleUser;
 }

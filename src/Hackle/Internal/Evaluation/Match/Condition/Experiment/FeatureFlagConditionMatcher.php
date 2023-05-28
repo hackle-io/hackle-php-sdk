@@ -9,7 +9,7 @@ use Hackle\Internal\Evaluation\Match\Value\ValueOperatorMatcher;
 use Hackle\Internal\Model\Experiment;
 use Hackle\Internal\Model\TargetCondition;
 
-final class FeatureFlagConditionMatcher extends AbstractExperimentMatcher
+class FeatureFlagConditionMatcher extends AbstractExperimentMatcher
 {
     public function __construct(Evaluator $evaluator, ValueOperatorMatcher $valueOperatorMatcher)
     {

@@ -6,7 +6,6 @@ use Hackle\Internal\Model\Version;
 
 class GreaterThanOrEqualMatcher implements OperatorMatcher
 {
-
     public function stringMatches(string $userValue, string $matchValue): bool
     {
         return $userValue >= $matchValue;

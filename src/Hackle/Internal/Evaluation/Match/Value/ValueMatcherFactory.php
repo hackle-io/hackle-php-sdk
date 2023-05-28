@@ -6,32 +6,31 @@ use Hackle\Internal\Model\ValueType;
 
 final class ValueMatcherFactory
 {
-    private $_stringMatcher;
-    private $_numberMatcher;
-    private $_boolMatcher;
-    private $_versionMatcher;
+    private $stringMatcher;
+    private $numberMatcher;
+    private $boolMatcher;
+    private $versionMatcher;
 
     public function __construct()
     {
-        $this->_stringMatcher = new StringMatcher();
-        $this->_numberMatcher = new NumberMatcher();
-        $this->_boolMatcher = new BoolMatcher();
-        $this->_versionMatcher = new VersionMatcher();
+        $this->stringMatcher = new StringMatcher();
+        $this->numberMatcher = new NumberMatcher();
+        $this->boolMatcher = new BoolMatcher();
+        $this->versionMatcher = new VersionMatcher();
     }
-
 
     public function getMatcher(ValueType $valueType): ValueMatcher
     {
         switch ($valueType) {
             case ValueType::JSON:
             case ValueType::STRING:
-                return $this->_stringMatcher;
+                return $this->stringMatcher;
             case ValueType::NUMBER:
-                return $this->_numberMatcher;
+                return $this->numberMatcher;
             case ValueType::BOOLEAN:
-                return $this->_boolMatcher;
+                return $this->boolMatcher;
             case ValueType::VERSION:
-                return $this->_versionMatcher;
+                return $this->versionMatcher;
             default:
                 throw new \InvalidArgumentException("Unsupported valueType [$valueType]");
         }

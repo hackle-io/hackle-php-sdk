@@ -97,7 +97,7 @@ class Models
             [],
             [],
             $params["buckets"] ?? [],
-            [],
+            $params["segments"] ?? [],
             [],
             [],
             []

@@ -32,7 +32,7 @@ final class ConditionMatcherFactory
         );
     }
 
-    function getMatcher(TargetKeyType $type): ConditionMatcher
+    public function getMatcher(TargetKeyType $type): ConditionMatcher
     {
         switch ($type) {
             case TargetKeyType::USER_ID:

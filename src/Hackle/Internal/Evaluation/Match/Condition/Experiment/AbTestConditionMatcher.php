@@ -11,7 +11,7 @@ use Hackle\Internal\Evaluation\Match\Value\ValueOperatorMatcher;
 use Hackle\Internal\Model\Experiment;
 use Hackle\Internal\Model\TargetCondition;
 
-final class AbTestConditionMatcher extends AbstractExperimentMatcher
+class AbTestConditionMatcher extends AbstractExperimentMatcher
 {
     private const AB_TEST_MATCHED_REASONS = [
         DecisionReason::OVERRIDDEN,
@@ -33,7 +33,7 @@ final class AbTestConditionMatcher extends AbstractExperimentMatcher
     protected function resolve(EvaluatorRequest $request, ExperimentEvaluation $evaluation): ExperimentEvaluation
     {
         if ($request instanceof ExperimentRequest && $evaluation->getReason() == DecisionReason::TRAFFIC_ALLOCATED) {
-            return $evaluation->with(new DecisionReason(DecisionReason::TRAFFIC_ALLOCATED_BY_TARGETING));
+            return $evaluation->with(DecisionReason::TRAFFIC_ALLOCATED_BY_TARGETING());
         }
         return $evaluation;
     }

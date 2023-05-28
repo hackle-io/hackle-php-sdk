@@ -48,27 +48,6 @@ class Objects
         return is_numeric($value) ? intval($value) : null;
     }
 
-    /**
-     * @template T
-     *
-     * @param mixed $value
-     * @param class-string<T> $type
-     * @return T|null
-     */
-    public static function tryCast($value, string $type)
-    {
-        switch ($type) {
-            case 'int':
-                return is_int($value) ? $value : null;
-            case 'string':
-                return is_string($value) ? $value : null;
-            case 'bool':
-                return is_bool($value) ? $value : null;
-            default:
-                return $value instanceof $type ? $value : null;
-        }
-    }
-
     public static function require(bool $expression, string $message)
     {
         if (!$expression) {
@@ -78,7 +57,7 @@ class Objects
 
     /**
      * @template T
-     * @param ?T $value
+     * @param T|null $value
      * @param string $message
      * @return T
      */

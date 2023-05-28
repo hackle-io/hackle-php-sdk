@@ -8,5 +8,5 @@ use Hackle\Internal\Model\TargetCondition;
 
 interface ConditionMatcher
 {
-    function matches(EvaluatorRequest $request, EvaluatorContext $context, TargetCondition $condition): bool;
+    public function matches(EvaluatorRequest $request, EvaluatorContext $context, TargetCondition $condition): bool;
 }

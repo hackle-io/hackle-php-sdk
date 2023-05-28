@@ -4,6 +4,10 @@ namespace Hackle\Internal\Model;
 
 use Hackle\Internal\Lang\Enum;
 
+/**
+ * @method static MATCH()
+ * @method static NOT_MATCH()
+ */
 final class MatchType extends Enum
 {
     const MATCH = "MATCH";

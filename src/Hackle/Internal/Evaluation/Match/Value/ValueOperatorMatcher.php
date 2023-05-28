@@ -6,23 +6,23 @@ use Hackle\Internal\Evaluation\Match\Operator\OperatorMatcher;
 use Hackle\Internal\Evaluation\Match\Operator\OperatorMatcherFactory;
 use Hackle\Internal\Model\TargetMatch;
 
-final class ValueOperatorMatcher
+class ValueOperatorMatcher
 {
-    private $_valueMatcherFactory;
-    private $_operatorMatcherFactory;
+    private $valueMatcherFactory;
+    private $operatorMatcherFactory;
 
     public function __construct(
-        ValueMatcherFactory $_valueMatcherFactory,
-        OperatorMatcherFactory $_operatorMatcherFactory
+        ValueMatcherFactory $valueMatcherFactory,
+        OperatorMatcherFactory $operatorMatcherFactory
     ) {
-        $this->_valueMatcherFactory = $_valueMatcherFactory;
-        $this->_operatorMatcherFactory = $_operatorMatcherFactory;
+        $this->valueMatcherFactory = $valueMatcherFactory;
+        $this->operatorMatcherFactory = $operatorMatcherFactory;
     }
 
     public function matches($userValue, TargetMatch $match): bool
     {
-        $valueMatcher = $this->_valueMatcherFactory->getMatcher($match->getValueType());
-        $operatorMatcher = $this->_operatorMatcherFactory->getMatcher($match->getOperator());
+        $valueMatcher = $this->valueMatcherFactory->getMatcher($match->getValueType());
+        $operatorMatcher = $this->operatorMatcherFactory->getMatcher($match->getOperator());
 
         if (is_array($userValue)) {
             $isMatched = $this->arrayMatches($userValue, $match, $valueMatcher, $operatorMatcher);

@@ -4,25 +4,20 @@ namespace Hackle\Internal\User;
 
 class HackleUser
 {
-    /** @var array<string, string> */
-    private $_identifiers;
-
-    /** @var array<string, string> */
-    private $_properties;
-
-    /** @var array<string, string> */
-    private $_hackleProperties;
+    private $identifiers;
+    private $properties;
+    private $hackleProperties;
 
     /**
-     * @param string[] $_identifiers
-     * @param string[] $_properties
-     * @param string[] $_hackleProperties
+     * @param array<string, string> $identifiers
+     * @param array<string, mixed> $properties
+     * @param array<string, mixed> $hackleProperties
      */
-    public function __construct(array $_identifiers, array $_properties, array $_hackleProperties)
+    public function __construct(array $identifiers, array $properties, array $hackleProperties)
     {
-        $this->_identifiers = $_identifiers;
-        $this->_properties = $_properties;
-        $this->_hackleProperties = $_hackleProperties;
+        $this->identifiers = $identifiers;
+        $this->properties = $properties;
+        $this->hackleProperties = $hackleProperties;
     }
 
     public static function builder(): HackleUserBuilder
@@ -30,18 +25,27 @@ class HackleUser
         return new HackleUserBuilder();
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getIdentifiers(): array
     {
-        return $this->_identifiers;
+        return $this->identifiers;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getProperties(): array
     {
-        return $this->_properties;
+        return $this->properties;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getHackleProperties(): array
     {
-        return $this->_hackleProperties;
+        return $this->hackleProperties;
     }
 }

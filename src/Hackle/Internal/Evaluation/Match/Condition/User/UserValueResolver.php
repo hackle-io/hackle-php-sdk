@@ -6,8 +6,13 @@ use Hackle\Internal\Model\TargetKey;
 use Hackle\Internal\Model\TargetKeyType;
 use Hackle\Internal\User\HackleUser;
 
-final class UserValueResolver
+class UserValueResolver
 {
+    /**
+     * @param HackleUser $user
+     * @param TargetKey $key
+     * @return mixed|null
+     */
     public function resolveOrNull(HackleUser $user, TargetKey $key)
     {
         switch ($key->getType()) {

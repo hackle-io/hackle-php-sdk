@@ -8,13 +8,13 @@ use Hackle\Internal\Evaluation\Match\Condition\User\UserConditionMatcher;
 use Hackle\Internal\Model\Segment;
 use Hackle\Internal\Model\Target;
 
-final class SegmentMatcher
+class SegmentMatcher
 {
-    private $_userConditionMatcher;
+    private $userConditionMatcher;
 
-    public function __construct(UserConditionMatcher $_userConditionMatcher)
+    public function __construct(UserConditionMatcher $userConditionMatcher)
     {
-        $this->_userConditionMatcher = $_userConditionMatcher;
+        $this->userConditionMatcher = $userConditionMatcher;
     }
 
     public function matches(EvaluatorRequest $request, EvaluatorContext $context, Segment $segment): bool
@@ -30,7 +30,7 @@ final class SegmentMatcher
     private function targetMatches(EvaluatorRequest $request, EvaluatorContext $context, Target $target): bool
     {
         foreach ($target->getConditions() as $condition) {
-            if (!$this->_userConditionMatcher->matches($request, $context, $condition)) {
+            if (!$this->userConditionMatcher->matches($request, $context, $condition)) {
                 return false;
             }
         }

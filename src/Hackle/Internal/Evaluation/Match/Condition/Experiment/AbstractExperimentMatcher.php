@@ -24,7 +24,7 @@ abstract class AbstractExperimentMatcher
         $this->valueOperatorMatcher = $valueOperatorMatcher;
     }
 
-    final public function matches(
+    public function matches(
         EvaluatorRequest $request,
         EvaluatorContext $context,
         TargetCondition $condition
@@ -34,6 +34,10 @@ abstract class AbstractExperimentMatcher
             "Invalid key [{$condition->getKey()->getType()}, {$condition->getKey()->getName()}]"
         );
         $experiment = $this->experiment($request, $key);
+        if ($experiment === null) {
+            return false;
+        }
+
         $evaluation = $context->get($experiment) ?? $this->evaluate($request, $context, $experiment);
         Objects::require(
             $evaluation instanceof ExperimentEvaluation,
@@ -51,7 +55,7 @@ abstract class AbstractExperimentMatcher
         $evaluation = $this->evaluator->evaluate($experimentRequest, $context);
         Objects::require(
             $evaluation instanceof ExperimentEvaluation,
-            "Unexpected evaluation [expected=ExperimentEvaluation, actual=$evaluation]"
+            "Unexpected evaluation [expected=ExperimentEvaluation, actual=" . get_class($evaluation) . "]"
         );
         $resolvedEvaluation = $this->resolve($request, $evaluation);
         $context->add($resolvedEvaluation);

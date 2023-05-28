@@ -9,17 +9,16 @@ use Hackle\Internal\Lang\Objects;
 use Hackle\Internal\Model\TargetCondition;
 use Hackle\Internal\Model\TargetKeyType;
 
-
-final class SegmentConditionMatcher implements ConditionMatcher
+class SegmentConditionMatcher implements ConditionMatcher
 {
-    private $_segmentMatcher;
+    private $segmentMatcher;
 
-    public function __construct(SegmentMatcher $_segmentMatcher)
+    public function __construct(SegmentMatcher $segmentMatcher)
     {
-        $this->_segmentMatcher = $_segmentMatcher;
+        $this->segmentMatcher = $segmentMatcher;
     }
 
-    function matches(EvaluatorRequest $request, EvaluatorContext $context, TargetCondition $condition): bool
+    public function matches(EvaluatorRequest $request, EvaluatorContext $context, TargetCondition $condition): bool
     {
         Objects::require(
             $condition->getKey()->getType() == TargetKeyType::SEGMENT,
@@ -44,12 +43,11 @@ final class SegmentConditionMatcher implements ConditionMatcher
 
     private function segmentMatches(EvaluatorRequest $request, EvaluatorContext $context, $value): bool
     {
-        $segmentKey = Objects::requireNotNull(Objects::asStringOrNull($value), "SegmentKey[$value]");
+        Objects::require(is_string($value), "SegmentKey[$value]");
         $segment = Objects::requireNotNull(
-            $request->getWorkspace()->getSegmentOrNull($segmentKey),
-            "Segment[$segmentKey]"
+            $request->getWorkspace()->getSegmentOrNull($value),
+            "Segment[$value]"
         );
-        return $this->_segmentMatcher->matches($request, $context, $segment);
+        return $this->segmentMatcher->matches($request, $context, $segment);
     }
-
 }

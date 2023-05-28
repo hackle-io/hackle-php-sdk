@@ -6,7 +6,6 @@ use Hackle\Internal\Model\Version;
 
 class StartsWithMatcher implements OperatorMatcher
 {
-
     public function stringMatches(string $userValue, string $matchValue): bool
     {
         return substr($userValue, 0, strlen($matchValue)) === $matchValue;

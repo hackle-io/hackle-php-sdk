@@ -11,12 +11,12 @@ class InMatcher implements OperatorMatcher
         return $userValue === $matchValue;
     }
 
-    public function boolMatches(bool $userValue, bool $matchValue): bool
+    public function numberMatches(float $userValue, float $matchValue): bool
     {
         return $userValue === $matchValue;
     }
 
-    public function numberMatches(float $userValue, float $matchValue): bool
+    public function boolMatches(bool $userValue, bool $matchValue): bool
     {
         return $userValue === $matchValue;
     }
