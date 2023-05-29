@@ -2,7 +2,7 @@
 
 namespace Hackle\Internal\Model;
 
-final class RemoteConfigTargetRule
+class RemoteConfigTargetRule
 {
     private $key;
     private $name;

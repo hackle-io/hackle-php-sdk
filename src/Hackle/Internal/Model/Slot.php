@@ -2,7 +2,7 @@
 
 namespace Hackle\Internal\Model;
 
-final class Slot
+class Slot
 {
     private $startInclusive;
     private $endExclusive;

@@ -9,7 +9,7 @@ use Hackle\Internal\Evaluation\Match\TargetMatcher;
 use Hackle\Internal\Lang\Objects;
 use Hackle\Internal\Model\RemoteConfigTargetRule;
 
-final class RemoteConfigTargetMatcher
+class RemoteConfigTargetMatcher
 {
     private $targetMatcher;
     private $bucketer;

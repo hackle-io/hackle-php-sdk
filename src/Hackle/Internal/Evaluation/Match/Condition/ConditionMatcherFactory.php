@@ -15,7 +15,7 @@ use Hackle\Internal\Evaluation\Match\Value\ValueMatcherFactory;
 use Hackle\Internal\Evaluation\Match\Value\ValueOperatorMatcher;
 use Hackle\Internal\Model\TargetKeyType;
 
-final class ConditionMatcherFactory
+class ConditionMatcherFactory
 {
     private $userConditionMatcher;
     private $segmentConditionMatcher;
