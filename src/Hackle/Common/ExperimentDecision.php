@@ -20,22 +20,22 @@ class ExperimentDecision implements ParameterConfig
         return new ExperimentDecision($variation, $reason->getValue(), $config ?? new EmptyParameterConfig());
     }
 
-    public function getString(string $key, string $defaultValue): string
+    public function getString(string $key, $defaultValue)
     {
         return $this->config->getString($key, $defaultValue);
     }
 
-    public function getInt(string $key, int $defaultValue): int
+    public function getInt(string $key, $defaultValue)
     {
         return $this->config->getInt($key, $defaultValue);
     }
 
-    public function getFloat(string $key, float $defaultValue): float
+    public function getFloat(string $key, $defaultValue)
     {
         return $this->config->getFloat($key, $defaultValue);
     }
 
-    public function getBool(string $key, bool $defaultValue): bool
+    public function getBool(string $key, $defaultValue)
     {
         return $this->config->getBool($key, $defaultValue);
     }

@@ -24,29 +24,33 @@ class ParameterConfiguration implements ParameterConfig
         $this->parameters = $parameters;
     }
 
-    public function getString(string $key, string $defaultValue): string
+    public function getString(string $key, $defaultValue)
     {
-        return strval($this->getOrNull($key)) ?? $defaultValue;
+        $parameterValue = $this->get($key, $defaultValue);
+        return is_string($parameterValue) ? $parameterValue : $defaultValue;
     }
 
-    public function getInt(string $key, int $defaultValue): int
+    public function getInt(string $key, $defaultValue)
     {
-        return intval($this->getOrNull($key)) ?? $defaultValue;
+        $parameterValue = $this->get($key, $defaultValue);
+        return is_numeric($parameterValue) ? intval($parameterValue) : $defaultValue;
     }
 
-    public function getFloat(string $key, float $defaultValue): float
+    public function getFloat(string $key, $defaultValue)
     {
-        return floatval($this->getOrNull($key)) ?? $defaultValue;
+        $parameterValue = $this->get($key, $defaultValue);
+        return is_numeric($parameterValue) ? floatval($parameterValue) : $defaultValue;
     }
 
-    public function getBool(string $key, bool $defaultValue): bool
+    public function getBool(string $key, $defaultValue)
     {
-        return boolval($this->getOrNull($key)) ?? $defaultValue;
+        $parameterValue = $this->get($key, $defaultValue);
+        return is_bool($parameterValue) ? $parameterValue : $defaultValue;
     }
 
-    private function getOrNull(string $key)
+    private function get(string $key, $defaultValue)
     {
-        return $this->parameters[$key] ?? null;
+        return $this->parameters[$key] ?? $defaultValue;
     }
 
     /**
@@ -59,11 +63,8 @@ class ParameterConfiguration implements ParameterConfig
 
     public static function from($data): ParameterConfiguration
     {
-        return new ParameterConfiguration(
-            $data["id"],
-            Arrays::associate($data["parameters"], function ($data) {
-                return new Pair($data["key"], $data["value"]);
-            })
-        );
+        return new ParameterConfiguration($data["id"], Arrays::associate($data["parameters"], function ($data) {
+            return new Pair($data["key"], $data["value"]);
+        }));
     }
 }
