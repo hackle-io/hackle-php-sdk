@@ -13,7 +13,7 @@ class TrackEventDto implements JsonSerializable
     /**@var int */
     private $timestamp;
 
-    /**@var string */
+    /**@var string|null */
     private $userId;
 
     /**@var array */
@@ -40,7 +40,7 @@ class TrackEventDto implements JsonSerializable
     /**
      * @param string $insertId
      * @param int $timestamp
-     * @param string $userId
+     * @param string|null $userId
      * @param array $identifiers
      * @param array $userProperties
      * @param array $hackleProperties
@@ -49,8 +49,18 @@ class TrackEventDto implements JsonSerializable
      * @param float|null $value
      * @param array $properties
      */
-    public function __construct(string $insertId, int $timestamp, string $userId, array $identifiers, array $userProperties, array $hackleProperties, int $eventTypeId, string $eventTypeKey, ?float $value, array $properties)
-    {
+    public function __construct(
+        string $insertId,
+        int $timestamp,
+        ?string $userId,
+        array $identifiers,
+        array $userProperties,
+        array $hackleProperties,
+        int $eventTypeId,
+        string $eventTypeKey,
+        ?float $value,
+        array $properties
+    ) {
         $this->insertId = $insertId;
         $this->timestamp = $timestamp;
         $this->userId = $userId;
@@ -80,9 +90,9 @@ class TrackEventDto implements JsonSerializable
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUserId(): string
+    public function getUserId(): ?string
     {
         return $this->userId;
     }

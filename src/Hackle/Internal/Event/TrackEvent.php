@@ -25,7 +25,7 @@ final class TrackEvent extends UserEvent
         return new TrackEventDto(
             $this->getInsertId(),
             $this->getTimestamp(),
-            $this->getUser()->getIdentifiers()[IdentifierType::ID],
+            $this->getUser()->getIdentifiers()[IdentifierType::ID] ?? null,
             $this->getUser()->getIdentifiers(),
             $this->getUser()->getProperties(),
             $this->getUser()->getHackleProperties(),

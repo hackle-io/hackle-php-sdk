@@ -45,7 +45,7 @@ final class RemoteConfigEvent extends UserEvent
         return new RemoteConfigEventDto(
             $this->getInsertId(),
             $this->getTimestamp(),
-            $this->getUser()->getIdentifiers()[IdentifierType::ID],
+            $this->getUser()->getIdentifiers()[IdentifierType::ID] ?? null,
             $this->getUser()->getIdentifiers(),
             $this->getUser()->getProperties(),
             $this->getUser()->getHackleProperties(),
