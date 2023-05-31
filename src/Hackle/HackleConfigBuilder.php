@@ -15,7 +15,7 @@ use Psr\Log\LoggerInterface;
 final class HackleConfigBuilder
 {
     const DEFAULT_SDK_URI = "https://sdk.hackle.io";
-    const DEFAULT_EVENT_URI = "https//event.hackle.io";
+    const DEFAULT_EVENT_URI = "https://event.hackle.io";
     const DEFAULT_MONITORING_URI = "https//monitoring.hackle.io";
 
     /**@var string */
