@@ -83,16 +83,14 @@ final class HackleConfigBuilder
 
     public function options(array $options = []): self
     {
-        if (!isset($options['logger'])) {
-            $options['logger'] = $this->getDefaultLogger();
+        if (isset($options['logger'])) {
+            $this->logger = $options['logger'];
         }
 
-        if (!isset($options['cache'])) {
-            $options['cache'] = $this->getDefaultCache();
+        if (isset($options['cache'])) {
+            $this->cache = $options['cache'];
         }
 
-        $this->logger = $options['logger'];
-        $this->cache = $options['cache'];
         return $this;
     }
 
