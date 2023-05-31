@@ -40,12 +40,14 @@ class HackleRemoteConfigImpl implements RemoteConfig
 
     public function getInt(string $key, $defaultValue)
     {
-        return intval($this->get($this->user, $key, ValueType::NUMBER(), $defaultValue)->getValue());
+        $value = $this->get($this->user, $key, ValueType::NUMBER(), $defaultValue)->getValue();
+        return is_numeric($value) ? intval($value) : $defaultValue;
     }
 
     public function getFloat(string $key, $defaultValue)
     {
-        return floatval($this->get($this->user, $key, ValueType::NUMBER(), $defaultValue)->getValue());
+        $value = $this->get($this->user, $key, ValueType::NUMBER(), $defaultValue)->getValue();
+        return is_numeric($value) ? floatval($value) : $defaultValue;
     }
 
     public function getBool(string $key, $defaultValue)
