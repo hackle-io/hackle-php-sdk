@@ -17,8 +17,6 @@ final class HackleConfigBuilder
     const DEFAULT_SDK_URI = "https://sdk.hackle.io";
     const DEFAULT_EVENT_URI = "https//event.hackle.io";
     const DEFAULT_MONITORING_URI = "https//monitoring.hackle.io";
-    const DEFAULT_CACHE_TTL = 10;
-    const DEFAULT_CACHE_PATH = "/tmp/hackle/";
 
     /**@var string */
     private $sdkUri;
@@ -54,16 +52,11 @@ final class HackleConfigBuilder
 
     private function getDefaultCache(): ?CacheMiddleware
     {
-        return $this->getCacheMiddleware(self::DEFAULT_CACHE_PATH, self::DEFAULT_CACHE_TTL);
-    }
-
-    private function getCacheMiddleware(string $path, int $ttl): ?CacheMiddleware
-    {
         if (class_exists('\Kevinrob\GuzzleCache\CacheMiddleware')) {
-            $fileSystemAdapter = new Local($path);
+            $fileSystemAdapter = new Local("/tmp/hackle/");
             $fileSystem = new Filesystem($fileSystemAdapter);
             $cacheStorage = new Psr6CacheStorage(new FilesystemCachePool($fileSystem));
-            return new CacheMiddleware(new GreedyCacheStrategy($cacheStorage, $ttl));
+            return new CacheMiddleware(new GreedyCacheStrategy($cacheStorage, 10));
         } else {
             $this->logger->error("Kevinrob\GuzzleCache\CacheMiddleware was not installed");
             return null;
@@ -93,14 +86,13 @@ final class HackleConfigBuilder
         if (!isset($options['logger'])) {
             $options['logger'] = $this->getDefaultLogger();
         }
-        if (!isset($options['cache_path'])) {
-            $options['cache_path'] = self::DEFAULT_CACHE_PATH;
+
+        if (!isset($options['cache'])) {
+            $options['cache'] = $this->getDefaultCache();
         }
-        if (!isset($options['cache_ttl'])) {
-            $options['cache_ttl'] = self::DEFAULT_CACHE_TTL;
-        }
+
         $this->logger = $options['logger'];
-        $this->cache = $this->getCacheMiddleware($options['cache_path'], $options['cache_ttl']);
+        $this->cache = $options['cache'];
         return $this;
     }
 
@@ -136,7 +128,7 @@ final class HackleConfigBuilder
     /**
      * @return LoggerInterface
      */
-    public function getLogger()
+    public function getLogger(): LoggerInterface
     {
         return $this->logger;
     }
