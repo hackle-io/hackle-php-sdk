@@ -8,7 +8,6 @@ use Hackle\Internal\Client\HackleClientImpl;
 use Hackle\Internal\Core\HackleCore;
 use Hackle\Internal\Event\Dispatcher\EventDispatcher;
 use Hackle\Internal\Event\Processor\DefaultUserEventProcessor;
-use Hackle\Internal\HackleSdk;
 use Hackle\Internal\Http\HackleMiddleware;
 use Hackle\Internal\Http\SdkCacheMiddleware;
 use Hackle\Internal\Http\SdkHeaderMiddleware;
@@ -16,7 +15,6 @@ use Hackle\Internal\Time\SystemClock;
 use Hackle\Internal\User\HackleUserResolver;
 use Hackle\Internal\Workspace\HttpWorkspaceFetcher;
 use Hackle\Internal\Workspace\Sdk;
-use Psr\Log\LoggerInterface;
 
 final class HackleClients
 {
@@ -26,26 +24,22 @@ final class HackleClients
             $config = HackleConfig::getDefault();
         }
         $sdk = new Sdk($sdkKey);
-        $workspaceFetcherHttpClient = self::createWorkspaceFetcherHttpClient($sdk, $config->getLogger());
+        $workspaceFetcherHttpClient = self::createWorkspaceFetcherHttpClient($sdk, $config);
         $workspaceFetcher = new HttpWorkspaceFetcher($config->getSdkUri(), $workspaceFetcherHttpClient, $config->getLogger());
-
-        $eventDispatcherHttpClient = self::createEventDispatcherHttpClient($sdk, $config->getLogger());
+        $eventDispatcherHttpClient = self::createEventDispatcherHttpClient($sdk);
         $eventDispatcher = new EventDispatcher($config->getEventUri(), $eventDispatcherHttpClient, $config->getLogger());
-
         $eventProcessor = new DefaultUserEventProcessor($eventDispatcher, 100, $config->getLogger());
         $core = HackleCore::create($workspaceFetcher, $eventProcessor);
-
-        return new HackleClientImpl(
-            $core,
-            new HackleUserResolver(),
-            $config->getLogger()
-        );
+        return new HackleClientImpl($core, new HackleUserResolver(), $config->getLogger());
     }
 
-    private static function createWorkspaceFetcherHttpClient(Sdk $sdk, LoggerInterface $logger): Client
+    private static function createWorkspaceFetcherHttpClient(Sdk $sdk, HackleConfig $config): Client
     {
         $stack = HandlerStack::create();
-        $middlewares = array(new SdkCacheMiddleware("/tmp/hackle/", 10, $logger), new SdkHeaderMiddleware($sdk, new SystemClock()));
+        $middlewares = array(
+            new SdkCacheMiddleware($config->getCache(), $config->getLogger()),
+            new SdkHeaderMiddleware($sdk, new SystemClock()))
+        ;
         foreach ($middlewares as $middleware) {
             self::applyMiddleware($stack, $middleware);
         }
@@ -53,7 +47,7 @@ final class HackleClients
         return new Client($configs);
     }
 
-    private static function createEventDispatcherHttpClient(Sdk $sdk, LoggerInterface $logger): Client
+    private static function createEventDispatcherHttpClient(Sdk $sdk): Client
     {
         $stack = HandlerStack::create();
         $headerMiddleware = new SdkHeaderMiddleware($sdk, new SystemClock());
