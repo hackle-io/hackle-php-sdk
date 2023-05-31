@@ -81,19 +81,6 @@ final class HackleConfigBuilder
         return $this;
     }
 
-    public function options(array $options = []): self
-    {
-        if (isset($options['logger'])) {
-            $this->logger = $options['logger'];
-        }
-
-        if (isset($options['cache'])) {
-            $this->cache = $options['cache'];
-        }
-
-        return $this;
-    }
-
     public function build(): HackleConfig
     {
         return new HackleConfig($this);

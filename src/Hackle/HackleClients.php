@@ -38,8 +38,8 @@ final class HackleClients
         $stack = HandlerStack::create();
         $middlewares = array(
             new SdkCacheMiddleware($config->getCache(), $config->getLogger()),
-            new SdkHeaderMiddleware($sdk, new SystemClock()))
-        ;
+            new SdkHeaderMiddleware($sdk, new SystemClock())
+        );
         foreach ($middlewares as $middleware) {
             self::applyMiddleware($stack, $middleware);
         }
