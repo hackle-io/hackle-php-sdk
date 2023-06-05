@@ -24,7 +24,7 @@ use Hackle\Internal\Time\SystemClock;
 use Hackle\Internal\User\HackleUser;
 use Hackle\Internal\Workspace\WorkspaceFetcher;
 
-final class HackleCore
+class HackleCore
 {
     private $experimentEvaluator;
     private $remoteConfigEvaluator;
