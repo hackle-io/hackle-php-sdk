@@ -16,28 +16,28 @@ class SdkHeaderMiddleware implements HackleMiddleware
     private const SDK_TIME_HEADER = "X-HACKLE-SDK-TIME";
 
     /**@var Sdk */
-    private $_sdk;
+    private $sdk;
 
     /**@var Clock */
-    private $_clock;
+    private $clock;
 
     /**
-     * @param Sdk $_sdk
-     * @param Clock $_clock
+     * @param Sdk $sdk
+     * @param Clock $clock
      */
-    public function __construct(Sdk $_sdk, Clock $_clock)
+    public function __construct(Sdk $sdk, Clock $clock)
     {
-        $this->_sdk = $_sdk;
-        $this->_clock = $_clock;
+        $this->sdk = $sdk;
+        $this->clock = $clock;
     }
 
 
     public function process(HandlerStack $stack)
     {
-        $stack->push($this->addHeader(self::SDK_KEY_HEADER, $this->_sdk->getKey()));
-        $stack->push($this->addHeader(self::SDK_NAME_HEADER, $this->_sdk->getName()));
-        $stack->push($this->addHeader(self::SDK_VERSION_HEADER, $this->_sdk->getVersion()));
-        $stack->push($this->addHeader(self::SDK_TIME_HEADER, strval($this->_clock->currentMillis())));
+        $stack->push($this->addHeader(self::SDK_KEY_HEADER, $this->sdk->getKey()));
+        $stack->push($this->addHeader(self::SDK_NAME_HEADER, $this->sdk->getName()));
+        $stack->push($this->addHeader(self::SDK_VERSION_HEADER, $this->sdk->getVersion()));
+        $stack->push($this->addHeader(self::SDK_TIME_HEADER, strval($this->clock->currentMillis())));
     }
 
     private function addHeader(string $header, $value): \Closure

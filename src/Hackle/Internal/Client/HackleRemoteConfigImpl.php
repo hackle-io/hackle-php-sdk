@@ -19,17 +19,23 @@ class HackleRemoteConfigImpl implements RemoteConfig
     /**@var HackleCore */
     private $core;
 
+    /** @var HackleUserResolver */
+    private $userResolver;
+
+    /**@var LoggerInterface */
     private $logger;
 
     /**
      * @param User $user
      * @param HackleCore $core
+     * @param HackleUserResolver $userResolver
      * @param LoggerInterface $logger
      */
-    public function __construct(User $user, HackleCore $core, LoggerInterface $logger)
+    public function __construct(User $user, HackleCore $core, HackleUserResolver $userResolver, LoggerInterface $logger)
     {
         $this->user = $user;
         $this->core = $core;
+        $this->userResolver = $userResolver;
         $this->logger = $logger;
     }
 
@@ -58,7 +64,7 @@ class HackleRemoteConfigImpl implements RemoteConfig
     private function get(User $user, string $key, ValueType $requiredType, $defaultValue): RemoteConfigDecision
     {
         try {
-            $hackleUser = HackleUserResolver::resolveOrNull($user);
+            $hackleUser = $this->userResolver->resolveOrNull($user);
             if ($hackleUser == null) {
                 return RemoteConfigDecision::of($defaultValue, DecisionReason::INVALID_INPUT());
             }

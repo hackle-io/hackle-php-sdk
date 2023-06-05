@@ -12,12 +12,12 @@ class SdkCacheMiddleware implements HackleMiddleware
     private $cache;
 
     /**@var LoggerInterface */
-    private $_logger;
+    private $logger;
 
-    public function __construct(CacheMiddleware $cache, LoggerInterface $_logger)
+    public function __construct(CacheMiddleware $cache, LoggerInterface $logger)
     {
         $this->cache = $cache;
-        $this->_logger = $_logger;
+        $this->logger = $logger;
     }
 
     public function process(HandlerStack $stack)
@@ -25,7 +25,7 @@ class SdkCacheMiddleware implements HackleMiddleware
         if (class_exists('\Kevinrob\GuzzleCache\CacheMiddleware')) {
             $stack->push($this->cache, 'cache');
         } else {
-            $this->_logger->error("Hackle - SdkCacheMiddleware is not using an HTTP cache because Kevinrob\GuzzleCache\CacheMiddleware was not installed");
+            $this->logger->error("Hackle - SdkCacheMiddleware is not using an HTTP cache because Kevinrob\GuzzleCache\CacheMiddleware was not installed");
         }
     }
 }

@@ -6,7 +6,7 @@ use Hackle\Common\User;
 
 class HackleUserResolver
 {
-    public static function resolveOrNull(User $user): ?HackleUser
+    public function resolveOrNull(User $user): ?HackleUser
     {
         $hackleUser = HackleUser::builder()
             ->identifiers($user->getIdentifiers())

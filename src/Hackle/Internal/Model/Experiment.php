@@ -155,7 +155,7 @@ class Experiment
     }
 
     /**
-     * @return int[]
+     * @return array<string, int>
      */
     public function getUserOverrides(): array
     {
@@ -217,7 +217,7 @@ class Experiment
     public static function fromOrNull(array $data, ExperimentType $experimentType): ?Experiment
     {
         $executionData = $data["execution"];
-        $experimentStatus = ExperimentStatus::fromOrNull($executionData["status"]);
+        $experimentStatus = ExperimentStatus::fromExecutionStatusOrNull($executionData["status"]);
         if ($experimentStatus === null) {
             return null;
         }

@@ -8,47 +8,65 @@ use Hackle\Common\PropertiesBuilder;
 class HackleUserBuilder
 {
     /** @var IdentifiersBuilder */
-    private $_identifiers;
+    private $identifiers;
 
     /** @var PropertiesBuilder */
-    private $_properties;
+    private $properties;
 
     /** @var PropertiesBuilder */
-    private $_hackleProperties;
+    private $hackleProperties;
 
     public function __construct()
     {
-        $this->_identifiers = new IdentifiersBuilder();
-        $this->_properties = new PropertiesBuilder();
-        $this->_hackleProperties = new PropertiesBuilder();
+        $this->identifiers = new IdentifiersBuilder();
+        $this->properties = new PropertiesBuilder();
+        $this->hackleProperties = new PropertiesBuilder();
     }
 
     public function identifiers(array $identifiers): self
     {
-        $this->_identifiers->addAll($identifiers);
+        $this->identifiers->addAll($identifiers);
         return $this;
     }
 
     public function identifier(IdentifierType $type, ?string $value, bool $overwrite = true): self
     {
         if ($value != null) {
-            $this->_identifiers->add($type->getValue(), $value, $overwrite);
+            $this->identifiers->add($type->getValue(), $value, $overwrite);
         }
         return $this;
     }
 
     public function properties(array $properties): self
     {
-        $this->_properties->addAll($properties);
+        $this->properties->addAll($properties);
+        return $this;
+    }
+
+    public function property(string $key, $value): self
+    {
+        $this->properties->add($key, $value);
+        return $this;
+    }
+
+    public function hackleProperties(array $properties): self
+    {
+        $this->hackleProperties->addAll($properties);
+        return $this;
+    }
+
+    public function hackleProperty(string $key, $value): self
+    {
+        $this->hackleProperties->add($key, $value);
         return $this;
     }
 
     public function build(): HackleUser
     {
         return new HackleUser(
-            $this->_identifiers->build(),
-            $this->_properties->build(),
-            $this->_hackleProperties->build()
+            $this->identifiers->build(),
+            $this->properties->build(),
+            $this->hackleProperties->build()
         );
     }
 }

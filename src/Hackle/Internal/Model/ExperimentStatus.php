@@ -30,6 +30,9 @@ class ExperimentStatus extends Enum
      */
     public static function fromExecutionStatusOrNull(string $code): ?self
     {
+        if (!isset(ExperimentStatus::STATUSES[$code])) {
+            return null;
+        }
         return ExperimentStatus::fromOrNull(ExperimentStatus::STATUSES[$code]);
     }
 }

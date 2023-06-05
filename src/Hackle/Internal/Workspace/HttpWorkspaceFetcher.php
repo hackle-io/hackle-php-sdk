@@ -14,24 +14,24 @@ class HttpWorkspaceFetcher implements WorkspaceFetcher
     private const SDK_ENDPOINT_URI = "/api/v2/workspaces";
 
     /** @var string */
-    private $_baseUri;
+    private $baseUri;
 
     /** @var Client */
-    private $_client;
+    private $client;
 
     /** @var LoggerInterface */
-    private $_logger;
+    private $logger;
 
     /**
-     * @param string $_baseUri
-     * @param Client $_client
-     * @param LoggerInterface $_logger
+     * @param string $baseUri
+     * @param Client $client
+     * @param LoggerInterface $logger
      */
-    public function __construct(string $_baseUri, Client $_client, LoggerInterface $_logger)
+    public function __construct(string $baseUri, Client $client, LoggerInterface $logger)
     {
-        $this->_baseUri = $_baseUri;
-        $this->_client = $_client;
-        $this->_logger = $_logger;
+        $this->baseUri = $baseUri;
+        $this->client = $client;
+        $this->logger = $logger;
     }
 
     public function fetch(): ?Workspace
@@ -39,7 +39,7 @@ class HttpWorkspaceFetcher implements WorkspaceFetcher
         try {
             return $this->fetchInternal();
         } catch (Throwable $e) {
-            $this->_logger->error("Failed fetch workspace : " . $e->getMessage());
+            $this->logger->error("Failed fetch workspace : " . $e->getMessage());
             return null;
         }
     }
@@ -49,7 +49,7 @@ class HttpWorkspaceFetcher implements WorkspaceFetcher
      */
     private function fetchInternal(): Workspace
     {
-        $response = $this->_client->request("GET", $this->_baseUri . self::SDK_ENDPOINT_URI);
+        $response = $this->client->request("GET", $this->baseUri . self::SDK_ENDPOINT_URI);
         if (!Https::isSuccessful($response)) {
             throw new RuntimeException("Http status code: " . $response->getStatusCode());
         }
