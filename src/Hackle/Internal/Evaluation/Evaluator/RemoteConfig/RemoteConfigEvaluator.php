@@ -15,7 +15,7 @@ use Hackle\Internal\Model\ValueType;
  * @template T
  * @template-extends ContextualEvaluator<RemoteConfigRequest<T>, RemoteConfigEvaluation<T>>
  */
-final class RemoteConfigEvaluator extends ContextualEvaluator
+class RemoteConfigEvaluator extends ContextualEvaluator
 {
 
     private $targetRuleDeterminer;

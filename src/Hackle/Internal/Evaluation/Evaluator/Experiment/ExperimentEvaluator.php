@@ -10,7 +10,7 @@ use Hackle\Internal\Evaluation\Flow\EvaluationFlowFactory;
 /**
  * @template-extends  ContextualEvaluator<ExperimentRequest, ExperimentEvaluation>
  */
-final class ExperimentEvaluator extends ContextualEvaluator
+class ExperimentEvaluator extends ContextualEvaluator
 {
     private $evaluationFlowFactory;
 

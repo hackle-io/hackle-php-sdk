@@ -94,13 +94,13 @@ class Models
     {
         return new DefaultWorkspace(
             $params["experiments"] ?? [],
-            [],
-            [],
+            $params["featureFlags"] ?? [],
+            $params["eventTypes"] ?? [],
             $params["buckets"] ?? [],
             $params["segments"] ?? [],
             [],
             [],
-            []
+            $params["remoteConfigParameters"] ?? []
         );
     }
 

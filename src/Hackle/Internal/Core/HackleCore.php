@@ -33,7 +33,7 @@ final class HackleCore
     private $eventProcessor;
     private $clock;
 
-    private function __construct(
+    public function __construct(
         ExperimentEvaluator $experimentEvaluator,
         RemoteConfigEvaluator $remoteConfigEvaluator,
         WorkspaceFetcher $workspaceFetcher,

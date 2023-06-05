@@ -9,7 +9,7 @@ use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentEvaluation;
 use Hackle\Internal\Evaluation\Evaluator\RemoteConfig\RemoteConfigEvaluation;
 use Hackle\Internal\Time\Clock;
 
-final class UserEventFactory
+class UserEventFactory
 {
     private $clock;
 
