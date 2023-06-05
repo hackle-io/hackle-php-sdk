@@ -8,7 +8,7 @@ use Hackle\Internal\Model\EventType;
 use Hackle\Internal\User\HackleUser;
 use Hackle\Internal\User\IdentifierType;
 
-final class TrackEvent extends UserEvent
+class TrackEvent extends UserEvent
 {
     private $eventType;
     private $event;

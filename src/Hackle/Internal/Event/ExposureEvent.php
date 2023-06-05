@@ -8,7 +8,7 @@ use Hackle\Internal\Model\Experiment;
 use Hackle\Internal\User\HackleUser;
 use Hackle\Internal\User\IdentifierType;
 
-final class ExposureEvent extends UserEvent
+class ExposureEvent extends UserEvent
 {
 
     private $experiment;

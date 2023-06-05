@@ -8,7 +8,7 @@ use Hackle\Internal\Model\RemoteConfigParameter;
 use Hackle\Internal\User\HackleUser;
 use Hackle\Internal\User\IdentifierType;
 
-final class RemoteConfigEvent extends UserEvent
+class RemoteConfigEvent extends UserEvent
 {
     private $parameter;
     private $valueId;
