@@ -26,7 +26,7 @@ class RemoteConfigEvaluation implements EvaluatorEvaluation
      * @param RemoteConfigParameter $parameter
      * @param int|null $valueId
      * @param T $value
-     * @param array<string, object> $properties
+     * @param array<string, mixed> $properties
      */
     public function __construct(
         DecisionReason $reason,
@@ -140,7 +140,7 @@ class RemoteConfigEvaluation implements EvaluatorEvaluation
     }
 
     /**
-     * @return array<string, object>
+     * @return array<string, mixed>
      */
     public function getProperties(): array
     {
