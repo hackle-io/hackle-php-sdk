@@ -4,15 +4,15 @@ namespace Hackle\Common;
 
 class Event
 {
-    private $_key;
-    private $_value;
-    private $_properties;
+    private $key;
+    private $value;
+    private $properties;
 
     public function __construct(string $key, ?float $value, array $properties)
     {
-        $this->_key = $key;
-        $this->_value = $value;
-        $this->_properties = $properties;
+        $this->key = $key;
+        $this->value = $value;
+        $this->properties = $properties;
     }
 
     public static function of(string $key): Event
@@ -27,16 +27,16 @@ class Event
 
     public function getKey(): string
     {
-        return $this->_key;
+        return $this->key;
     }
 
     public function getValue(): ?float
     {
-        return $this->_value;
+        return $this->value;
     }
 
     public function getProperties(): array
     {
-        return $this->_properties;
+        return $this->properties;
     }
 }

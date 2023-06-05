@@ -4,10 +4,14 @@ namespace Hackle\Common;
 
 class PropertiesBuilder
 {
-    private $_properties = [];
     private const MAX_PROPERTIES_COUNT = 128;
     private const MAX_PROPERTY_KEY_LENGTH = 128;
     private const MAX_PROPERTY_VALUE_LENGTH = 1024;
+
+    /**
+     * @var array<string, mixed>
+     */
+    private $properties = [];
 
     public function addAll(array $properties): self
     {
@@ -22,7 +26,7 @@ class PropertiesBuilder
      */
     public function add(string $key, $value): self
     {
-        if (count($this->_properties) >= self::MAX_PROPERTIES_COUNT) {
+        if (count($this->properties) >= self::MAX_PROPERTIES_COUNT) {
             return $this;
         }
 
@@ -32,11 +36,11 @@ class PropertiesBuilder
 
         $sanitizedValue = $this->sanitize($value);
 
-        if (empty($sanitizedValue)) {
+        if (is_null($sanitizedValue)) {
             return $this;
         }
 
-        $this->_properties[$key] = $sanitizedValue;
+        $this->properties[$key] = $sanitizedValue;
         return $this;
     }
 
@@ -45,17 +49,14 @@ class PropertiesBuilder
      */
     private function sanitize($value)
     {
-        if (empty($value)) {
+        if (is_null($value)) {
             return null;
         }
 
         if (is_array($value)) {
-            $filteredNotNullArr = array_filter($value, function ($val) {
-                return !empty($val);
-            });
-            return array_filter($filteredNotNullArr, function ($element) {
-                return $this->isValidElement($element);
-            });
+            return array_values(array_filter($value, function ($val) {
+                return !is_null($val) && $this->isValidElement($val);
+            }));
         }
 
         if ($this->isValidValue($value)) {
@@ -91,6 +92,6 @@ class PropertiesBuilder
 
     public function build(): array
     {
-        return $this->_properties;
+        return $this->properties;
     }
 }

@@ -4,38 +4,38 @@ namespace Hackle\Common;
 
 class EventBuilder
 {
-    private $_key;
-    private $_value;
-    private $_properties;
+    private $key;
+    private $value;
+    private $properties;
 
-    public function __construct(string $_key)
+    public function __construct(string $key)
     {
-        $this->_properties = new PropertiesBuilder();
-        $this->_key = $_key;
+        $this->properties = new PropertiesBuilder();
+        $this->key = $key;
     }
 
     public function value(?float $value): self
     {
-        $this->_value = $value;
+        $this->value = $value;
         return $this;
     }
 
     public function property(string $key, $value): self
     {
-        $this->_properties->add($key, $value);
+        $this->properties->add($key, $value);
         return $this;
     }
 
     public function properties(?array $properties): self
     {
         if (!empty($properties)) {
-            $this->_properties->addAll($properties);
+            $this->properties->addAll($properties);
         }
         return $this;
     }
 
     public function build(): Event
     {
-        return new Event($this->_key, $this->_value, $this->_properties->build());
+        return new Event($this->key, $this->value, $this->properties->build());
     }
 }
