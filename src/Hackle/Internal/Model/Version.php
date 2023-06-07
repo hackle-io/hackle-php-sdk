@@ -20,6 +20,11 @@ class Version implements Comparable
     /** @var MetadataVersion */
     private $build;
 
+    /**
+     * @param CoreVersion $coreVersion
+     * @param MetadataVersion $prerelease
+     * @param MetadataVersion $build
+     */
     public function __construct(CoreVersion $coreVersion, MetadataVersion $prerelease, MetadataVersion $build)
     {
         $this->coreVersion = $coreVersion;
