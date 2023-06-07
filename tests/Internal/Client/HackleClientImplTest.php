@@ -6,7 +6,7 @@ use Hackle\Common\DecisionReason;
 use Hackle\Common\Event;
 use Hackle\Common\ExperimentDecision;
 use Hackle\Common\FeatureFlagDecision;
-use Hackle\Common\User;
+use Hackle\Common\HackleUser;
 use Hackle\Common\Variation;
 use Hackle\Internal\Client\HackleClientImpl;
 use Hackle\Internal\Core\HackleCore;
@@ -29,7 +29,7 @@ class HackleClientImplTest extends TestCase
 
     public function testVariation()
     {
-        $user = User::of("42");
+        $user = HackleUser::of("42");
         $hackleUser = $this->userResolver->resolveOrNull($user);
         $this->core
             ->expects(self::once())
@@ -43,7 +43,7 @@ class HackleClientImplTest extends TestCase
 
     public function testVariationDetail()
     {
-        $user = User::of("42");
+        $user = HackleUser::of("42");
         $hackleUser = $this->userResolver->resolveOrNull($user);
         $decision = ExperimentDecision::of(Variation::G, DecisionReason::TRAFFIC_ALLOCATED());
         $this->core
@@ -59,7 +59,7 @@ class HackleClientImplTest extends TestCase
     public function testVariationDetailIfOccurException()
     {
         $this->core->method("experiment")->willThrowException(new \InvalidArgumentException());
-        $actual = $this->sut->variationDetail(42, User::of("42"));
+        $actual = $this->sut->variationDetail(42, HackleUser::of("42"));
 
         self::assertEquals(DecisionReason::EXCEPTION, $actual->getReason());
         self::assertSame(Variation::getControl(), $actual->getVariation());
@@ -67,7 +67,7 @@ class HackleClientImplTest extends TestCase
 
     public function testIsFeatureOn()
     {
-        $user = User::of("42");
+        $user = HackleUser::of("42");
         $hackleUser = $this->userResolver->resolveOrNull($user);
         $this->core
             ->expects(self::once())
@@ -81,7 +81,7 @@ class HackleClientImplTest extends TestCase
 
     public function testFeatureFlagDetail()
     {
-        $user = User::of("42");
+        $user = HackleUser::of("42");
         $hackleUser = $this->userResolver->resolveOrNull($user);
         $decision = FeatureFlagDecision::on(DecisionReason::DEFAULT_RULE());
         $this->core
@@ -97,13 +97,13 @@ class HackleClientImplTest extends TestCase
     public function testFeatureFlagDetailIfOccurException()
     {
         $this->core->method("featureFlag")->willThrowException(new \InvalidArgumentException());
-        $actual = $this->sut->featureFlagDetail(42, User::of("42"));
+        $actual = $this->sut->featureFlagDetail(42, HackleUser::of("42"));
         self::assertEquals(DecisionReason::EXCEPTION, $actual->getReason());
     }
 
     public function testTrack()
     {
-        $user = User::of("42");
+        $user = HackleUser::of("42");
         $hackleUser = $this->userResolver->resolveOrNull($user);
         $event = Event::of("key");
         $this->core->expects(self::once())

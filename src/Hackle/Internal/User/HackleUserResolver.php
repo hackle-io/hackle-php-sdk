@@ -2,11 +2,11 @@
 
 namespace Hackle\Internal\User;
 
-use Hackle\Common\User;
+use Hackle\Common\HackleUser;
 
 class HackleUserResolver
 {
-    public function resolveOrNull(User $user): ?InternalHackleUser
+    public function resolveOrNull(HackleUser $user): ?InternalHackleUser
     {
         $hackleUser = InternalHackleUser::builder()
             ->identifiers($user->getIdentifiers())

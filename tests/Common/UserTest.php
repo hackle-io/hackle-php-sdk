@@ -2,14 +2,14 @@
 
 namespace Hackle\Tests\Common;
 
-use Hackle\Common\User;
+use Hackle\Common\HackleUser;
 use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
     public function testUserBuild()
     {
-        $user = User::builder()
+        $user = HackleUser::builder()
             ->id("test_id")
             ->property("int_key", 42)
             ->property("float_key", 42.0)
@@ -29,7 +29,7 @@ class UserTest extends TestCase
 
     public function testUserBuild2()
     {
-        $user = User::builder()
+        $user = HackleUser::builder()
             ->id("id")
             ->userId("userId")
             ->deviceId("deviceId")

@@ -5,7 +5,7 @@ namespace Hackle\Internal\Client;
 use Hackle\Common\DecisionReason;
 use Hackle\Common\RemoteConfig;
 use Hackle\Common\RemoteConfigDecision;
-use Hackle\Common\User;
+use Hackle\Common\HackleUser;
 use Hackle\Internal\Core\HackleCore;
 use Hackle\Internal\Model\ValueType;
 use Hackle\Internal\User\HackleUserResolver;
@@ -13,7 +13,7 @@ use Psr\Log\LoggerInterface;
 
 class HackleRemoteConfigImpl implements RemoteConfig
 {
-    /**@var User */
+    /**@var HackleUser */
     private $user;
 
     /**@var HackleCore */
@@ -26,12 +26,12 @@ class HackleRemoteConfigImpl implements RemoteConfig
     private $logger;
 
     /**
-     * @param User $user
+     * @param HackleUser $user
      * @param HackleCore $core
      * @param HackleUserResolver $userResolver
      * @param LoggerInterface $logger
      */
-    public function __construct(User $user, HackleCore $core, HackleUserResolver $userResolver, LoggerInterface $logger)
+    public function __construct(HackleUser $user, HackleCore $core, HackleUserResolver $userResolver, LoggerInterface $logger)
     {
         $this->user = $user;
         $this->core = $core;
@@ -61,7 +61,7 @@ class HackleRemoteConfigImpl implements RemoteConfig
         return $this->get($this->user, $key, ValueType::BOOLEAN(), $defaultValue)->getValue();
     }
 
-    private function get(User $user, string $key, ValueType $requiredType, $defaultValue): RemoteConfigDecision
+    private function get(HackleUser $user, string $key, ValueType $requiredType, $defaultValue): RemoteConfigDecision
     {
         try {
             $hackleUser = $this->userResolver->resolveOrNull($user);

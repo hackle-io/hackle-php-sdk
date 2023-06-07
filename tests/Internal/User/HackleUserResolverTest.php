@@ -2,7 +2,7 @@
 
 namespace Hackle\Tests\Internal\User;
 
-use Hackle\Common\User;
+use Hackle\Common\HackleUser;
 use Hackle\Internal\User\HackleUserResolver;
 use PHPUnit\Framework\TestCase;
 
@@ -17,14 +17,14 @@ class HackleUserResolverTest extends TestCase
 
     public function testReturnNullIfNotExistIdentifier()
     {
-        $user = User::builder()->build();
+        $user = HackleUser::builder()->build();
         $actual = $this->sut->resolveOrNull($user);
         self::assertNull($actual);
     }
 
     public function testResolve()
     {
-        $user = User::builder()
+        $user = HackleUser::builder()
             ->id("id")
             ->userId("userId")
             ->deviceId("deviceId")

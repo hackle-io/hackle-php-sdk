@@ -4,7 +4,7 @@ namespace Hackle\Tests\Internal\Client;
 
 use Hackle\Common\DecisionReason;
 use Hackle\Common\RemoteConfigDecision;
-use Hackle\Common\User;
+use Hackle\Common\HackleUser;
 use Hackle\Internal\Client\HackleRemoteConfigImpl;
 use Hackle\Internal\Core\HackleCore;
 use Hackle\Internal\User\HackleUserResolver;
@@ -28,7 +28,7 @@ class HackleRemoteConfigImplTest extends TestCase
 
     public function testInvalidUser()
     {
-        $user = User::builder()->build();
+        $user = HackleUser::builder()->build();
         $sut = new HackleRemoteConfigImpl($user, $this->core, $this->userResolver, $this->logger);
         $actual = $sut->getString("42", "default");
         self::assertEquals("default", $actual);
@@ -36,7 +36,7 @@ class HackleRemoteConfigImplTest extends TestCase
 
     public function testString()
     {
-        $user = User::builder()->id("user")->build();
+        $user = HackleUser::builder()->id("user")->build();
         $this->core
             ->method("remoteConfig")
             ->willReturn(RemoteConfigDecision::of("string", DecisionReason::DEFAULT_RULE()));
@@ -47,7 +47,7 @@ class HackleRemoteConfigImplTest extends TestCase
 
     public function testNumber()
     {
-        $user = User::builder()->id("user")->build();
+        $user = HackleUser::builder()->id("user")->build();
         $this->core
             ->method("remoteConfig")
             ->willReturn(RemoteConfigDecision::of(42, DecisionReason::DEFAULT_RULE()));
@@ -60,7 +60,7 @@ class HackleRemoteConfigImplTest extends TestCase
 
     public function testBoolean()
     {
-        $user = User::builder()->id("user")->build();
+        $user = HackleUser::builder()->id("user")->build();
         $this->core
             ->method("remoteConfig")
             ->willReturn(RemoteConfigDecision::of(true, DecisionReason::DEFAULT_RULE()));
@@ -72,7 +72,7 @@ class HackleRemoteConfigImplTest extends TestCase
 
     public function testException()
     {
-        $user = User::builder()->id("user")->build();
+        $user = HackleUser::builder()->id("user")->build();
         $this->core->method("remoteConfig")->willThrowException(new \InvalidArgumentException());
         $sut = new HackleRemoteConfigImpl($user, $this->core, $this->userResolver, $this->logger);
         self::assertSame("default", $sut->getString("42", "default"));

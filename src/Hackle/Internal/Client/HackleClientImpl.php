@@ -9,7 +9,7 @@ use Hackle\Common\Event;
 use Hackle\Common\ExperimentDecision;
 use Hackle\Common\FeatureFlagDecision;
 use Hackle\Common\RemoteConfig;
-use Hackle\Common\User;
+use Hackle\Common\HackleUser;
 use Hackle\Common\Variation;
 use Hackle\HackleClient;
 use Hackle\Internal\Core\HackleCore;
@@ -38,12 +38,12 @@ class HackleClientImpl implements HackleClient
         $this->userResolver = $userResolver;
         $this->logger = $logger;
     }
-    public function variation(int $experimentKey, User $user): string
+    public function variation(int $experimentKey, HackleUser $user): string
     {
         return $this->variationDetail($experimentKey, $user)->getVariation();
     }
 
-    public function variationDetail(int $experimentKey, User $user): ExperimentDecision
+    public function variationDetail(int $experimentKey, HackleUser $user): ExperimentDecision
     {
         try {
             $hackleUser = $this->userResolver->resolveOrNull($user);
@@ -58,12 +58,12 @@ class HackleClientImpl implements HackleClient
         }
     }
 
-    public function isFeatureOn(int $featureKey, User $user): bool
+    public function isFeatureOn(int $featureKey, HackleUser $user): bool
     {
         return $this->featureFlagDetail($featureKey, $user)->isOn();
     }
 
-    public function featureFlagDetail(int $featureKey, User $user): FeatureFlagDecision
+    public function featureFlagDetail(int $featureKey, HackleUser $user): FeatureFlagDecision
     {
         try {
             $hackleUser = $this->userResolver->resolveOrNull($user);
@@ -78,7 +78,7 @@ class HackleClientImpl implements HackleClient
         }
     }
 
-    public function track(Event $event, User $user): void
+    public function track(Event $event, HackleUser $user): void
     {
         try {
             $hackleUser = $this->userResolver->resolveOrNull($user);
@@ -92,7 +92,7 @@ class HackleClientImpl implements HackleClient
         }
     }
 
-    public function remoteConfig(User $user): RemoteConfig
+    public function remoteConfig(HackleUser $user): RemoteConfig
     {
         return new HackleRemoteConfigImpl($user, $this->core, $this->logger);
     }

@@ -3,7 +3,7 @@
 namespace Hackle\Tests\Common;
 
 use Hackle\Common\PropertiesBuilder;
-use Hackle\Common\User;
+use Hackle\Common\HackleUser;
 use PHPUnit\Framework\TestCase;
 
 class PropertiesBuilderTest extends TestCase
@@ -18,7 +18,7 @@ class PropertiesBuilderTest extends TestCase
 
     public function testRawValueInvalid()
     {
-        self::assertEmpty((new PropertiesBuilder())->add("key1", User::of("id"))->build());
+        self::assertEmpty((new PropertiesBuilder())->add("key1", HackleUser::of("id"))->build());
     }
 
     public function testArrayValue()

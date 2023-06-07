@@ -4,7 +4,7 @@ namespace Hackle\Tests\Internal\Event;
 
 use Hackle\Common\DecisionReason;
 use Hackle\Common\Event;
-use Hackle\Common\User;
+use Hackle\Common\HackleUser;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentEvaluation;
 use Hackle\Internal\Evaluation\Evaluator\RemoteConfig\RemoteConfigEvaluation;
 use Hackle\Internal\Event\ExposureEvent;
@@ -43,7 +43,7 @@ class UserEventTest extends TestCase
     public function testRemoteConfigCreate()
     {
         $remoteConfigParameter = $this->createMock(RemoteConfigParameter::class);
-        $user = (new HackleUserResolver())->resolveOrNull(User::of("id"));
+        $user = (new HackleUserResolver())->resolveOrNull(HackleUser::of("id"));
         $evaluation = new RemoteConfigEvaluation(
             DecisionReason::DEFAULT_RULE(),
             array(),

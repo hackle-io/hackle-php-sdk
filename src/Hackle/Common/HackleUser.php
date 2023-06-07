@@ -2,7 +2,7 @@
 
 namespace Hackle\Common;
 
-final class User
+final class HackleUser
 {
     /**@var string|null */
     private $id;
@@ -75,7 +75,7 @@ final class User
         return $this->properties;
     }
 
-    public static function of(string $id): User
+    public static function of(string $id): HackleUser
     {
         return self::builder()->id($id)->build();
     }

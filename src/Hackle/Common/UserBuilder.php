@@ -73,9 +73,9 @@ final class UserBuilder
         return $this;
     }
 
-    public function build(): User
+    public function build(): HackleUser
     {
-        return new User(
+        return new HackleUser(
             $this->id,
             $this->userId,
             $this->deviceId,
