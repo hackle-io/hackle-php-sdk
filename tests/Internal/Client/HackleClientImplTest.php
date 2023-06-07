@@ -3,7 +3,7 @@
 namespace Hackle\Tests\Internal\Client;
 
 use Hackle\Common\DecisionReason;
-use Hackle\Common\Event;
+use Hackle\Common\HackleEvent;
 use Hackle\Common\ExperimentDecision;
 use Hackle\Common\FeatureFlagDecision;
 use Hackle\Common\HackleUser;
@@ -105,7 +105,7 @@ class HackleClientImplTest extends TestCase
     {
         $user = HackleUser::of("42");
         $hackleUser = $this->userResolver->resolveOrNull($user);
-        $event = Event::of("key");
+        $event = HackleEvent::of("key");
         $this->core->expects(self::once())
             ->method("track")
             ->withConsecutive([$this->equalTo($event), $this->equalTo($hackleUser)]);

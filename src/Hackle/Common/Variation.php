@@ -15,6 +15,9 @@ class Variation
     const I = "I";
     const J = "J";
 
+    /**
+     * @return string
+     */
     public static function getControl(): string
     {
         return Variation::A;

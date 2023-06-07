@@ -3,7 +3,7 @@
 namespace Hackle\Internal\Core;
 
 use Hackle\Common\DecisionReason;
-use Hackle\Common\Event;
+use Hackle\Common\HackleEvent;
 use Hackle\Common\ExperimentDecision;
 use Hackle\Common\FeatureFlagDecision;
 use Hackle\Common\RemoteConfigDecision;
@@ -127,7 +127,7 @@ class HackleCore
         }
     }
 
-    public function track(Event $event, InternalHackleUser $user)
+    public function track(HackleEvent $event, InternalHackleUser $user)
     {
         $workspace = $this->workspaceFetcher->fetch();
 

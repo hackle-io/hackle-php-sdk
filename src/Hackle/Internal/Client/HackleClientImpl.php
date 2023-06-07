@@ -5,7 +5,7 @@ namespace Hackle\Internal\Client;
 use Exception;
 use Hackle\Common\DecisionReason;
 use Hackle\Common\EmptyParameterConfig;
-use Hackle\Common\Event;
+use Hackle\Common\HackleEvent;
 use Hackle\Common\ExperimentDecision;
 use Hackle\Common\FeatureFlagDecision;
 use Hackle\Common\RemoteConfig;
@@ -78,7 +78,7 @@ class HackleClientImpl implements HackleClient
         }
     }
 
-    public function track(Event $event, HackleUser $user): void
+    public function track(HackleEvent $event, HackleUser $user): void
     {
         try {
             $hackleUser = $this->userResolver->resolveOrNull($user);

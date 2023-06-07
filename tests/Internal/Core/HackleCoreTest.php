@@ -3,7 +3,7 @@
 namespace Hackle\Tests\Internal\Core;
 
 use Hackle\Common\DecisionReason;
-use Hackle\Common\Event;
+use Hackle\Common\HackleEvent;
 use Hackle\Common\ExperimentDecision;
 use Hackle\Common\FeatureFlagDecision;
 use Hackle\Common\RemoteConfigDecision;
@@ -208,7 +208,7 @@ class HackleCoreTest extends TestCase
         $this->workspaceFetcher->method("fetch")->willReturn(null);
 
         // when
-        $this->sut->track(Event::of("purchase"), $this->user);
+        $this->sut->track(HackleEvent::of("purchase"), $this->user);
 
         // then
         self::assertEquals(1, count($this->eventProcessor->getEvents()));
@@ -224,7 +224,7 @@ class HackleCoreTest extends TestCase
         $this->workspaceFetcher->method("fetch")->willReturn($workspace);
 
         // when
-        $this->sut->track(Event::of("purchase"), $this->user);
+        $this->sut->track(HackleEvent::of("purchase"), $this->user);
 
         // then
         self::assertEquals(1, count($this->eventProcessor->getEvents()));
@@ -241,7 +241,7 @@ class HackleCoreTest extends TestCase
         $this->workspaceFetcher->method("fetch")->willReturn($workspace);
 
         // when
-        $this->sut->track(Event::of("purchase"), $this->user);
+        $this->sut->track(HackleEvent::of("purchase"), $this->user);
 
         // then
         self::assertEquals(1, count($this->eventProcessor->getEvents()));

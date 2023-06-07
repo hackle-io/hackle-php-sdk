@@ -3,7 +3,7 @@
 namespace Hackle\Tests\Internal\Event;
 
 use Hackle\Common\DecisionReason;
-use Hackle\Common\Event;
+use Hackle\Common\HackleEvent;
 use Hackle\Common\HackleUser;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentEvaluation;
 use Hackle\Internal\Evaluation\Evaluator\RemoteConfig\RemoteConfigEvaluation;
@@ -65,7 +65,7 @@ class UserEventTest extends TestCase
     {
         $user = InternalHackleUser::builder()->build();
         $eventType = new EventType(320, "event");
-        $event = Event::of("event");
+        $event = HackleEvent::of("event");
 
         $trackEvent = UserEvent::track(
             $user,

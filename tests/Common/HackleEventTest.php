@@ -2,14 +2,14 @@
 
 namespace Hackle\Tests\Common;
 
-use Hackle\Common\Event;
+use Hackle\Common\HackleEvent;
 use PHPUnit\Framework\TestCase;
 
-class EventTest extends TestCase
+class HackleEventTest extends TestCase
 {
     public function testBuild()
     {
-        $event = Event::builder("purchase")
+        $event = HackleEvent::builder("purchase")
             ->value(42.0)
             ->property("k1", "v1")
             ->property("k2", 2)
@@ -28,7 +28,7 @@ class EventTest extends TestCase
 
     public function testOf()
     {
-        $event = Event::of("purchase");
+        $event = HackleEvent::of("purchase");
         $this->assertEquals("purchase", $event->getKey());
         $this->assertEquals(null, $event->getValue());
         $this->assertEquals(array(), $event->getProperties());

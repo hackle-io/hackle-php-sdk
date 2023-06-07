@@ -36,6 +36,23 @@ final class HackleUser
     }
 
     /**
+     * @param string $id
+     * @return HackleUser
+     */
+    public static function of(string $id): HackleUser
+    {
+        return self::builder()->id($id)->build();
+    }
+
+    /**
+     * @return HackleUserBuilder
+     */
+    public static function builder(): HackleUserBuilder
+    {
+        return new HackleUserBuilder();
+    }
+
+    /**
      * @return string|null
      */
     public function getId(): ?string
@@ -73,15 +90,5 @@ final class HackleUser
     public function getProperties(): array
     {
         return $this->properties;
-    }
-
-    public static function of(string $id): HackleUser
-    {
-        return self::builder()->id($id)->build();
-    }
-
-    public static function builder(): HackleUserBuilder
-    {
-        return new HackleUserBuilder();
     }
 }

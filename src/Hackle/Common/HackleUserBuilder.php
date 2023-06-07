@@ -25,31 +25,51 @@ final class HackleUserBuilder
         $this->properties = new PropertiesBuilder();
     }
 
+    /**
+     * @param string|null $id
+     * @return $this
+     */
     public function id(?string $id): self
     {
         $this->id = $id;
         return $this;
     }
 
+    /**
+     * @param string|null $userId
+     * @return $this
+     */
     public function userId(?string $userId): self
     {
         $this->userId = $userId;
         return $this;
     }
 
+    /**
+     * @param string|null $deviceId
+     * @return $this
+     */
     public function deviceId(?string $deviceId): self
     {
         $this->deviceId = $deviceId;
         return $this;
     }
 
+    /**
+     * @param string $type
+     * @param string|null $value
+     * @return HackleUserBuilder
+     */
     public function identifier(string $type, ?string $value): self
     {
         $this->identifiers->add($type, $value);
         return $this;
     }
 
-    /** @param array<string, ?string> $identifiers */
+    /**
+     * @param array<string, string> $identifiers
+     * @return HackleUserBuilder
+     */
     public function identifiers(?array $identifiers): self
     {
         if (!empty($identifiers)) {
@@ -58,13 +78,21 @@ final class HackleUserBuilder
         return $this;
     }
 
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @return HackleUserBuilder
+     */
     public function property(string $key, $value): self
     {
         $this->properties->add($key, $value);
         return $this;
     }
 
-    /** @param array<string, mixed> $properties */
+    /**
+     * @param array<string, mixed> $properties
+     * @return HackleUserBuilder
+     */
     public function properties(?array $properties): self
     {
         if (!empty($properties)) {
@@ -73,6 +101,9 @@ final class HackleUserBuilder
         return $this;
     }
 
+    /**
+     * @return HackleUser
+     */
     public function build(): HackleUser
     {
         return new HackleUser(

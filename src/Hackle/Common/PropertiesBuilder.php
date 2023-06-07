@@ -13,6 +13,10 @@ class PropertiesBuilder
      */
     private $properties = [];
 
+    /**
+     * @param array<string, mixed> $properties
+     * @return PropertiesBuilder
+     */
     public function addAll(array $properties): self
     {
         foreach ($properties as $key => $value) {
@@ -22,7 +26,9 @@ class PropertiesBuilder
     }
 
     /**
+     * @param string $key
      * @param mixed $value
+     * @return PropertiesBuilder
      */
     public function add(string $key, $value): self
     {
@@ -46,6 +52,7 @@ class PropertiesBuilder
 
     /**
      * @param mixed $value
+     * @return mixed|null
      */
     private function sanitize($value)
     {
@@ -68,6 +75,7 @@ class PropertiesBuilder
 
     /**
      * @param mixed $value
+     * @return bool
      */
     private function isValidValue($value): bool
     {
@@ -80,6 +88,7 @@ class PropertiesBuilder
 
     /**
      * @param mixed $element
+     * @return bool
      */
     private function isValidElement($element): bool
     {
@@ -90,6 +99,9 @@ class PropertiesBuilder
         return is_numeric($element);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function build(): array
     {
         return $this->properties;

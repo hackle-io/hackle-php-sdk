@@ -2,7 +2,7 @@
 
 namespace Hackle\Internal\Event;
 
-use Hackle\Common\Event;
+use Hackle\Common\HackleEvent;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentEvaluation;
 use Hackle\Internal\Evaluation\Evaluator\RemoteConfig\RemoteConfigEvaluation;
 use Hackle\Internal\Lang\Uuid;
@@ -41,7 +41,7 @@ abstract class UserEvent
         );
     }
 
-    public static function track(InternalHackleUser $user, EventType $eventType, Event $event, int $timestamp): TrackEvent
+    public static function track(InternalHackleUser $user, EventType $eventType, HackleEvent $event, int $timestamp): TrackEvent
     {
         return new TrackEvent(Uuid::guidv4(), $timestamp, $user, $eventType, $event);
     }

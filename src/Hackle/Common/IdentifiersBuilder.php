@@ -25,6 +25,12 @@ class IdentifiersBuilder
         return $this;
     }
 
+    /**
+     * @param string $type
+     * @param string|null $value
+     * @param bool $overwrite
+     * @return IdentifiersBuilder
+     */
     public function add(string $type, ?string $value, bool $overwrite = true): self
     {
         if (!$overwrite && array_key_exists($type, $this->identifiers)) {

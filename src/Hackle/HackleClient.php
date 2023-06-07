@@ -2,7 +2,7 @@
 
 namespace Hackle;
 
-use Hackle\Common\Event;
+use Hackle\Common\HackleEvent;
 use Hackle\Common\ExperimentDecision;
 use Hackle\Common\FeatureFlagDecision;
 use Hackle\Common\HackleUser;
@@ -56,11 +56,11 @@ interface HackleClient
      *
      * This method does not block the calling thread.
      *
-     * @param Event $event the event that occurred. MUST NOT be null.
+     * @param HackleEvent $event the event that occurred. MUST NOT be null.
      * @param HackleUser $user the user that occurred the event. MUST NOT be null.
      * @return void
      */
-    public function track(Event $event, HackleUser $user): void;
+    public function track(HackleEvent $event, HackleUser $user): void;
 
     /**
      * Returns a instance of Hackle Remote Config.
