@@ -4,7 +4,7 @@ namespace Hackle\Internal\User;
 
 use Hackle\Common\HackleUser;
 
-class HackleUserResolver
+class InternalHackleUserResolver
 {
     public function resolveOrNull(HackleUser $user): ?InternalHackleUser
     {

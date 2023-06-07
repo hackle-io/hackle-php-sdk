@@ -8,7 +8,7 @@ use Hackle\Common\RemoteConfigDecision;
 use Hackle\Common\HackleUser;
 use Hackle\Internal\Core\HackleCore;
 use Hackle\Internal\Model\ValueType;
-use Hackle\Internal\User\HackleUserResolver;
+use Hackle\Internal\User\InternalHackleUserResolver;
 use Psr\Log\LoggerInterface;
 
 class HackleRemoteConfigImpl implements RemoteConfig
@@ -19,7 +19,7 @@ class HackleRemoteConfigImpl implements RemoteConfig
     /**@var HackleCore */
     private $core;
 
-    /** @var HackleUserResolver */
+    /** @var InternalHackleUserResolver */
     private $userResolver;
 
     /**@var LoggerInterface */
@@ -28,10 +28,10 @@ class HackleRemoteConfigImpl implements RemoteConfig
     /**
      * @param HackleUser $user
      * @param HackleCore $core
-     * @param HackleUserResolver $userResolver
+     * @param InternalHackleUserResolver $userResolver
      * @param LoggerInterface $logger
      */
-    public function __construct(HackleUser $user, HackleCore $core, HackleUserResolver $userResolver, LoggerInterface $logger)
+    public function __construct(HackleUser $user, HackleCore $core, InternalHackleUserResolver $userResolver, LoggerInterface $logger)
     {
         $this->user = $user;
         $this->core = $core;

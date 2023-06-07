@@ -3,16 +3,16 @@
 namespace Hackle\Tests\Internal\User;
 
 use Hackle\Common\HackleUser;
-use Hackle\Internal\User\HackleUserResolver;
+use Hackle\Internal\User\InternalHackleUserResolver;
 use PHPUnit\Framework\TestCase;
 
-class HackleUserResolverTest extends TestCase
+class InternalHackleUserResolverTest extends TestCase
 {
     private $sut;
 
     protected function setUp()
     {
-        $this->sut = new HackleUserResolver();
+        $this->sut = new InternalHackleUserResolver();
     }
 
     public function testReturnNullIfNotExistIdentifier()

@@ -5,7 +5,7 @@ namespace Hackle\Internal\User;
 use Hackle\Common\IdentifiersBuilder;
 use Hackle\Common\PropertiesBuilder;
 
-class HackleUserBuilder
+class InternalHackleUserBuilder
 {
     /** @var IdentifiersBuilder */
     private $identifiers;

@@ -10,7 +10,7 @@ use Hackle\Common\HackleUser;
 use Hackle\Common\Variation;
 use Hackle\Internal\Client\HackleClientImpl;
 use Hackle\Internal\Core\HackleCore;
-use Hackle\Internal\User\HackleUserResolver;
+use Hackle\Internal\User\InternalHackleUserResolver;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -23,7 +23,7 @@ class HackleClientImplTest extends TestCase
     protected function setUp()
     {
         $this->core = $this->createMock(HackleCore::class);
-        $this->userResolver = new HackleUserResolver();
+        $this->userResolver = new InternalHackleUserResolver();
         $this->sut = new HackleClientImpl($this->core, $this->userResolver, $this->createMock(LoggerInterface::class));
     }
 

@@ -7,7 +7,7 @@ use Hackle\Common\RemoteConfigDecision;
 use Hackle\Common\HackleUser;
 use Hackle\Internal\Client\HackleRemoteConfigImpl;
 use Hackle\Internal\Core\HackleCore;
-use Hackle\Internal\User\HackleUserResolver;
+use Hackle\Internal\User\InternalHackleUserResolver;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -22,7 +22,7 @@ class HackleRemoteConfigImplTest extends TestCase
     protected function setUp()
     {
         $this->core = $this->createMock(HackleCore::class);
-        $this->userResolver = new HackleUserResolver();
+        $this->userResolver = new InternalHackleUserResolver();
         $this->logger = $this->createMock(LoggerInterface::class);
     }
 

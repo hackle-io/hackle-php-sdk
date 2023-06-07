@@ -13,7 +13,7 @@ use Hackle\Common\HackleUser;
 use Hackle\Common\Variation;
 use Hackle\HackleClient;
 use Hackle\Internal\Core\HackleCore;
-use Hackle\Internal\User\HackleUserResolver;
+use Hackle\Internal\User\InternalHackleUserResolver;
 use Psr\Log\LoggerInterface;
 
 class HackleClientImpl implements HackleClient
@@ -21,7 +21,7 @@ class HackleClientImpl implements HackleClient
     /** @var HackleCore */
     private $core;
 
-    /** @var HackleUserResolver */
+    /** @var InternalHackleUserResolver */
     private $userResolver;
 
     /** @var LoggerInterface */
@@ -29,10 +29,10 @@ class HackleClientImpl implements HackleClient
 
     /**
      * @param HackleCore $core
-     * @param HackleUserResolver $userResolver
+     * @param InternalHackleUserResolver $userResolver
      * @param LoggerInterface $logger
      */
-    public function __construct(HackleCore $core, HackleUserResolver $userResolver, LoggerInterface $logger)
+    public function __construct(HackleCore $core, InternalHackleUserResolver $userResolver, LoggerInterface $logger)
     {
         $this->core = $core;
         $this->userResolver = $userResolver;

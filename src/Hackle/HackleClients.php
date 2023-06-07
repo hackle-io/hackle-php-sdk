@@ -12,7 +12,7 @@ use Hackle\Internal\Http\HackleMiddleware;
 use Hackle\Internal\Http\SdkCacheMiddleware;
 use Hackle\Internal\Http\SdkHeaderMiddleware;
 use Hackle\Internal\Time\SystemClock;
-use Hackle\Internal\User\HackleUserResolver;
+use Hackle\Internal\User\InternalHackleUserResolver;
 use Hackle\Internal\Workspace\HttpWorkspaceFetcher;
 use Hackle\Internal\Workspace\Sdk;
 
@@ -30,7 +30,7 @@ final class HackleClients
         $eventDispatcher = new EventDispatcher($config->getEventUri(), $eventDispatcherHttpClient, $config->getLogger());
         $eventProcessor = new DefaultUserEventProcessor($eventDispatcher, 100, $config->getLogger());
         $core = HackleCore::create($workspaceFetcher, $eventProcessor);
-        return new HackleClientImpl($core, new HackleUserResolver(), $config->getLogger());
+        return new HackleClientImpl($core, new InternalHackleUserResolver(), $config->getLogger());
     }
 
     private static function createWorkspaceFetcherHttpClient(Sdk $sdk, HackleConfig $config): Client

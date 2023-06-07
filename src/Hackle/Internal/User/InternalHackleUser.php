@@ -20,9 +20,9 @@ class InternalHackleUser
         $this->hackleProperties = $hackleProperties;
     }
 
-    public static function builder(): HackleUserBuilder
+    public static function builder(): InternalHackleUserBuilder
     {
-        return new HackleUserBuilder();
+        return new InternalHackleUserBuilder();
     }
 
     /**
