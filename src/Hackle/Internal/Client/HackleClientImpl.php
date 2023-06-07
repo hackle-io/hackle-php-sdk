@@ -94,6 +94,6 @@ class HackleClientImpl implements HackleClient
 
     public function remoteConfig(HackleUser $user): RemoteConfig
     {
-        return new HackleRemoteConfigImpl($user, $this->core, $this->logger);
+        return new HackleRemoteConfigImpl($user, $this->core, $this->userResolver, $this->logger);
     }
 }
