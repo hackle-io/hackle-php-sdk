@@ -4,13 +4,20 @@ namespace Hackle\Internal\Evaluation\Evaluator;
 
 final class EvaluatorKey
 {
-    private $_type;
-    private $_id;
+    /** @var EvaluatorType */
+    private $type;
 
+    /** @var string */
+    private $id;
+
+    /**
+     * @param EvaluatorType $type
+     * @param string $id
+     */
     public function __construct(EvaluatorType $type, string $id)
     {
-        $this->_type = $type;
-        $this->_id = $id;
+        $this->type = $type;
+        $this->id = $id;
     }
 
     /**
@@ -18,7 +25,7 @@ final class EvaluatorKey
      */
     public function getType(): EvaluatorType
     {
-        return $this->_type;
+        return $this->type;
     }
 
     /**
@@ -26,6 +33,6 @@ final class EvaluatorKey
      */
     public function getId(): string
     {
-        return $this->_id;
+        return $this->id;
     }
 }

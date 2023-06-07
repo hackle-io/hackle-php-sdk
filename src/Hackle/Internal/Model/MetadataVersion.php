@@ -5,16 +5,16 @@ namespace Hackle\Internal\Model;
 class MetadataVersion
 {
     /** @var array */
-    private $_identifiers;
+    private $identifiers;
 
-    public function __construct(array $_identifiers)
+    public function __construct(array $identifiers)
     {
-        $this->_identifiers = $_identifiers;
+        $this->identifiers = $identifiers;
     }
 
     public function isEmpty(): bool
     {
-        return empty($this->_identifiers);
+        return empty($this->identifiers);
     }
 
     public function isNotEmpty(): bool
@@ -52,14 +52,14 @@ class MetadataVersion
 
     public function compareIdentifiers(MetadataVersion $other): int
     {
-        $size = min(Count($this->_identifiers), Count($other->_identifiers));
+        $size = min(Count($this->identifiers), Count($other->identifiers));
         for ($i = 0; $i < $size; $i++) {
-            $result = $this->compareIdentifier($this->_identifiers[$i], $other->_identifiers[$i]);
+            $result = $this->compareIdentifier($this->identifiers[$i], $other->identifiers[$i]);
             if ($result != 0) {
                 return $result;
             }
         }
-        return $this->intCompareTo(Count($this->_identifiers), Count($other->_identifiers));
+        return $this->intCompareTo(Count($this->identifiers), Count($other->identifiers));
     }
 
     private function compareIdentifier(string $identifier1, string $identifier2): int
@@ -86,6 +86,6 @@ class MetadataVersion
 
     public function __toString(): string
     {
-        return join(".", $this->_identifiers);
+        return join(".", $this->identifiers);
     }
 }
