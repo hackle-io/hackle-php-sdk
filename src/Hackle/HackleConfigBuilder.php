@@ -2,16 +2,6 @@
 
 namespace Hackle;
 
-use Cache\Adapter\Filesystem\FilesystemCachePool;
-use Kevinrob\GuzzleCache\CacheMiddleware;
-use Kevinrob\GuzzleCache\Storage\Psr6CacheStorage;
-use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
-use Monolog\Handler\ErrorLogHandler;
-use Monolog\Logger;
-use Psr\Log\LoggerInterface;
-
 final class HackleConfigBuilder
 {
     const DEFAULT_SDK_URI = "https://sdk.hackle.io";
@@ -27,40 +17,11 @@ final class HackleConfigBuilder
     /**@var string */
     private $monitoringUri;
 
-    /** @var LoggerInterface */
-    private $logger;
-
-    /** @var CacheMiddleware */
-    private $cache;
-
     public function __construct()
     {
         $this->sdkUri = self::DEFAULT_SDK_URI;
         $this->eventUri = self::DEFAULT_EVENT_URI;
         $this->monitoringUri = self::DEFAULT_MONITORING_URI;
-        $this->logger = $this->getDefaultLogger();
-        $defaultCache = $this->getDefaultCache();
-        if (!is_null($defaultCache)) {
-            $this->cache = $defaultCache;
-        }
-    }
-
-    private function getDefaultLogger(): LoggerInterface
-    {
-        return new Logger("Hackle", [new ErrorLogHandler()]);
-    }
-
-    private function getDefaultCache(): ?CacheMiddleware
-    {
-        if (class_exists('\Kevinrob\GuzzleCache\CacheMiddleware')) {
-            $fileSystemAdapter = new Local("/tmp/hackle/");
-            $fileSystem = new Filesystem($fileSystemAdapter);
-            $cacheStorage = new Psr6CacheStorage(new FilesystemCachePool($fileSystem));
-            return new CacheMiddleware(new GreedyCacheStrategy($cacheStorage, 10));
-        } else {
-            $this->logger->error("Kevinrob\GuzzleCache\CacheMiddleware was not installed");
-            return null;
-        }
     }
 
     public function sdkUri(string $sdkUri): self
@@ -108,21 +69,5 @@ final class HackleConfigBuilder
     public function getMonitoringUri(): string
     {
         return $this->monitoringUri;
-    }
-
-    /**
-     * @return LoggerInterface
-     */
-    public function getLogger(): LoggerInterface
-    {
-        return $this->logger;
-    }
-
-    /**
-     * @return CacheMiddleware
-     */
-    public function getCache(): CacheMiddleware
-    {
-        return $this->cache;
     }
 }

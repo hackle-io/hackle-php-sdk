@@ -2,9 +2,6 @@
 
 namespace Hackle;
 
-use Kevinrob\GuzzleCache\CacheMiddleware;
-use Psr\Log\LoggerInterface;
-
 final class HackleConfig
 {
     /**@var string */
@@ -16,19 +13,11 @@ final class HackleConfig
     /**@var string */
     private $monitoringUri;
 
-    /** @var LoggerInterface */
-    private $logger;
-
-    /** @var CacheMiddleware */
-    private $cache;
-
     public function __construct(HackleConfigBuilder $builder)
     {
         $this->sdkUri = $builder->getSdkUri();
         $this->eventUri = $builder->getEventUri();
         $this->monitoringUri = $builder->getMonitoringUri();
-        $this->logger = $builder->getLogger();
-        $this->cache = $builder->getCache();
     }
 
     public static function getDefault(): HackleConfig
@@ -63,21 +52,5 @@ final class HackleConfig
     public function getMonitoringUri(): string
     {
         return $this->monitoringUri;
-    }
-
-    /**
-     * @return LoggerInterface
-     */
-    public function getLogger(): LoggerInterface
-    {
-        return $this->logger;
-    }
-
-    /**
-     * @return CacheMiddleware
-     */
-    public function getCache(): CacheMiddleware
-    {
-        return $this->cache;
     }
 }

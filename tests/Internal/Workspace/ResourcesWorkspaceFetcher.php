@@ -17,7 +17,6 @@ class ResourcesWorkspaceFetcher implements WorkspaceFetcher
         $this->workspace = DefaultWorkspace::from(json_decode($json, true));
     }
 
-
     public function fetch(): ?Workspace
     {
         return $this->workspace;

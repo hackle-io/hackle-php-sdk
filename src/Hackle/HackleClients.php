@@ -15,6 +15,9 @@ use Hackle\Internal\Time\SystemClock;
 use Hackle\Internal\User\InternalHackleUserResolver;
 use Hackle\Internal\Workspace\HttpWorkspaceFetcher;
 use Hackle\Internal\Workspace\Sdk;
+use Monolog\Handler\ErrorLogHandler;
+use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 final class HackleClients
 {
@@ -23,21 +26,24 @@ final class HackleClients
         if ($config === null) {
             $config = HackleConfig::getDefault();
         }
+
         $sdk = new Sdk($sdkKey);
-        $workspaceFetcherHttpClient = self::createWorkspaceFetcherHttpClient($sdk, $config);
-        $workspaceFetcher = new HttpWorkspaceFetcher($config->getSdkUri(), $workspaceFetcherHttpClient, $config->getLogger());
+        $logger = new Logger("Hackle", [new ErrorLogHandler()]);
+        $workspaceFetcherHttpClient = self::createWorkspaceFetcherHttpClient($sdk, $logger);
+        $workspaceFetcher = new HttpWorkspaceFetcher($config->getSdkUri(), $workspaceFetcherHttpClient, $logger);
         $eventDispatcherHttpClient = self::createEventDispatcherHttpClient($sdk);
-        $eventDispatcher = new EventDispatcher($config->getEventUri(), $eventDispatcherHttpClient, $config->getLogger());
-        $eventProcessor = new DefaultUserEventProcessor($eventDispatcher, 100, $config->getLogger());
+        $eventDispatcher = new EventDispatcher($config->getEventUri(), $eventDispatcherHttpClient, $logger);
+        $eventProcessor = new DefaultUserEventProcessor($eventDispatcher, 100, $logger);
         $core = HackleCore::create($workspaceFetcher, $eventProcessor);
-        return new HackleClientImpl($core, new InternalHackleUserResolver(), $config->getLogger());
+
+        return new HackleClientImpl($core, new InternalHackleUserResolver(), $logger);
     }
 
-    private static function createWorkspaceFetcherHttpClient(Sdk $sdk, HackleConfig $config): Client
+    private static function createWorkspaceFetcherHttpClient(Sdk $sdk, LoggerInterface $logger): Client
     {
         $stack = HandlerStack::create();
         $middlewares = array(
-            new SdkCacheMiddleware($config->getCache(), $config->getLogger()),
+            new SdkCacheMiddleware("/tmp/hackle/", 10, $logger),
             new SdkHeaderMiddleware($sdk, new SystemClock())
         );
         foreach ($middlewares as $middleware) {
