@@ -56,7 +56,7 @@ class MetadataVersion
         for ($i = 0; $i < $size; $i++) {
             $result = $this->compareIdentifier($this->_identifiers[$i], $other->_identifiers[$i]);
             if ($result != 0) {
-                return result;
+                return $result;
             }
         }
         return $this->intCompareTo(Count($this->_identifiers), Count($other->_identifiers));

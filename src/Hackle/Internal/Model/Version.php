@@ -12,25 +12,25 @@ class Version implements Comparable
     private const PATTERN = '/^(?<major>0|[1-9]\d*)(\.(?<minor>0|[1-9]\d*))?(\.(?<patch>0|[1-9]\d*))?(\-(?<prerelease>[0-9A-Za-z\-\.]+))?(\+(?<build>[0-9A-Za-z\-\.]+))?$/';
 
     /** @var CoreVersion */
-    private $_coreVersion;
+    private $coreVersion;
 
     /** @var MetadataVersion */
-    private $_prerelease;
+    private $prerelease;
 
     /** @var MetadataVersion */
-    private $_build;
+    private $build;
 
-    public function __construct(CoreVersion $_coreVersion, MetadataVersion $_prerelease, MetadataVersion $_build)
+    public function __construct(CoreVersion $coreVersion, MetadataVersion $prerelease, MetadataVersion $build)
     {
-        $this->_coreVersion = $_coreVersion;
-        $this->_prerelease = $_prerelease;
-        $this->_build = $_build;
+        $this->coreVersion = $coreVersion;
+        $this->prerelease = $prerelease;
+        $this->build = $build;
     }
 
     public function compareTo(Comparable $other): int
     {
-        $result = $this->_coreVersion->compareTo($other->_coreVersion);
-        return $result != 0 ? $result : $this->_prerelease->compareTo($other->_prerelease);
+        $result = $this->coreVersion->compareTo($other->coreVersion);
+        return $result != 0 ? $result : $this->prerelease->compareTo($other->prerelease);
     }
 
     private static function parse(string $version): ?Version
@@ -57,5 +57,45 @@ class Version implements Comparable
             return null;
         }
         return self::parse($value);
+    }
+
+    public function getPlainString(): string
+    {
+        $plainString = $this->coreVersion;
+        if ($this->prerelease->isNotEmpty()) {
+            $plainString .= "-" . $this->prerelease;
+        }
+        if ($this->build->isNotEmpty()) {
+            $plainString .= "+" . $this->build;
+        }
+        return $plainString;
+    }
+
+    /**
+     * @return CoreVersion
+     */
+    public function getCoreVersion(): CoreVersion
+    {
+        return $this->coreVersion;
+    }
+
+    /**
+     * @return MetadataVersion
+     */
+    public function getPrerelease(): MetadataVersion
+    {
+        return $this->prerelease;
+    }
+
+    /**
+     * @return MetadataVersion
+     */
+    public function getBuild(): MetadataVersion
+    {
+        return $this->build;
+    }
+    public function __toString(): string
+    {
+        return "Version(".$this->getPlainString().")";
     }
 }
