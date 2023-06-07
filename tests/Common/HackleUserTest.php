@@ -5,7 +5,7 @@ namespace Hackle\Tests\Common;
 use Hackle\Common\HackleUser;
 use PHPUnit\Framework\TestCase;
 
-class UserTest extends TestCase
+class HackleUserTest extends TestCase
 {
     public function testUserBuild()
     {

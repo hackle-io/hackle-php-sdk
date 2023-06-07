@@ -2,7 +2,7 @@
 
 namespace Hackle\Common;
 
-final class UserBuilder
+final class HackleUserBuilder
 {
     /**@var string|null */
     private $id;

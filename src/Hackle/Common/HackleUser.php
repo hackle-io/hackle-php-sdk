@@ -80,8 +80,8 @@ final class HackleUser
         return self::builder()->id($id)->build();
     }
 
-    public static function builder(): UserBuilder
+    public static function builder(): HackleUserBuilder
     {
-        return new UserBuilder();
+        return new HackleUserBuilder();
     }
 }
