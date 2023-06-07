@@ -4,16 +4,16 @@ namespace Hackle\Internal\Evaluation\Match\Condition\User;
 
 use Hackle\Internal\Model\TargetKey;
 use Hackle\Internal\Model\TargetKeyType;
-use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\InternalHackleUser;
 
 class UserValueResolver
 {
     /**
-     * @param HackleUser $user
+     * @param InternalHackleUser $user
      * @param TargetKey $key
      * @return mixed|null
      */
-    public function resolveOrNull(HackleUser $user, TargetKey $key)
+    public function resolveOrNull(InternalHackleUser $user, TargetKey $key)
     {
         switch ($key->getType()) {
             case TargetKeyType::USER_ID:

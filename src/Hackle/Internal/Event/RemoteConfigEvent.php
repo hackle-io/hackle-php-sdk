@@ -5,7 +5,7 @@ namespace Hackle\Internal\Event;
 use Hackle\Common\DecisionReason;
 use Hackle\Internal\Event\Dispatcher\RemoteConfigEventDto;
 use Hackle\Internal\Model\RemoteConfigParameter;
-use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\InternalHackleUser;
 use Hackle\Internal\User\IdentifierType;
 
 class RemoteConfigEvent extends UserEvent
@@ -18,7 +18,7 @@ class RemoteConfigEvent extends UserEvent
     /**
      * @param string $insertId
      * @param int $timestamp
-     * @param HackleUser $user
+     * @param InternalHackleUser $user
      * @param RemoteConfigParameter $parameter
      * @param int|null $valueId
      * @param DecisionReason $decisionReason
@@ -27,7 +27,7 @@ class RemoteConfigEvent extends UserEvent
     public function __construct(
         string $insertId,
         int $timestamp,
-        HackleUser $user,
+        InternalHackleUser $user,
         RemoteConfigParameter $parameter,
         ?int $valueId,
         DecisionReason $decisionReason,

@@ -7,7 +7,7 @@ use Hackle\Internal\Evaluation\Evaluator\EvaluatorRequest;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorType;
 use Hackle\Internal\Model\RemoteConfigParameter;
 use Hackle\Internal\Model\ValueType;
-use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\InternalHackleUser;
 use Hackle\Internal\Workspace\Workspace;
 
 /**
@@ -24,14 +24,14 @@ class RemoteConfigRequest implements EvaluatorRequest
 
     /**
      * @param Workspace $workspace
-     * @param HackleUser $user
+     * @param InternalHackleUser $user
      * @param RemoteConfigParameter $parameter
      * @param ValueType $requiredType
      * @param T $defaultValue
      */
     public function __construct(
         Workspace $workspace,
-        HackleUser $user,
+        InternalHackleUser $user,
         RemoteConfigParameter $parameter,
         ValueType $requiredType,
         $defaultValue
@@ -61,9 +61,9 @@ class RemoteConfigRequest implements EvaluatorRequest
     }
 
     /**
-     * @return HackleUser
+     * @return InternalHackleUser
      */
-    public function getUser(): HackleUser
+    public function getUser(): InternalHackleUser
     {
         return $this->user;
     }

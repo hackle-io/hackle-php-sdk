@@ -7,7 +7,7 @@ use Hackle\Internal\Evaluation\Evaluator\EvaluatorContext;
 use Hackle\Internal\Evaluation\Match\TargetMatcher;
 use Hackle\Internal\Evaluation\Target\OverrideResolver;
 use Hackle\Internal\Model\TargetRule;
-use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\InternalHackleUser;
 use Hackle\Internal\User\IdentifierType;
 use Hackle\Internal\Workspace\DefaultWorkspace;
 use Hackle\Tests\Internal\Model\Models;
@@ -38,7 +38,7 @@ class OverrideResolverTest extends TestCase
     public function test__UserOverride__when_identifier_not_found_then_returns_null()
     {
         // given
-        $user = HackleUser::builder()->identifier(IdentifierType::ID(), "test")->build();
+        $user = InternalHackleUser::builder()->identifier(IdentifierType::ID(), "test")->build();
         $experiment = Models::experiment([
             "identifierType" => "customId"
         ]);
@@ -54,7 +54,7 @@ class OverrideResolverTest extends TestCase
 
     public function test__UserOverride__when_user_is_not_overridden_then_returns_null()
     {
-        $user = HackleUser::builder()->identifier(IdentifierType::ID(), "test")->build();
+        $user = InternalHackleUser::builder()->identifier(IdentifierType::ID(), "test")->build();
         $experiment = Models::experiment([
             "identifierType" => "\$id"
         ]);
@@ -70,7 +70,7 @@ class OverrideResolverTest extends TestCase
 
     public function test__UserOverride__when_user_is_overridden_then_returns_overridden_variation()
     {
-        $user = HackleUser::builder()->identifier(IdentifierType::ID(), "test")->build();
+        $user = InternalHackleUser::builder()->identifier(IdentifierType::ID(), "test")->build();
         $experiment = Models::experiment([
             "variations" => [
                 Models::variation(42, "A"),
@@ -95,7 +95,7 @@ class OverrideResolverTest extends TestCase
     public function test__SegmentOverride__when_segment_overrides_is_empty_then_returns_null()
     {
         // given
-        $user = HackleUser::builder()->identifier(IdentifierType::ID(), "test")->build();
+        $user = InternalHackleUser::builder()->identifier(IdentifierType::ID(), "test")->build();
         $experiment = Models::experiment([
             "variations" => [
                 Models::variation(42, "A"),
@@ -116,7 +116,7 @@ class OverrideResolverTest extends TestCase
     public function test__SegmentOverride__when_user_is_in_segment_then_returns_variation_of_first_matched_segment()
     {
         // given
-        $user = HackleUser::builder()->identifier(IdentifierType::ID(), "test")->build();
+        $user = InternalHackleUser::builder()->identifier(IdentifierType::ID(), "test")->build();
         $experiment = Models::experiment([
             "segmentOverrides" => [
                 $this->createSegmentOverride(false),
@@ -143,7 +143,7 @@ class OverrideResolverTest extends TestCase
     public function test__SegmentOverride__when_user_is_not_in_any_segment_then_returns_null()
     {
         // given
-        $user = HackleUser::builder()->identifier(IdentifierType::ID(), "test")->build();
+        $user = InternalHackleUser::builder()->identifier(IdentifierType::ID(), "test")->build();
         $experiment = Models::experiment([
             "segmentOverrides" => [
                 $this->createSegmentOverride(false),

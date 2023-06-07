@@ -6,7 +6,7 @@ use Hackle\Internal\Evaluation\Evaluator\EvaluatorKey;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorRequest;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorType;
 use Hackle\Internal\Model\Experiment;
-use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\InternalHackleUser;
 use Hackle\Internal\Workspace\Workspace;
 
 class ExperimentRequest implements EvaluatorRequest
@@ -18,10 +18,10 @@ class ExperimentRequest implements EvaluatorRequest
     private $defaultVariationKey;
 
     public function __construct(
-        Workspace $workspace,
-        HackleUser $user,
-        Experiment $experiment,
-        string $defaultVariationKey
+        Workspace          $workspace,
+        InternalHackleUser $user,
+        Experiment         $experiment,
+        string             $defaultVariationKey
     ) {
         $this->key = new EvaluatorKey(new EvaluatorType(EvaluatorType::EXPERIMENT), $experiment->getId());
         $this->workspace = $workspace;
@@ -31,10 +31,10 @@ class ExperimentRequest implements EvaluatorRequest
     }
 
     public static function of(
-        Workspace $workspace,
-        HackleUser $user,
-        Experiment $experiment,
-        string $defaultVariationKey
+        Workspace          $workspace,
+        InternalHackleUser $user,
+        Experiment         $experiment,
+        string             $defaultVariationKey
     ): ExperimentRequest {
         return new ExperimentRequest($workspace, $user, $experiment, $defaultVariationKey);
     }
@@ -61,9 +61,9 @@ class ExperimentRequest implements EvaluatorRequest
     }
 
     /**
-     * @return HackleUser
+     * @return InternalHackleUser
      */
-    public function getUser(): HackleUser
+    public function getUser(): InternalHackleUser
     {
         return $this->user;
     }

@@ -2,15 +2,15 @@
 
 namespace Hackle\Tests\Internal\User;
 
-use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\InternalHackleUser;
 use Hackle\Internal\User\IdentifierType;
 use PHPUnit\Framework\TestCase;
 
-class HackleUserTest extends TestCase
+class InternalHackleUserTest extends TestCase
 {
     public function testBuild()
     {
-        $user = HackleUser::builder()
+        $user = InternalHackleUser::builder()
             ->identifiers(array("type-1" => "value-1"))
             ->identifier(IdentifierType::ID(), "id")
             ->identifier(IdentifierType::USER(), "userId")

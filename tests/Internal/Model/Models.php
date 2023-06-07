@@ -13,7 +13,7 @@ use Hackle\Internal\Model\TargetAction;
 use Hackle\Internal\Model\TargetActionBucket;
 use Hackle\Internal\Model\ValueType;
 use Hackle\Internal\Model\Variation;
-use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\InternalHackleUser;
 use Hackle\Internal\User\IdentifierType;
 use Hackle\Internal\Workspace\DefaultWorkspace;
 use Hackle\Internal\Workspace\Workspace;
@@ -119,11 +119,11 @@ class Models
     public static function experimentRequest(
         ?Experiment $experiment = null,
         ?Workspace $workspace = null,
-        ?HackleUser $user = null
+        ?InternalHackleUser $user = null
     ): ExperimentRequest {
         return ExperimentRequest::of(
             $workspace ?? DefaultWorkspace::from(array()),
-            $user ?? HackleUser::builder()->identifier(IdentifierType::ID(), "user")->build(),
+            $user ?? InternalHackleUser::builder()->identifier(IdentifierType::ID(), "user")->build(),
             $experiment ?? Models::experiment(),
             "A"
         );
@@ -133,7 +133,7 @@ class Models
     {
         return new RemoteConfigRequest(
             $params["workspace"] ?? DefaultWorkspace::from(array()),
-            $params["user"] ?? HackleUser::builder()->identifier(IdentifierType::ID(), "user")->build(),
+            $params["user"] ?? InternalHackleUser::builder()->identifier(IdentifierType::ID(), "user")->build(),
             $params["parameter"] ?? self::parameter(),
             $params["requiredType"] ?? ValueType::STRING(),
             $params["defaultValue"] ?? "default_value"

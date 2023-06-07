@@ -19,7 +19,7 @@ use Hackle\Internal\Model\EventType;
 use Hackle\Internal\Model\ExperimentType;
 use Hackle\Internal\Model\ParameterConfiguration;
 use Hackle\Internal\Model\ValueType;
-use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\InternalHackleUser;
 use Hackle\Internal\User\IdentifierType;
 use Hackle\Internal\Workspace\WorkspaceFetcher;
 use Hackle\Tests\Internal\Model\Models;
@@ -55,7 +55,7 @@ class HackleCoreTest extends TestCase
             $this->clock
         );
 
-        $this->user = HackleUser::builder()->identifier(IdentifierType::ID(), "user")->build();
+        $this->user = InternalHackleUser::builder()->identifier(IdentifierType::ID(), "user")->build();
     }
 
 

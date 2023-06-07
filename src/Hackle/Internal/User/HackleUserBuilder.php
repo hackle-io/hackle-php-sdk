@@ -61,9 +61,9 @@ class HackleUserBuilder
         return $this;
     }
 
-    public function build(): HackleUser
+    public function build(): InternalHackleUser
     {
-        return new HackleUser(
+        return new InternalHackleUser(
             $this->identifiers->build(),
             $this->properties->build(),
             $this->hackleProperties->build()

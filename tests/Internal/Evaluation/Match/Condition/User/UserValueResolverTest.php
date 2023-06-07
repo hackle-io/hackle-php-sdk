@@ -5,7 +5,7 @@ namespace Hackle\Tests\Internal\Evaluation\Match\Condition\User;
 use Hackle\Internal\Evaluation\Match\Condition\User\UserValueResolver;
 use Hackle\Internal\Model\TargetKey;
 use Hackle\Internal\Model\TargetKeyType;
-use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\InternalHackleUser;
 use PHPUnit\Framework\TestCase;
 
 class UserValueResolverTest extends TestCase
@@ -15,7 +15,7 @@ class UserValueResolverTest extends TestCase
     {
         $sut = new UserValueResolver();
 
-        $user = new HackleUser(
+        $user = new InternalHackleUser(
             ["id" => "42"],
             ["age" => 42],
             ["osName" => "Android"]
@@ -43,7 +43,7 @@ class UserValueResolverTest extends TestCase
     public function test_unsupported_type()
     {
         $sut = new UserValueResolver();
-        $user = HackleUser::builder()->build();
+        $user = InternalHackleUser::builder()->build();
 
         try {
             $sut->resolveOrNull($user, new TargetKey(TargetKeyType::SEGMENT(), "segment"));

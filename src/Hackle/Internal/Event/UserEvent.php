@@ -7,7 +7,7 @@ use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentEvaluation;
 use Hackle\Internal\Evaluation\Evaluator\RemoteConfig\RemoteConfigEvaluation;
 use Hackle\Internal\Lang\Uuid;
 use Hackle\Internal\Model\EventType;
-use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\InternalHackleUser;
 
 
 abstract class UserEvent
@@ -16,7 +16,7 @@ abstract class UserEvent
     private $timestamp;
     private $user;
 
-    protected function __construct(string $insertId, int $timestamp, HackleUser $user)
+    protected function __construct(string $insertId, int $timestamp, InternalHackleUser $user)
     {
         $this->insertId = $insertId;
         $this->timestamp = $timestamp;
@@ -24,7 +24,7 @@ abstract class UserEvent
     }
 
     public static function exposure(
-        HackleUser $user,
+        InternalHackleUser   $user,
         ExperimentEvaluation $evaluation,
         array $properties,
         int $timestamp
@@ -41,13 +41,13 @@ abstract class UserEvent
         );
     }
 
-    public static function track(HackleUser $user, EventType $eventType, Event $event, int $timestamp): TrackEvent
+    public static function track(InternalHackleUser $user, EventType $eventType, Event $event, int $timestamp): TrackEvent
     {
         return new TrackEvent(Uuid::guidv4(), $timestamp, $user, $eventType, $event);
     }
 
     public static function remoteConfig(
-        HackleUser $user,
+        InternalHackleUser     $user,
         RemoteConfigEvaluation $evaluation,
         array $properties,
         int $timestamp
@@ -80,9 +80,9 @@ abstract class UserEvent
     }
 
     /**
-     * @return HackleUser
+     * @return InternalHackleUser
      */
-    public function getUser(): HackleUser
+    public function getUser(): InternalHackleUser
     {
         return $this->user;
     }

@@ -2,7 +2,7 @@
 
 namespace Hackle\Internal\Evaluation\Evaluator;
 
-use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\InternalHackleUser;
 use Hackle\Internal\Workspace\Workspace;
 
 interface EvaluatorRequest
@@ -11,5 +11,5 @@ interface EvaluatorRequest
 
     public function getWorkspace(): Workspace;
 
-    public function getUser(): HackleUser;
+    public function getUser(): InternalHackleUser;
 }

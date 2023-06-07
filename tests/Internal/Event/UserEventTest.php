@@ -13,7 +13,7 @@ use Hackle\Internal\Event\UserEvent;
 use Hackle\Internal\Model\EventType;
 use Hackle\Internal\Model\ParameterConfiguration;
 use Hackle\Internal\Model\RemoteConfigParameter;
-use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\InternalHackleUser;
 use Hackle\Internal\User\HackleUserResolver;
 use Hackle\Internal\User\IdentifierType;
 use Hackle\Tests\Internal\Model\Models;
@@ -32,7 +32,7 @@ class UserEventTest extends TestCase
             "B",
             $parameterConfiguration
         );
-        $user = HackleUser::builder()->identifier(IdentifierType::ID(), "test_id")->build();
+        $user = InternalHackleUser::builder()->identifier(IdentifierType::ID(), "test_id")->build();
         $actual = UserEvent::exposure($user, $evaluation, array("a" => "1"), 320);
         self::assertInstanceOf(ExposureEvent::class, $actual);
         self::assertEquals(1, $actual->getProperties()["a"]);
@@ -63,7 +63,7 @@ class UserEventTest extends TestCase
 
     public function testTrack()
     {
-        $user = HackleUser::builder()->build();
+        $user = InternalHackleUser::builder()->build();
         $eventType = new EventType(320, "event");
         $event = Event::of("event");
 

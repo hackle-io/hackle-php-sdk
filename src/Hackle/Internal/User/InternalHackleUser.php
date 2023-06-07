@@ -2,7 +2,7 @@
 
 namespace Hackle\Internal\User;
 
-class HackleUser
+class InternalHackleUser
 {
     private $identifiers;
     private $properties;

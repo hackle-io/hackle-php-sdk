@@ -6,9 +6,9 @@ use Hackle\Common\User;
 
 class HackleUserResolver
 {
-    public function resolveOrNull(User $user): ?HackleUser
+    public function resolveOrNull(User $user): ?InternalHackleUser
     {
-        $hackleUser = HackleUser::builder()
+        $hackleUser = InternalHackleUser::builder()
             ->identifiers($user->getIdentifiers())
             ->identifier(IdentifierType::ID(), $user->getId())
             ->identifier(IdentifierType::USER(), $user->getUserId())

@@ -5,7 +5,7 @@ namespace Hackle\Internal\Event;
 use Hackle\Common\Event;
 use Hackle\Internal\Event\Dispatcher\TrackEventDto;
 use Hackle\Internal\Model\EventType;
-use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\InternalHackleUser;
 use Hackle\Internal\User\IdentifierType;
 
 class TrackEvent extends UserEvent
@@ -13,7 +13,7 @@ class TrackEvent extends UserEvent
     private $eventType;
     private $event;
 
-    public function __construct(string $insertId, int $timestamp, HackleUser $user, EventType $eventType, Event $event)
+    public function __construct(string $insertId, int $timestamp, InternalHackleUser $user, EventType $eventType, Event $event)
     {
         parent::__construct($insertId, $timestamp, $user);
         $this->eventType = $eventType;

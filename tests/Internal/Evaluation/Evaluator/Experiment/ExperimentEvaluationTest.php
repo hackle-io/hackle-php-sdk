@@ -8,7 +8,7 @@ use Hackle\Internal\Evaluation\Evaluator\EvaluatorEvaluation;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentEvaluation;
 use Hackle\Internal\Evaluation\Evaluator\Experiment\ExperimentRequest;
 use Hackle\Internal\Model\ParameterConfiguration;
-use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\InternalHackleUser;
 use Hackle\Internal\Workspace\Workspace;
 use Hackle\Tests\Internal\Model\Models;
 use Mockery;
@@ -33,7 +33,7 @@ class ExperimentEvaluationTest extends TestCase
         $workspace = Mockery::mock(Workspace::class);
         $workspace->allows()->getParameterConfigurationOrNull(100)->andReturn($config);
 
-        $user = HackleUser::builder()->build();
+        $user = InternalHackleUser::builder()->build();
         $request = ExperimentRequest::of($workspace, $user, $experiment, "H");
 
         $context = new EvaluatorContext();
@@ -68,7 +68,7 @@ class ExperimentEvaluationTest extends TestCase
 
         $workspace = Mockery::mock(Workspace::class);
 
-        $user = HackleUser::builder()->build();
+        $user = InternalHackleUser::builder()->build();
         $request = ExperimentRequest::of($workspace, $user, $experiment, "H");
 
         $context = new EvaluatorContext();
@@ -104,7 +104,7 @@ class ExperimentEvaluationTest extends TestCase
         $workspace = Mockery::mock(Workspace::class);
         $workspace->allows("getParameterConfigurationOrNull")->andReturn(null);
 
-        $user = HackleUser::builder()->build();
+        $user = InternalHackleUser::builder()->build();
         $request = ExperimentRequest::of($workspace, $user, $experiment, "H");
 
         $context = new EvaluatorContext();
@@ -133,7 +133,7 @@ class ExperimentEvaluationTest extends TestCase
         ]);
         $workspace = Mockery::mock(Workspace::class);
 
-        $user = HackleUser::builder()->build();
+        $user = InternalHackleUser::builder()->build();
         $request = ExperimentRequest::of($workspace, $user, $experiment, "A");
 
         $evaluation = ExperimentEvaluation::ofDefault(
@@ -162,7 +162,7 @@ class ExperimentEvaluationTest extends TestCase
         ]);
         $workspace = Mockery::mock(Workspace::class);
 
-        $user = HackleUser::builder()->build();
+        $user = InternalHackleUser::builder()->build();
         $request = ExperimentRequest::of($workspace, $user, $experiment, "C");
 
         $evaluation = ExperimentEvaluation::ofDefault(

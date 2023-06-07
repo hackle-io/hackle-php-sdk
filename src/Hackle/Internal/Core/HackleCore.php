@@ -21,7 +21,7 @@ use Hackle\Internal\Model\EventType;
 use Hackle\Internal\Model\ValueType;
 use Hackle\Internal\Time\Clock;
 use Hackle\Internal\Time\SystemClock;
-use Hackle\Internal\User\HackleUser;
+use Hackle\Internal\User\InternalHackleUser;
 use Hackle\Internal\Workspace\WorkspaceFetcher;
 
 class HackleCore
@@ -73,7 +73,7 @@ class HackleCore
         );
     }
 
-    public function experiment(int $experimentKey, HackleUser $user, string $defaultVariationKey): ExperimentDecision
+    public function experiment(int $experimentKey, InternalHackleUser $user, string $defaultVariationKey): ExperimentDecision
     {
         $workspace = $this->workspaceFetcher->fetch();
         if ($workspace === null) {
@@ -100,7 +100,7 @@ class HackleCore
         );
     }
 
-    public function featureFlag(int $featureKey, HackleUser $user): FeatureFlagDecision
+    public function featureFlag(int $featureKey, InternalHackleUser $user): FeatureFlagDecision
     {
         $workspace = $this->workspaceFetcher->fetch();
         if ($workspace === null) {
@@ -127,7 +127,7 @@ class HackleCore
         }
     }
 
-    public function track(Event $event, HackleUser $user)
+    public function track(Event $event, InternalHackleUser $user)
     {
         $workspace = $this->workspaceFetcher->fetch();
 
@@ -149,16 +149,16 @@ class HackleCore
      * @template T
      *
      * @param string $parameterKey
-     * @param HackleUser $user
+     * @param InternalHackleUser $user
      * @param ValueType $requiredType
      * @param T $defaultValue
      * @return RemoteConfigDecision<T>
      */
     public function remoteConfig(
-        string $parameterKey,
-        HackleUser $user,
-        ValueType $requiredType,
-        $defaultValue
+        string             $parameterKey,
+        InternalHackleUser $user,
+        ValueType          $requiredType,
+                           $defaultValue
     ): RemoteConfigDecision {
         $workspace = $this->workspaceFetcher->fetch();
         if ($workspace === null) {
