@@ -21,7 +21,7 @@ use Psr\Log\LoggerInterface;
 
 final class HackleClients
 {
-    public static function create(string $sdkKey, ?HackleConfig $config): HackleClient
+    public static function create(string $sdkKey, ?HackleConfig $config = null): HackleClient
     {
         if ($config === null) {
             $config = HackleConfig::getDefault();
