@@ -16,12 +16,12 @@ use Hackle\Internal\Lang\Enum;
  */
 class MatchOperator extends Enum
 {
-    const IN = "IN";
-    const CONTAINS = "CONTAINS";
-    const STARTS_WITH = "STARTS_WITH";
-    const ENDS_WITH = "ENDS_WITH";
-    const GT = "GT";
-    const GTE = "GTE";
-    const LT = "LT";
-    const LTE = "LTE";
+    public const IN = "IN";
+    public const CONTAINS = "CONTAINS";
+    public const STARTS_WITH = "STARTS_WITH";
+    public const ENDS_WITH = "ENDS_WITH";
+    public const GT = "GT";
+    public const GTE = "GTE";
+    public const LT = "LT";
+    public const LTE = "LTE";
 }

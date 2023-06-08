@@ -5,12 +5,11 @@ namespace Hackle\Internal\Client;
 use Exception;
 use Hackle\Common\DecisionReason;
 use Hackle\Common\EmptyParameterConfig;
-use Hackle\Common\HackleEvent;
 use Hackle\Common\ExperimentDecision;
 use Hackle\Common\FeatureFlagDecision;
-use Hackle\Common\RemoteConfig;
+use Hackle\Common\HackleEvent;
+use Hackle\Common\HackleRemoteConfig;
 use Hackle\Common\HackleUser;
-use Hackle\Common\Variation;
 use Hackle\HackleClient;
 use Hackle\Internal\Core\HackleCore;
 use Hackle\Internal\User\InternalHackleUserResolver;
@@ -38,6 +37,7 @@ class HackleClientImpl implements HackleClient
         $this->userResolver = $userResolver;
         $this->logger = $logger;
     }
+
     public function variation(int $experimentKey, HackleUser $user): string
     {
         return $this->variationDetail($experimentKey, $user)->getVariation();
@@ -48,13 +48,15 @@ class HackleClientImpl implements HackleClient
         try {
             $hackleUser = $this->userResolver->resolveOrNull($user);
             if ($hackleUser === null) {
-                return ExperimentDecision::of(Variation::getControl(), DecisionReason::INVALID_INPUT(), new EmptyParameterConfig());
+                return ExperimentDecision::of("A", DecisionReason::INVALID_INPUT(), new EmptyParameterConfig());
             } else {
-                return $this->core->experiment($experimentKey, $hackleUser, Variation::getControl());
+                return $this->core->experiment($experimentKey, $hackleUser, "A");
             }
         } catch (Exception $e) {
-            $this->logger->error("Unexpected exception while deciding variation for experiment[$experimentKey]. Returning default variation[" . Variation::getControl() . "]: " . $e->getMessage());
-            return ExperimentDecision::of(Variation::getControl(), DecisionReason::EXCEPTION(), new EmptyParameterConfig());
+            $this->logger->error(
+                "Unexpected exception while deciding variation for experiment[$experimentKey]. Returning default variation[A]: {$e->getMessage()}"
+            );
+            return ExperimentDecision::of("A", DecisionReason::EXCEPTION(), new EmptyParameterConfig());
         }
     }
 
@@ -68,12 +70,17 @@ class HackleClientImpl implements HackleClient
         try {
             $hackleUser = $this->userResolver->resolveOrNull($user);
             if ($hackleUser === null) {
-                return FeatureFlagDecision::off(new DecisionReason(DecisionReason::INVALID_INPUT), new EmptyParameterConfig());
+                return FeatureFlagDecision::off(
+                    new DecisionReason(DecisionReason::INVALID_INPUT),
+                    new EmptyParameterConfig()
+                );
             } else {
                 return $this->core->featureFlag($featureKey, $hackleUser);
             }
         } catch (Exception $e) {
-            $this->logger->error("Unexpected exception while deciding feature flag[$featureKey]. Returning default variation[Returning default flag[off]:" . $e->getMessage());
+            $this->logger->error(
+                "Unexpected exception while deciding feature flag[$featureKey]. Returning default variation[Returning default flag[off]: {$e->getMessage()}"
+            );
             return FeatureFlagDecision::off(new DecisionReason(DecisionReason::EXCEPTION), new EmptyParameterConfig());
         }
     }
@@ -88,11 +95,13 @@ class HackleClientImpl implements HackleClient
                 $this->core->track($event, $hackleUser);
             }
         } catch (Exception $e) {
-            $this->logger->error("Unexpected exception while tracking event[" . $event->getKey() . "]:" . $e->getMessage());
+            $this->logger->error(
+                "Unexpected exception while tracking event[{$event->getKey()}]: {$e->getMessage()}"
+            );
         }
     }
 
-    public function remoteConfig(HackleUser $user): RemoteConfig
+    public function remoteConfig(HackleUser $user): HackleRemoteConfig
     {
         return new HackleRemoteConfigImpl($user, $this->core, $this->userResolver, $this->logger);
     }

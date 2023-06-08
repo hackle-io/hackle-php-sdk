@@ -2,7 +2,6 @@
 
 namespace Hackle\Internal\Workspace;
 
-use Exception;
 use GuzzleHttp\Client;
 use Hackle\Internal\Utils\Https;
 use Psr\Log\LoggerInterface;

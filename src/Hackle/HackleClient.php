@@ -2,11 +2,11 @@
 
 namespace Hackle;
 
-use Hackle\Common\HackleEvent;
 use Hackle\Common\ExperimentDecision;
 use Hackle\Common\FeatureFlagDecision;
+use Hackle\Common\HackleEvent;
+use Hackle\Common\HackleRemoteConfig;
 use Hackle\Common\HackleUser;
-use Hackle\Common\RemoteConfig;
 
 interface HackleClient
 {
@@ -17,7 +17,7 @@ interface HackleClient
      *
      * @param int $experimentKey
      * @param HackleUser $user
-     * @return string decided variation for the user, or [Variation::getControl()]
+     * @return string decided variation for the user, or "A"
      */
     public function variation(int $experimentKey, HackleUser $user): string;
 
@@ -65,5 +65,5 @@ interface HackleClient
     /**
      * Returns a instance of Hackle Remote Config.
      */
-    public function remoteConfig(HackleUser $user): RemoteConfig;
+    public function remoteConfig(HackleUser $user): HackleRemoteConfig;
 }

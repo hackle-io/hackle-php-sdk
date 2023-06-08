@@ -5,8 +5,8 @@ namespace Hackle\Internal\Event;
 use Hackle\Common\DecisionReason;
 use Hackle\Internal\Event\Dispatcher\RemoteConfigEventDto;
 use Hackle\Internal\Model\RemoteConfigParameter;
-use Hackle\Internal\User\InternalHackleUser;
 use Hackle\Internal\User\IdentifierType;
+use Hackle\Internal\User\InternalHackleUser;
 
 class RemoteConfigEvent extends UserEvent
 {
@@ -40,7 +40,7 @@ class RemoteConfigEvent extends UserEvent
         $this->properties = $properties;
     }
 
-    public function toDto() : RemoteConfigEventDto
+    public function toDto(): RemoteConfigEventDto
     {
         return new RemoteConfigEventDto(
             $this->getInsertId(),

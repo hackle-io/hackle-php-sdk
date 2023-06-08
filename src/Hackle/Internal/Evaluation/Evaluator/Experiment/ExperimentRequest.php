@@ -18,10 +18,10 @@ class ExperimentRequest implements EvaluatorRequest
     private $defaultVariationKey;
 
     public function __construct(
-        Workspace          $workspace,
+        Workspace $workspace,
         InternalHackleUser $user,
-        Experiment         $experiment,
-        string             $defaultVariationKey
+        Experiment $experiment,
+        string $defaultVariationKey
     ) {
         $this->key = new EvaluatorKey(new EvaluatorType(EvaluatorType::EXPERIMENT), $experiment->getId());
         $this->workspace = $workspace;
@@ -31,10 +31,10 @@ class ExperimentRequest implements EvaluatorRequest
     }
 
     public static function of(
-        Workspace          $workspace,
+        Workspace $workspace,
         InternalHackleUser $user,
-        Experiment         $experiment,
-        string             $defaultVariationKey
+        Experiment $experiment,
+        string $defaultVariationKey
     ): ExperimentRequest {
         return new ExperimentRequest($workspace, $user, $experiment, $defaultVariationKey);
     }

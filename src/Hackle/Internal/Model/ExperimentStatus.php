@@ -12,10 +12,10 @@ use Hackle\Internal\Lang\Enum;
  */
 class ExperimentStatus extends Enum
 {
-    const DRAFT = "DRAFT";
-    const RUNNING = "RUNNING";
-    const PAUSED = "PAUSED";
-    const COMPLETED = "COMPLETED";
+    public const DRAFT = "DRAFT";
+    public const RUNNING = "RUNNING";
+    public const PAUSED = "PAUSED";
+    public const COMPLETED = "COMPLETED";
 
     private const STATUSES = array(
         "READY" => self::DRAFT,

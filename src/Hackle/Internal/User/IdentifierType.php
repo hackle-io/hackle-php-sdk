@@ -13,9 +13,9 @@ use Hackle\Internal\Lang\Enum;
  */
 class IdentifierType extends Enum
 {
-    const ID = "\$id";
-    const USER = "\$userId";
-    const DEVICE = "\$deviceId";
-    const SESSION = "\$sessionId";
-    const HACKLE_DEVICE_ID = "\$hackleDeviceId";
+    public const ID = "\$id";
+    public const USER = "\$userId";
+    public const DEVICE = "\$deviceId";
+    public const SESSION = "\$sessionId";
+    public const HACKLE_DEVICE_ID = "\$hackleDeviceId";
 }

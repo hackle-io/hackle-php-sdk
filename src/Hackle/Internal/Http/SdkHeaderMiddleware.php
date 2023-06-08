@@ -4,7 +4,6 @@ namespace Hackle\Internal\Http;
 
 use GuzzleHttp\HandlerStack;
 use Hackle\Internal\Time\Clock;
-use Hackle\Internal\Time\SystemClock;
 use Hackle\Internal\Workspace\Sdk;
 use Psr\Http\Message\RequestInterface;
 

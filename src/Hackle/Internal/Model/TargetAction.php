@@ -2,8 +2,6 @@
 
 namespace Hackle\Internal\Model;
 
-use Hackle\Internal\Log\Log;
-
 abstract class TargetAction
 {
     public static function fromOrNull($data): ?TargetAction
@@ -14,7 +12,6 @@ abstract class TargetAction
             case "BUCKET":
                 return new TargetActionBucket($data["bucketId"]);
             default:
-                Log::debug("Unsupported type[{$data["type"]}]. Please use the latest version of sdk.");
                 return null;
         }
     }

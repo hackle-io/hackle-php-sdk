@@ -61,9 +61,11 @@ class PropertiesBuilder
         }
 
         if (is_array($value)) {
-            return array_values(array_filter($value, function ($val) {
-                return !is_null($val) && $this->isValidElement($val);
-            }));
+            return array_values(
+                array_filter($value, function ($val) {
+                    return !is_null($val) && $this->isValidElement($val);
+                })
+            );
         }
 
         if ($this->isValidValue($value)) {

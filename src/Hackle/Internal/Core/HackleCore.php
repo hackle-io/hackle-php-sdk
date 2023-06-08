@@ -3,9 +3,9 @@
 namespace Hackle\Internal\Core;
 
 use Hackle\Common\DecisionReason;
-use Hackle\Common\HackleEvent;
 use Hackle\Common\ExperimentDecision;
 use Hackle\Common\FeatureFlagDecision;
+use Hackle\Common\HackleEvent;
 use Hackle\Common\RemoteConfigDecision;
 use Hackle\Internal\Evaluation\Evaluator\DelegatingEvaluator;
 use Hackle\Internal\Evaluation\Evaluator\EvaluatorContext;
@@ -73,8 +73,11 @@ class HackleCore
         );
     }
 
-    public function experiment(int $experimentKey, InternalHackleUser $user, string $defaultVariationKey): ExperimentDecision
-    {
+    public function experiment(
+        int $experimentKey,
+        InternalHackleUser $user,
+        string $defaultVariationKey
+    ): ExperimentDecision {
         $workspace = $this->workspaceFetcher->fetch();
         if ($workspace === null) {
             return ExperimentDecision::of($defaultVariationKey, DecisionReason::SDK_NOT_READY());
@@ -155,10 +158,10 @@ class HackleCore
      * @return RemoteConfigDecision<T>
      */
     public function remoteConfig(
-        string             $parameterKey,
+        string $parameterKey,
         InternalHackleUser $user,
-        ValueType          $requiredType,
-                           $defaultValue
+        ValueType $requiredType,
+        $defaultValue
     ): RemoteConfigDecision {
         $workspace = $this->workspaceFetcher->fetch();
         if ($workspace === null) {
