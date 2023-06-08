@@ -15,11 +15,11 @@
     ],
     "require": {
         "php": ">=7.1.33",
+        "ext-json": "*",
         "guzzlehttp/guzzle": "~6.5.8",
         "monolog/monolog": "1.27.1",
         "kevinrob/guzzle-cache-middleware": "v3.5.0",
-        "cache/filesystem-adapter": "1.1.0",
-        "ext-json": "*"
+        "cache/filesystem-adapter": "1.1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0",
