@@ -10,6 +10,6 @@ use Hackle\Internal\Lang\Enum;
  */
 class EvaluatorType extends Enum
 {
-    const EXPERIMENT = "EXPERIMENT";
-    const REMOTE_CONFIG = "REMOTE_CONFIG";
+    public const EXPERIMENT = "EXPERIMENT";
+    public const REMOTE_CONFIG = "REMOTE_CONFIG";
 }

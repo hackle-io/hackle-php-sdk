@@ -5,12 +5,11 @@ namespace Hackle\Internal\Event;
 use Hackle\Common\DecisionReason;
 use Hackle\Internal\Event\Dispatcher\ExposureEventDto;
 use Hackle\Internal\Model\Experiment;
-use Hackle\Internal\User\InternalHackleUser;
 use Hackle\Internal\User\IdentifierType;
+use Hackle\Internal\User\InternalHackleUser;
 
 class ExposureEvent extends UserEvent
 {
-
     private $experiment;
     private $variationId;
     private $variationKey;
@@ -28,14 +27,14 @@ class ExposureEvent extends UserEvent
      * @param array<string, object> $properties
      */
     public function __construct(
-        string             $insertId,
-        int                $timestamp,
+        string $insertId,
+        int $timestamp,
         InternalHackleUser $user,
-        Experiment         $experiment,
-        ?int               $variationId,
-        string             $variationKey,
-        DecisionReason     $decisionReason,
-        array              $properties
+        Experiment $experiment,
+        ?int $variationId,
+        string $variationKey,
+        DecisionReason $decisionReason,
+        array $properties
     ) {
         parent::__construct($insertId, $timestamp, $user);
         $this->experiment = $experiment;
@@ -45,7 +44,7 @@ class ExposureEvent extends UserEvent
         $this->properties = $properties;
     }
 
-    public function toDto() : ExposureEventDto
+    public function toDto(): ExposureEventDto
     {
         return new ExposureEventDto(
             $this->getInsertId(),

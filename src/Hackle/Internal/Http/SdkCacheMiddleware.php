@@ -42,7 +42,9 @@ class SdkCacheMiddleware implements HackleMiddleware
             $cacheStorage = new Psr6CacheStorage(new FilesystemCachePool($fileSystem));
             $stack->push(new CacheMiddleware(new GreedyCacheStrategy($cacheStorage, $this->ttl)), 'cache');
         } else {
-            $this->logger->error("Hackle - SdkCacheMiddleware is not using an HTTP cache because Kevinrob\GuzzleCache\CacheMiddleware was not installed");
+            $this->logger->error(
+                "Hackle - SdkCacheMiddleware is not using an HTTP cache because Kevinrob\GuzzleCache\CacheMiddleware was not installed"
+            );
         }
     }
 }

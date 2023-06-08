@@ -10,8 +10,8 @@ use Hackle\Internal\Lang\Enum;
  */
 final class MatchType extends Enum
 {
-    const MATCH = "MATCH";
-    const NOT_MATCH = "NOT_MATCH";
+    public const MATCH = "MATCH";
+    public const NOT_MATCH = "NOT_MATCH";
 
     public function matches(bool $isMatched): bool
     {

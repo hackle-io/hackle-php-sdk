@@ -215,16 +215,16 @@ class ExposureEventDto implements JsonSerializable
             "insertId" => $this->insertId,
             "timestamp" => $this->timestamp,
             "userId" => $this->userId,
-            "identifiers" => empty($this->identifiers)? new stdClass() : $this->identifiers,
-            "userProperties" => empty($this->userProperties)? new stdClass() : $this->userProperties,
-            "hackleProperties" => empty($this->hackleProperties)? new stdClass() : $this->hackleProperties,
+            "identifiers" => empty($this->identifiers) ? new stdClass() : $this->identifiers,
+            "userProperties" => empty($this->userProperties) ? new stdClass() : $this->userProperties,
+            "hackleProperties" => empty($this->hackleProperties) ? new stdClass() : $this->hackleProperties,
             "experimentId" => $this->experimentId,
             "experimentKey" => $this->experimentKey,
             "experimentType" => $this->experimentType,
             "variationId" => $this->variationId,
             "variationKey" => $this->variationKey,
             "decisionReason" => $this->decisionReason,
-            "properties" => empty($this->properties)? new stdClass() : $this->properties
+            "properties" => empty($this->properties) ? new stdClass() : $this->properties
         ];
     }
 }

@@ -3,15 +3,15 @@
 namespace Hackle\Internal\Client;
 
 use Hackle\Common\DecisionReason;
-use Hackle\Common\RemoteConfig;
-use Hackle\Common\RemoteConfigDecision;
+use Hackle\Common\HackleRemoteConfig;
 use Hackle\Common\HackleUser;
+use Hackle\Common\RemoteConfigDecision;
 use Hackle\Internal\Core\HackleCore;
 use Hackle\Internal\Model\ValueType;
 use Hackle\Internal\User\InternalHackleUserResolver;
 use Psr\Log\LoggerInterface;
 
-class HackleRemoteConfigImpl implements RemoteConfig
+class HackleRemoteConfigImpl implements HackleRemoteConfig
 {
     /**@var HackleUser */
     private $user;
@@ -31,8 +31,12 @@ class HackleRemoteConfigImpl implements RemoteConfig
      * @param InternalHackleUserResolver $userResolver
      * @param LoggerInterface $logger
      */
-    public function __construct(HackleUser $user, HackleCore $core, InternalHackleUserResolver $userResolver, LoggerInterface $logger)
-    {
+    public function __construct(
+        HackleUser $user,
+        HackleCore $core,
+        InternalHackleUserResolver $userResolver,
+        LoggerInterface $logger
+    ) {
         $this->user = $user;
         $this->core = $core;
         $this->userResolver = $userResolver;
@@ -90,7 +94,9 @@ class HackleRemoteConfigImpl implements RemoteConfig
             }
             return $this->core->remoteConfig($key, $hackleUser, $requiredType, $defaultValue);
         } catch (\Exception $e) {
-            $this->logger->error("Unexpected exception while deciding remote config parameter[" . $key . "]. Returning default value.");
+            $this->logger->error(
+                "Unexpected exception while deciding remote config parameter[$key]. Returning default value."
+            );
             return RemoteConfigDecision::of($defaultValue, DecisionReason::EXCEPTION());
         }
     }

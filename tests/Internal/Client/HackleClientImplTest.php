@@ -3,11 +3,10 @@
 namespace Hackle\Tests\Internal\Client;
 
 use Hackle\Common\DecisionReason;
-use Hackle\Common\HackleEvent;
 use Hackle\Common\ExperimentDecision;
 use Hackle\Common\FeatureFlagDecision;
+use Hackle\Common\HackleEvent;
 use Hackle\Common\HackleUser;
-use Hackle\Common\Variation;
 use Hackle\Internal\Client\HackleClientImpl;
 use Hackle\Internal\Core\HackleCore;
 use Hackle\Internal\User\InternalHackleUserResolver;
@@ -34,22 +33,22 @@ class HackleClientImplTest extends TestCase
         $this->core
             ->expects(self::once())
             ->method("experiment")
-            ->withConsecutive([$this->equalTo(42), $this->equalTo($hackleUser), $this->equalTo(Variation::getControl())])
-            ->willReturn(ExperimentDecision::of(Variation::G, DecisionReason::TRAFFIC_ALLOCATED()));
+            ->withConsecutive([$this->equalTo(42), $this->equalTo($hackleUser), $this->equalTo("A")])
+            ->willReturn(ExperimentDecision::of("G", DecisionReason::TRAFFIC_ALLOCATED()));
 
         $actual = $this->sut->variation(42, $user);
-        self::assertEquals(Variation::G, $actual);
+        self::assertEquals("G", $actual);
     }
 
     public function testVariationDetail()
     {
         $user = HackleUser::of("42");
         $hackleUser = $this->userResolver->resolveOrNull($user);
-        $decision = ExperimentDecision::of(Variation::G, DecisionReason::TRAFFIC_ALLOCATED());
+        $decision = ExperimentDecision::of("G", DecisionReason::TRAFFIC_ALLOCATED());
         $this->core
             ->expects(self::once())
             ->method("experiment")
-            ->withConsecutive([$this->equalTo(42), $this->equalTo($hackleUser), $this->equalTo(Variation::getControl())])
+            ->withConsecutive([$this->equalTo(42), $this->equalTo($hackleUser), $this->equalTo("A")])
             ->willReturn($decision);
 
         $actual = $this->sut->variationDetail(42, $user);
@@ -62,7 +61,7 @@ class HackleClientImplTest extends TestCase
         $actual = $this->sut->variationDetail(42, HackleUser::of("42"));
 
         self::assertEquals(DecisionReason::EXCEPTION, $actual->getReason());
-        self::assertSame(Variation::getControl(), $actual->getVariation());
+        self::assertSame("A", $actual->getVariation());
     }
 
     public function testIsFeatureOn()

@@ -13,9 +13,9 @@ use Hackle\Internal\Lang\Enum;
  */
 class ValueType extends Enum
 {
-    const STRING = "STRING";
-    const NUMBER = "NUMBER";
-    const BOOLEAN = "BOOLEAN";
-    const VERSION = "VERSION";
-    const JSON = "JSON";
+    public const STRING = "STRING";
+    public const NUMBER = "NUMBER";
+    public const BOOLEAN = "BOOLEAN";
+    public const VERSION = "VERSION";
+    public const JSON = "JSON";
 }

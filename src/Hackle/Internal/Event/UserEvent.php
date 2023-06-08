@@ -9,7 +9,6 @@ use Hackle\Internal\Lang\Uuid;
 use Hackle\Internal\Model\EventType;
 use Hackle\Internal\User\InternalHackleUser;
 
-
 abstract class UserEvent
 {
     private $insertId;
@@ -24,7 +23,7 @@ abstract class UserEvent
     }
 
     public static function exposure(
-        InternalHackleUser   $user,
+        InternalHackleUser $user,
         ExperimentEvaluation $evaluation,
         array $properties,
         int $timestamp
@@ -41,13 +40,17 @@ abstract class UserEvent
         );
     }
 
-    public static function track(InternalHackleUser $user, EventType $eventType, HackleEvent $event, int $timestamp): TrackEvent
-    {
+    public static function track(
+        InternalHackleUser $user,
+        EventType $eventType,
+        HackleEvent $event,
+        int $timestamp
+    ): TrackEvent {
         return new TrackEvent(Uuid::guidv4(), $timestamp, $user, $eventType, $event);
     }
 
     public static function remoteConfig(
-        InternalHackleUser     $user,
+        InternalHackleUser $user,
         RemoteConfigEvaluation $evaluation,
         array $properties,
         int $timestamp

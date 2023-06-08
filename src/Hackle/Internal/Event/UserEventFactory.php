@@ -11,12 +11,11 @@ use Hackle\Internal\Time\Clock;
 
 class UserEventFactory
 {
-    private $clock;
-
-
     private const  ROOT_TYPE = "\$targetingRootType";
     private const  ROOT_ID = "\$targetingRootId";
     private const CONFIG_ID_PROPERTY_KEY = "\$parameterConfigurationId";
+
+    private $clock;
 
     public function __construct(Clock $clock)
     {

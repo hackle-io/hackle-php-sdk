@@ -4,13 +4,13 @@ namespace Hackle\Common;
 
 class ExperimentDecision implements ParameterConfig
 {
-    /** @var string  */
+    /** @var string */
     private $variation;
 
-    /** @var string  */
+    /** @var string */
     private $reason;
 
-    /** @var ParameterConfig  */
+    /** @var ParameterConfig */
     private $config;
 
     /**
@@ -38,7 +38,7 @@ class ExperimentDecision implements ParameterConfig
 
     /**
      * @param string $key
-     * @param string|mixed  $defaultValue
+     * @param string|mixed $defaultValue
      * @return mixed
      */
     public function getString(string $key, $defaultValue)
@@ -48,7 +48,7 @@ class ExperimentDecision implements ParameterConfig
 
     /**
      * @param string $key
-     * @param int|mixed  $defaultValue
+     * @param int|mixed $defaultValue
      * @return mixed
      */
     public function getInt(string $key, $defaultValue)
@@ -58,7 +58,7 @@ class ExperimentDecision implements ParameterConfig
 
     /**
      * @param string $key
-     * @param float|mixed  $defaultValue
+     * @param float|mixed $defaultValue
      * @return mixed
      */
     public function getFloat(string $key, $defaultValue)
@@ -68,7 +68,7 @@ class ExperimentDecision implements ParameterConfig
 
     /**
      * @param string $key
-     * @param bool|mixed  $defaultValue
+     * @param bool|mixed $defaultValue
      * @return mixed
      */
     public function getBool(string $key, $defaultValue)
