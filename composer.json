@@ -30,5 +30,10 @@
         "psr-4": {
             "Hackle\\": "src/Hackle/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Hackle\\Tests\\": "tests/"
+        }
     }
 }
