@@ -1,6 +1,11 @@
 {
     "name": "hackle/hackle-php-sdk",
     "description": "Hackle SDK for PHP",
+    "keywords": [
+        "hackle",
+        "hackle sdk",
+        "hackle php"
+    ],
     "license": "Apache-2.0",
     "authors": [
         {
@@ -9,16 +14,26 @@
         }
     ],
     "require": {
-        "php": ">=5.5",
-        "guzzlehttp/guzzle": "~6.2",
-        "monolog/monolog": "~1.21 || ^2.0"
+        "php": ">=7.1.33",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "~6.5.8",
+        "monolog/monolog": "1.27.1",
+        "kevinrob/guzzle-cache-middleware": "v3.5.0",
+        "cache/filesystem-adapter": "1.1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.0"
+        "phpunit/phpunit": "^7.0",
+        "squizlabs/php_codesniffer": "3.*",
+        "mockery/mockery": "^1.3"
     },
     "autoload": {
         "psr-4": {
             "Hackle\\": "src/Hackle/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Hackle\\Tests\\": "tests/"
         }
     }
 }
