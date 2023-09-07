@@ -4,7 +4,7 @@ namespace Hackle\Internal\Workspace;
 
 class Sdk
 {
-    public const VERSION = "1.0.0";
+    public const VERSION = "1.1.0";
     public const SDK_NAME = "php-sdk";
 
     /** @var string */

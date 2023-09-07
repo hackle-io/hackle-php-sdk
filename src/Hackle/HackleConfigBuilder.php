@@ -2,12 +2,10 @@
 
 namespace Hackle;
 
+use Hackle\Common\HackleRegion;
+
 final class HackleConfigBuilder
 {
-    public const DEFAULT_SDK_URI = "https://sdk.hackle.io";
-    public const DEFAULT_EVENT_URI = "https://event.hackle.io";
-    public const DEFAULT_MONITORING_URI = "https://monitoring.hackle.io";
-
     /**@var string */
     private $sdkUri;
 
@@ -19,9 +17,10 @@ final class HackleConfigBuilder
 
     public function __construct()
     {
-        $this->sdkUri = self::DEFAULT_SDK_URI;
-        $this->eventUri = self::DEFAULT_EVENT_URI;
-        $this->monitoringUri = self::DEFAULT_MONITORING_URI;
+        $defaultRegion = HackleRegion::defaultRegion();
+        $this->sdkUri = $defaultRegion->getSdkUri();
+        $this->eventUri = $defaultRegion->getEventUri();
+        $this->monitoringUri = $defaultRegion->getMonitoringUri();
     }
 
     public function sdkUri(string $sdkUri): self
@@ -39,6 +38,14 @@ final class HackleConfigBuilder
     public function monitoringUri(string $monitoringUri): self
     {
         $this->monitoringUri = rtrim($monitoringUri, '/');
+        return $this;
+    }
+
+    public function region(HackleRegion $region): self
+    {
+        $this->sdkUri($region->getSdkUri());
+        $this->eventUri($region->getEventUri());
+        $this->monitoringUri($region->getMonitoringUri());
         return $this;
     }
 
