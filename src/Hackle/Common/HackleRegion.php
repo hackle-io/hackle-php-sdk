@@ -20,15 +20,15 @@ final class HackleRegion
     private $monitoringUri;
 
     /**
-     * @param string $sdkUrl
-     * @param string $eventUrl
-     * @param string $monitoringUrl
+     * @param string $sdkUri
+     * @param string $eventUri
+     * @param string $monitoringUri
      */
-    public function __construct(string $sdkUrl, string $eventUrl, string $monitoringUrl)
+    public function __construct(string $sdkUri, string $eventUri, string $monitoringUri)
     {
-        $this->sdkUri = $sdkUrl;
-        $this->eventUri = $eventUrl;
-        $this->monitoringUri = $monitoringUrl;
+        $this->sdkUri = $sdkUri;
+        $this->eventUri = $eventUri;
+        $this->monitoringUri = $monitoringUri;
     }
 
     public static function defaultRegion(): HackleRegion
