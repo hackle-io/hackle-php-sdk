@@ -11,12 +11,11 @@ jobs:
       - name: Dependencies
         uses: php-actions/composer@v6
         with:
+          version: 2.2
           php_version: 7.1
       - name: Test
         uses: php-actions/phpunit@v3
         with:
           version: 7.5.20
-          bootstrap: vendor/autoload.php
-          configuration: test/phpunit.xml
-          args: --coverage-text
           php_version: 7.1
+          bootstrap: vendor/autoload.php
