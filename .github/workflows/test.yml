@@ -1,0 +1,22 @@
+name: Test
+
+on:
+  pull_request:
+
+jobs:
+  php-sdk-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Dependencies
+        uses: php-actions/composer@v6
+        with:
+          version: 2.2
+          php_version: 7.1
+      - name: Test
+        uses: php-actions/phpunit@v3
+        with:
+          version: 7.5.20
+          php_version: 7.1
+          bootstrap: vendor/autoload.php
+          configuration: phpunit.xml
