@@ -19,3 +19,4 @@ jobs:
           version: 7.5.20
           php_version: 7.1
           bootstrap: vendor/autoload.php
+          configuration: phpunit.xml
