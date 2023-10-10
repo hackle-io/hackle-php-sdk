@@ -1,0 +1,14 @@
+name: Test
+
+on:
+  pull_request:
+
+jobs:
+  php-sdk-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Dependencies
+        uses: php-actions/composer@v6
+      - name: Test
+        uses: php-actions/phpunit@v3
