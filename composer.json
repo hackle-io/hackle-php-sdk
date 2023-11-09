@@ -14,9 +14,9 @@
         }
     ],
     "require": {
-        "php": ">=7.1.33",
+        "php": ">=7.2.5",
         "ext-json": "*",
-        "guzzlehttp/guzzle": "~6.5.8",
+        "guzzlehttp/guzzle": "^7.4.5",
         "monolog/monolog": "1.27.1",
         "kevinrob/guzzle-cache-middleware": "v3.5.0",
         "cache/filesystem-adapter": "1.1.0"
