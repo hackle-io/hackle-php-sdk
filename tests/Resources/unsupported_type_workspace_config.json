@@ -28,6 +28,7 @@
       "execution": {
         "id": 8634,
         "status": "RUNNING",
+        "version": 1,
         "userOverrides": [],
         "segmentOverrides": [],
         "targetAudiences": [
@@ -135,6 +136,7 @@
       "execution": {
         "id": 8634,
         "status": "INVALID_STATUS",
+        "version": 1,
         "userOverrides": [],
         "segmentOverrides": [],
         "targetAudiences": [],
@@ -167,6 +169,7 @@
       "execution": {
         "id": 8634,
         "status": "RUNNING",
+        "version": 1,
         "userOverrides": [],
         "segmentOverrides": [],
         "targetAudiences": [],
@@ -203,6 +206,7 @@
       "execution": {
         "id": 8650,
         "status": "RUNNING",
+        "version": 1,
         "userOverrides": [],
         "segmentOverrides": [],
         "targetAudiences": [],
