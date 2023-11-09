@@ -15,6 +15,9 @@ class UserEventFactory
     private const  ROOT_ID = "\$targetingRootId";
     private const CONFIG_ID_PROPERTY_KEY = "\$parameterConfigurationId";
 
+    private const EXPERIMENT_VERSION_KEY = "\$experiment_version";
+    private const EXECUTION_VERSION_KEY = "\$execution_version";
+
     private $clock;
 
     public function __construct(Clock $clock)
@@ -56,6 +59,14 @@ class UserEventFactory
             if ($evaluation->getConfig() !== null) {
                 $propertiesBuilder->add(UserEventFactory::CONFIG_ID_PROPERTY_KEY, $evaluation->getConfig()->getId());
             }
+            $propertiesBuilder->add(
+                UserEventFactory::EXPERIMENT_VERSION_KEY,
+                $evaluation->getExperiment()->getVersion()
+            );
+            $propertiesBuilder->add(
+                UserEventFactory::EXECUTION_VERSION_KEY,
+                $evaluation->getExperiment()->getExecutionVersion()
+            );
             return UserEvent::exposure($request->getUser(), $evaluation, $propertiesBuilder->build(), $timestamp);
         }
 
