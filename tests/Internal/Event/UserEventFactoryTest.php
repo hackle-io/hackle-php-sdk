@@ -20,7 +20,6 @@ class UserEventFactoryTest extends TestCase
 {
     public function testCreate()
     {
-
         $clock = $this->createMock(SystemClock::class);
         $clock->method("currentMillis")->willReturn(47);
         $clock->method("tick")->willReturn(48);
@@ -40,7 +39,9 @@ class UserEventFactoryTest extends TestCase
         $evaluation2 = new ExperimentEvaluation(
             DecisionReason::DEFAULT_RULE(),
             array(),
-            Models::experiment(["id" => 2, "type" => ExperimentType::FEATURE_FLAG()]),
+            Models::experiment(
+                ["id" => 2, "type" => ExperimentType::FEATURE_FLAG(), "version" => 2, "executionVersion" => 3]
+            ),
             320,
             "A",
             null
@@ -84,6 +85,8 @@ class UserEventFactoryTest extends TestCase
                 "\$targetingRootType" => "REMOTE_CONFIG",
                 "\$targetingRootId" => 1,
                 "\$parameterConfigurationId" => 42,
+                "\$experiment_version" => 1,
+                "\$execution_version" => 1
             ),
             $actual->getProperties()
         );
@@ -99,7 +102,10 @@ class UserEventFactoryTest extends TestCase
         self::assertEquals(
             array(
                 "\$targetingRootType" => "REMOTE_CONFIG",
-                "\$targetingRootId" => 1
+                "\$targetingRootId" => 1,
+                "\$experiment_version" => 2,
+                "\$execution_version" => 3
+
             ),
             $actual->getProperties()
         );

@@ -13,8 +13,8 @@ use Hackle\Internal\Model\TargetAction;
 use Hackle\Internal\Model\TargetActionBucket;
 use Hackle\Internal\Model\ValueType;
 use Hackle\Internal\Model\Variation;
-use Hackle\Internal\User\InternalHackleUser;
 use Hackle\Internal\User\IdentifierType;
+use Hackle\Internal\User\InternalHackleUser;
 use Hackle\Internal\Workspace\DefaultWorkspace;
 use Hackle\Internal\Workspace\Workspace;
 
@@ -32,6 +32,7 @@ class Models
         string $identifierType = "\$id",
         string $status = ExperimentStatus::RUNNING,
         int $version = 1,
+        int $executionVersion = 1,
         array $variations = null,
         array $userOverrides = [],
         array $segmentOverrides = [],
@@ -54,6 +55,7 @@ class Models
             $identifierType,
             ExperimentStatus::fromExecutionStatusOrNull($status),
             $version,
+            $executionVersion,
             $variations,
             $userOverrides,
             $segmentOverrides,
@@ -74,6 +76,7 @@ class Models
             $params["identifierType"] ?? IdentifierType::ID(),
             $params["status"] ?? ExperimentStatus::RUNNING(),
             $params["version"] ?? 1,
+            $params["executionVersion"] ?? 1,
             $params["variations"] ?? [Models::variation(1, "A"), Models::variation(2, "B")],
             $params["userOverrides"] ?? [],
             $params["segmentOverrides"] ?? [],

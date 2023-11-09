@@ -46,6 +46,8 @@ class DefaultWorkspaceTest extends TestCase
             new Variation(13379, "B", false, null)
         );
         $this->hasOverrides($experiment5, []);
+        self::assertEquals(2, $experiment5->getVersion());
+        self::assertEquals(3, $experiment5->getExecutionVersion());
 
         //experiment key = 6
         $experiment6 = $workspace->getExperimentOrNull(6);
@@ -93,7 +95,12 @@ class DefaultWorkspaceTest extends TestCase
             new Target(array(
                 new TargetCondition(
                     new TargetKey(TargetKeyType::USER_PROPERTY(), "platform"),
-                    new TargetMatch(MatchType::MATCH(), MatchOperator::IN(), ValueType::STRING(), array("android","ios"))
+                    new TargetMatch(
+                        MatchType::MATCH(),
+                        MatchOperator::IN(),
+                        ValueType::STRING(),
+                        array("android", "ios")
+                    )
                 )
             )),
             $experiment7->getTargetAudiences()[1]
@@ -271,11 +278,11 @@ class DefaultWorkspaceTest extends TestCase
         self::assertEquals(
             new TargetRule(
                 new Target(array(
-                        new TargetCondition(
-                            new TargetKey(TargetKeyType::FEATURE_FLAG(), "3"),
-                            new TargetMatch(MatchType::MATCH(), MatchOperator::IN(), ValueType::BOOLEAN(), array(true))
-                        )
-                    )),
+                    new TargetCondition(
+                        new TargetKey(TargetKeyType::FEATURE_FLAG(), "3"),
+                        new TargetMatch(MatchType::MATCH(), MatchOperator::IN(), ValueType::BOOLEAN(), array(true))
+                    )
+                )),
                 new TargetActionBucket(6125)
             ),
             $featureFlag4->getTargetRules()[0]
@@ -289,7 +296,12 @@ class DefaultWorkspaceTest extends TestCase
                     ),
                     new TargetCondition(
                         new TargetKey(TargetKeyType::USER_PROPERTY(), "version"),
-                        new TargetMatch(MatchType::MATCH(), MatchOperator::IN(), ValueType::STRING(), array("2.0.0", "2.1.0"))
+                        new TargetMatch(
+                            MatchType::MATCH(),
+                            MatchOperator::IN(),
+                            ValueType::STRING(),
+                            array("2.0.0", "2.1.0")
+                        )
                     )
                 )),
                 new TargetActionBucket(6126)
@@ -301,7 +313,12 @@ class DefaultWorkspaceTest extends TestCase
                 new Target(array(
                     new TargetCondition(
                         new TargetKey(TargetKeyType::USER_PROPERTY(), "grade"),
-                        new TargetMatch(MatchType::MATCH(), MatchOperator::IN(), ValueType::STRING(), array("GOLD", "SILVER"))
+                        new TargetMatch(
+                            MatchType::MATCH(),
+                            MatchOperator::IN(),
+                            ValueType::STRING(),
+                            array("GOLD", "SILVER")
+                        )
                     )
                 )),
                 new TargetActionVariation(13403)
@@ -328,7 +345,7 @@ class DefaultWorkspaceTest extends TestCase
         self::assertNotNull($bucket5823);
         self::assertEquals(875758774, $bucket5823->getSeed());
         self::assertEquals(10000, $bucket5823->getSlotSize());
-        for ($slotNumber=0; $slotNumber <= 9999; $slotNumber++) {
+        for ($slotNumber = 0; $slotNumber <= 9999; $slotNumber++) {
             self::assertNull($bucket5823->getSlotOrNull($slotNumber));
         }
 
@@ -451,7 +468,7 @@ class DefaultWorkspaceTest extends TestCase
 
     private function slot(Bucket $actual, int $startInclusive, int $endExclusive, int $variationId)
     {
-        for ($slotNumber=$startInclusive; $slotNumber < $endExclusive; $slotNumber++) {
+        for ($slotNumber = $startInclusive; $slotNumber < $endExclusive; $slotNumber++) {
             $slot = $actual->getSlotOrNull($slotNumber);
             self::assertNotNull($slot);
             self::assertEquals($variationId, $slot->getVariationId());
