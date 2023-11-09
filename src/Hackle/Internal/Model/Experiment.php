@@ -13,6 +13,7 @@ class Experiment
     private $identifierType;
     private $status;
     private $version;
+    private $executionVersion;
     private $variations;
     private $userOverrides;
     private $segmentOverrides;
@@ -29,6 +30,7 @@ class Experiment
      * @param string $identifierType
      * @param ExperimentStatus $status
      * @param int $version
+     * @param int $executionVersion
      * @param Variation[] $variations
      * @param array<string, int> $userOverrides
      * @param TargetRule[] $segmentOverrides
@@ -45,6 +47,7 @@ class Experiment
         string $identifierType,
         ExperimentStatus $status,
         int $version,
+        int $executionVersion,
         array $variations,
         array $userOverrides,
         array $segmentOverrides,
@@ -60,6 +63,7 @@ class Experiment
         $this->identifierType = $identifierType;
         $this->status = $status;
         $this->version = $version;
+        $this->executionVersion = $executionVersion;
         $this->variations = $variations;
         $this->userOverrides = $userOverrides;
         $this->segmentOverrides = $segmentOverrides;
@@ -144,6 +148,14 @@ class Experiment
     public function getVersion(): int
     {
         return $this->version;
+    }
+
+    /**
+     * @return int
+     */
+    public function getExecutionVersion(): int
+    {
+        return $this->executionVersion;
     }
 
     /**
@@ -234,6 +246,7 @@ class Experiment
             $data["identifierType"],
             $experimentStatus,
             $data["version"],
+            $executionData["version"],
             array_map(function ($data) {
                 return Variation::from($data);
             }, $data["variations"]),
