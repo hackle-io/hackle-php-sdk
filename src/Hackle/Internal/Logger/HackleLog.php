@@ -4,7 +4,7 @@ namespace Hackle\Internal\Logger;
 
 use Psr\Log\LoggerInterface;
 
-class Log
+class HackleLog
 {
     /**
      * @var LoggerInterface

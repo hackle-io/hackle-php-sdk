@@ -2,7 +2,7 @@
 
 namespace Hackle\Internal\Workspace\Sync;
 
-use Hackle\Internal\Logger\Log;
+use Hackle\Internal\Logger\HackleLog;
 use Hackle\Internal\Time\Clock;
 use Hackle\Internal\Workspace\DefaultWorkspace;
 use Hackle\Internal\Workspace\Workspace;
@@ -56,7 +56,7 @@ class WorkspaceSynchronizeManager
         try {
             return $this->httpWorkspaceSynchronizer->sync();
         } catch (Throwable $e) {
-            Log::error("Failed to sync workspace: {$e->getMessage()}");
+            HackleLog::error("Failed to sync workspace: {$e->getMessage()}");
             return null;
         }
     }

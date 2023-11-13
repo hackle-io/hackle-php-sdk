@@ -9,7 +9,7 @@ use Hackle\Internal\Core\HackleCore;
 use Hackle\Internal\Event\Dispatcher\EventDispatcher;
 use Hackle\Internal\Event\Processor\DefaultUserEventProcessor;
 use Hackle\Internal\Http\SdkHeaderMiddleware;
-use Hackle\Internal\Logger\Log;
+use Hackle\Internal\Logger\HackleLog;
 use Hackle\Internal\Model\Sdk;
 use Hackle\Internal\Repository\FileRepository;
 use Hackle\Internal\Time\Clock;
@@ -68,7 +68,7 @@ final class HackleClients
     private static function createLogger(): Logger
     {
         $logger = new Logger("Hackle", [new ErrorLogHandler()]);
-        Log::initialize($logger);
+        HackleLog::initialize($logger);
         return $logger;
     }
 }
