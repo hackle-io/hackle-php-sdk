@@ -4,7 +4,6 @@ namespace Hackle\Internal\Workspace\Sync;
 
 use GuzzleHttp\Client;
 use Hackle\Internal\Http\Https;
-use Hackle\Internal\Logger\Log;
 use Hackle\Internal\Model\Sdk;
 use Hackle\Internal\Workspace\DefaultWorkspace;
 use Hackle\Internal\Workspace\Workspace;
@@ -73,7 +72,6 @@ class HttpWorkspaceSynchronizer
         if ($workspace === null) {
             throw new \RuntimeException("Workspace is null.");
         }
-        Log::debug("Workspace not Modified.");
         return DefaultWorkspace::from(json_decode($workspace, true));
     }
 
@@ -84,7 +82,6 @@ class HttpWorkspaceSynchronizer
         $this->repository->setLastModified(Https::lastModified($response));
         $this->repository->setWorkspace($responseBody);
 
-        Log::debug("Workspace fetched.");
         return DefaultWorkspace::from(json_decode($responseBody, true));
     }
 }
