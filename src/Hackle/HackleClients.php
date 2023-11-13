@@ -12,6 +12,7 @@ use Hackle\Internal\Http\SdkHeaderMiddleware;
 use Hackle\Internal\Logger\Log;
 use Hackle\Internal\Model\Sdk;
 use Hackle\Internal\Repository\FileRepository;
+use Hackle\Internal\Time\Clock;
 use Hackle\Internal\Time\SystemClock;
 use Hackle\Internal\User\InternalHackleUserResolver;
 use Hackle\Internal\Workspace\Sync\HttpWorkspaceSynchronizer;
@@ -32,7 +33,7 @@ final class HackleClients
         $logger = self::createLogger();
         $clock = new SystemClock();
         $sdk = new Sdk($sdkKey);
-        $httpClient = self::createHttpClient($sdk);
+        $httpClient = self::createHttpClient($sdk, $clock);
 
         $repository = new FileRepository("/tmp/hackle/");
         $workspaceRepository = new WorkspaceRepository($repository, $sdk);
@@ -56,10 +57,10 @@ final class HackleClients
         return new HackleClientImpl($core, new InternalHackleUserResolver(), $logger);
     }
 
-    private static function createHttpClient(Sdk $sdk): Client
+    private static function createHttpClient(Sdk $sdk, Clock $clock): Client
     {
         $stack = HandlerStack::create();
-        $stack->push(new SdkHeaderMiddleware($sdk, new SystemClock()));
+        $stack->push(new SdkHeaderMiddleware($sdk, $clock));
         $configs = ["timeout" => 10, "connect_timeout" => 5, "handler" => $stack];
         return new Client($configs);
     }
