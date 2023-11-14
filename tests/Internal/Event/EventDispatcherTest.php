@@ -20,6 +20,7 @@ class EventDispatcherTest extends TestCase
 
     private const BASE_URI = "https://event.hackle.io";
     private const ENDPOINT = "/api/v2/events";
+
     public function testDispatch()
     {
         $exposureEvent = $this->createMock(ExposureEvent::class);
@@ -48,12 +49,15 @@ class EventDispatcherTest extends TestCase
             ->withConsecutive([
                 $this->equalTo("POST"),
                 $this->equalTo(self::BASE_URI . self::ENDPOINT),
-                $this->equalTo($options)]);
+                $this->equalTo($options)
+            ]);
 
         $sut = new EventDispatcher(self::BASE_URI, $client, $this->createMock(LoggerInterface::class));
         $sut->dispatch($events);
     }
-    public function testDispatchIfFail() {
+
+    public function testDispatchIfFail()
+    {
         $response = $this->createMock(ResponseInterface::class);
         $response->method("getStatusCode")->willReturn("301");
 
