@@ -2,12 +2,11 @@
 
 namespace Hackle\Internal\Http;
 
-use GuzzleHttp\HandlerStack;
+use Hackle\Internal\Model\Sdk;
 use Hackle\Internal\Time\Clock;
-use Hackle\Internal\Workspace\Sdk;
 use Psr\Http\Message\RequestInterface;
 
-class SdkHeaderMiddleware implements HackleMiddleware
+class SdkHeaderMiddleware
 {
     private const SDK_KEY_HEADER = "X-HACKLE-SDK-KEY";
     private const SDK_NAME_HEADER = "X-HACKLE-SDK-NAME";
@@ -30,22 +29,15 @@ class SdkHeaderMiddleware implements HackleMiddleware
         $this->clock = $clock;
     }
 
-
-    public function process(HandlerStack $stack)
+    public function __invoke(callable $handler): callable
     {
-        $stack->push($this->addHeader(self::SDK_KEY_HEADER, $this->sdk->getKey()));
-        $stack->push($this->addHeader(self::SDK_NAME_HEADER, $this->sdk->getName()));
-        $stack->push($this->addHeader(self::SDK_VERSION_HEADER, $this->sdk->getVersion()));
-        $stack->push($this->addHeader(self::SDK_TIME_HEADER, strval($this->clock->currentMillis())));
-    }
-
-    private function addHeader(string $header, $value): \Closure
-    {
-        return function (callable $handler) use ($header, $value) {
-            return function (RequestInterface $request, array $options) use ($handler, $header, $value) {
-                $request = $request->withHeader($header, $value);
-                return $handler($request, $options);
-            };
+        return function (RequestInterface $request, array $options = []) use ($handler) {
+            $newRequest = $request
+                ->withHeader(self::SDK_KEY_HEADER, $this->sdk->getKey())
+                ->withHeader(self::SDK_NAME_HEADER, $this->sdk->getName())
+                ->withHeader(self::SDK_VERSION_HEADER, $this->sdk->getVersion())
+                ->withHeader(self::SDK_TIME_HEADER, strval($this->clock->currentMillis()));
+            return $handler($newRequest, $options);
         };
     }
 }

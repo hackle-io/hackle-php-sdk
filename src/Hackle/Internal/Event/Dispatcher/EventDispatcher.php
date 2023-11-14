@@ -3,7 +3,7 @@
 namespace Hackle\Internal\Event\Dispatcher;
 
 use GuzzleHttp\Client;
-use Hackle\Internal\Utils\Https;
+use Hackle\Internal\Http\Https;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Throwable;

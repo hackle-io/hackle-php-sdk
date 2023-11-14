@@ -1,6 +1,6 @@
 <?php
 
-namespace Hackle\Internal\Workspace;
+namespace Hackle\Internal\Model;
 
 class Sdk
 {
